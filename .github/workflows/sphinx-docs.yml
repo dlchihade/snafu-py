@@ -24,10 +24,13 @@ jobs:
 
       - name: Build HTML
         run: |
-          cd docs
+          export PYTHONPATH=$PYTHONPATH:$(pwd)/snafu-py
+          cd snafu-py/docs
           make html
 
       - name: Deploy to GitHub Pages
-        run: |
-          pip install ghp-import
-          ghp-import -n -p -f docs/_build/html
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: snafu-py/docs/_build/html
+          publish_branch: gh-pages

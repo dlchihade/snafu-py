@@ -10,5 +10,7 @@ sphinx-autodoc-typehints>=1.25.2
 # Optional: NumPy-style docstring support
 numpydoc>=1.5.0
 
+networkx>=2.8
+
 # Optional: Syntax highlighting
 Pygments>=2.16.0

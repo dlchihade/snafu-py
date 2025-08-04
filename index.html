@@ -1,0 +1,233 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SNAFU: The Semantic Network and Fluency Utility &mdash; SNAFU 2.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=b21de401"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Overview" href="Overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            SNAFU
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demos/index.html">Demos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snafu/index.html">SNAFU</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">SNAFU</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">SNAFU: The Semantic Network and Fluency Utility</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="snafu-the-semantic-network-and-fluency-utility">
+<h1>SNAFU: The Semantic Network and Fluency Utility<a class="headerlink" href="#snafu-the-semantic-network-and-fluency-utility" title="Link to this heading"></a></h1>
+<section id="what-is-snafu">
+<h2>What is SNAFU?<a class="headerlink" href="#what-is-snafu" title="Link to this heading"></a></h2>
+<p>The semantic fluency task is frequently used in psychology by both researchers and clinicians. SNAFU is a tool that helps you analyze fluency data. It can help with:</p>
+<ul class="simple">
+<li><p>Counting cluster switches and cluster sizes</p></li>
+<li><p>Counting perseverations</p></li>
+<li><p>Detecting intrusions</p></li>
+<li><p>Calculating average age-of-acquisition and word frequency</p></li>
+<li><p>…more!</p></li>
+</ul>
+<p>SNAFU also implements multiple network estimation methods which allow you to perform network analysis on your data (see Zemla &amp; Austerweil, 2018). These methods include:</p>
+<ul class="simple">
+<li><p>U-INVITE networks</p></li>
+<li><p>Pathfinder networks</p></li>
+<li><p>Correlation-based networks</p></li>
+<li><p>Naive random walk network</p></li>
+<li><p>Conceptual networks</p></li>
+<li><p>First Edge networks</p></li>
+</ul>
+</section>
+<section id="how-do-i-use-snafu">
+<h2>How do I use SNAFU?<a class="headerlink" href="#how-do-i-use-snafu" title="Link to this heading"></a></h2>
+<p>SNAFU can be used as a Python library or as a stand-alone GUI.
+The Python library is available at:</p>
+<p><a class="reference external" href="https://github.com/AusterweilLab/snafu-py">https://github.com/AusterweilLab/snafu-py</a></p>
+<p>To install directly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">git</span><span class="o">+</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">AusterweilLab</span><span class="o">/</span><span class="n">snafu</span><span class="o">-</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>The GitHub repository contains several demo files, and a tutorial covering some basic usage is available in Zemla et al., 2020.</p>
+<p>If you plan to use the <code class="docutils literal notranslate"><span class="pre">correlationBasedNetwork()</span></code> function, install <cite>planarity</cite> separately:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">planarity</span>
+</pre></div>
+</div>
+<p>A graphical front-end is also available, though it contains fewer features than the Python library. Download it here:</p>
+<p><strong>macOS</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://alab.psych.wisc.edu/snafu/snafu-2.4.1-mac-x64.dmg">SNAFU 2.4.1 for macOS (latest version)</a></p></li>
+</ul>
+<p><strong>Windows</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://alab.psych.wisc.edu/snafu/snafu-2.2.0-win-x64.zip">SNAFU 2.2.0 for Windows</a></p></li>
+</ul>
+</section>
+<section id="how-can-i-reference-snafu">
+<h2>How can I reference SNAFU?<a class="headerlink" href="#how-can-i-reference-snafu" title="Link to this heading"></a></h2>
+<p>The primary citation for SNAFU is:</p>
+<blockquote>
+<div><p>Zemla, J. C., Cao, K., Mueller, K. D., &amp; Austerweil, J. L. (2020).
+<em>SNAFU: The semantic network and fluency utility.</em>
+Behavior Research Methods, 52, 1681-1699.</p>
+</div></blockquote>
+<p>Additional citations depending on specific data files used:</p>
+<ul class="simple">
+<li><p><strong>animals_snafu_scheme.csv</strong>
+Troyer (2000), Hills et al. (2012)</p></li>
+<li><p><strong>foods_snafu_scheme.csv</strong>
+Troyer (2000)</p></li>
+<li><p><strong>kuperman.csv (AoA norms)</strong>
+Kuperman et al. (2012)</p></li>
+<li><p><strong>subtlex-us.csv (Word frequency)</strong>
+Brysbaert &amp; New (2009)</p></li>
+<li><p><strong>Dutch_animals_snafu_scheme.csv</strong>
+Rofes et al. (2023) <a class="reference external" href="https://github.com/jmjvonk/2022_Rofes_SMART-MR/blob/main/Dutch_animals_snafu_scheme.csv">GitHub Link</a></p></li>
+<li><p><strong>animals_Scheme_Greek_Karousou_v.01.2.csv</strong>
+Karousou et al. (2023)</p></li>
+<li><p><strong>animals_ESnoaccent_scheme.csv</strong>
+Neergaard et al. (2025)</p></li>
+<li><p><strong>animals_snafu_mexican_spanish.csv</strong>
+Adapted by Yamilka Garcia Avila and Yaira Chamorro</p></li>
+<li><p><strong>Italian scheme</strong>
+Provided by Sabia Costantini (Universität Potsdam)</p></li>
+</ul>
+</section>
+<section id="need-help">
+<h2>Need help?<a class="headerlink" href="#need-help" title="Link to this heading"></a></h2>
+<p>Visit our <a class="reference external" href="https://groups.google.com/forum/#!forum/snafu-fluency">Google Group</a> or e-mail:</p>
+<blockquote>
+<div><p><a class="reference external" href="mailto:snafu-fluency&#37;&#52;&#48;googlegroups&#46;com">snafu-fluency<span>&#64;</span>googlegroups<span>&#46;</span>com</a></p>
+</div></blockquote>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demos/index.html">Demos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="demos/brm_demo.html">BRM Demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demos/cluster_demo.html">Cluster Demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demos/compare_networks.html">Compare Networks Demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demos/estimate_food_network.html">Estimate Food Network Demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demos/estimate_networks.html">Estimate Networks Demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demos/fit_uinvite_network.html">Fit U-INVITE Network Demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demos/network_measures.html">Network Measures Demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demos/reconstruct_usf.html">Reconstruct USF Network Demo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="snafu/index.html">SNAFU</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="snafu/clustering.html">clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snafu/core.html">core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snafu/generate_graphs.html">generate_graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snafu/generate_lists.html">generate_lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snafu/gui.html">gui</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snafu/helper.html">helper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snafu/intrusions.html">intrusions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snafu/io.html">io</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snafu/irts.html">irts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snafu/netstats.html">netstats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snafu/pci.html">pci</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snafu/perseverations.html">perseverations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snafu/search.html">search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snafu/structs.html">structs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snafu/triadic.html">triadic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="snafu/word_properties.html">word_properties</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Overview.html" class="btn btn-neutral float-right" title="Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Jeff Zemla.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

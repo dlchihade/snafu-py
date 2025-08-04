@@ -24,13 +24,13 @@ jobs:
 
       - name: Build HTML
         run: |
-          export PYTHONPATH=$PYTHONPATH:$(pwd)/snafu-py
-          cd snafu-py/docs
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
+          cd docs
           make html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: snafu-py/docs/_build/html
+          publish_dir: docs/_build/html
           publish_branch: gh-pages

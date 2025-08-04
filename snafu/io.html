@@ -54,7 +54,18 @@
 <li class="toctree-l2"><a class="reference internal" href="gui.html">gui</a></li>
 <li class="toctree-l2"><a class="reference internal" href="helper.html">helper</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intrusions.html">intrusions</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">io</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">io</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.io.graphToHash"><code class="docutils literal notranslate"><span class="pre">graphToHash()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.io.hashToGraph"><code class="docutils literal notranslate"><span class="pre">hashToGraph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.io.load_fluency_data"><code class="docutils literal notranslate"><span class="pre">load_fluency_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.io.load_graph"><code class="docutils literal notranslate"><span class="pre">load_graph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.io.load_network"><code class="docutils literal notranslate"><span class="pre">load_network()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.io.readX"><code class="docutils literal notranslate"><span class="pre">readX()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.io.read_graph"><code class="docutils literal notranslate"><span class="pre">read_graph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.io.write_graph"><code class="docutils literal notranslate"><span class="pre">write_graph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.io.write_network"><code class="docutils literal notranslate"><span class="pre">write_network()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="irts.html">irts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="netstats.html">netstats</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pci.html">pci</a></li>
@@ -92,8 +103,209 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="io">
-<h1>io<a class="headerlink" href="#io" title="Link to this heading"></a></h1>
+  <section id="module-snafu.io">
+<span id="io"></span><h1>io<a class="headerlink" href="#module-snafu.io" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.io.graphToHash">
+<span class="sig-prename descclassname"><span class="pre">snafu.io.</span></span><span class="sig-name descname"><span class="pre">graphToHash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/io.html#graphToHash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.io.graphToHash" title="Link to this definition"></a></dt>
+<dd><p>DEPRECATED: This function is no longer supported by NetworkX.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>a</strong> (<em>array-like</em>) – Adjacency representation of a graph.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Function does not perform any operation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.io.hashToGraph">
+<span class="sig-prename descclassname"><span class="pre">snafu.io.</span></span><span class="sig-name descname"><span class="pre">hashToGraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graphhash</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/io.html#hashToGraph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.io.hashToGraph" title="Link to this definition"></a></dt>
+<dd><p>DEPRECATED: This function is no longer supported by NetworkX.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>graphhash</strong> (<em>str</em>) – Hash representation of a graph.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Function does not perform any operation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.io.load_fluency_data">
+<span class="sig-prename descclassname"><span class="pre">snafu.io.</span></span><span class="sig-name descname"><span class="pre">load_fluency_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">removePerseverations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">removeIntrusions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">removeNonAlphaChars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hierarchical</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targetletter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/io.html#load_fluency_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.io.load_fluency_data" title="Link to this definition"></a></dt>
+<dd><p>Load verbal fluency data from a CSV file and preprocess it according to options.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> (<em>str</em>) – Path to the CSV file containing fluency data.</p></li>
+<li><p><strong>category</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Restrict to specific semantic categories.</p></li>
+<li><p><strong>removePerseverations</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, remove repeated responses in the same list.</p></li>
+<li><p><strong>removeIntrusions</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, remove responses not in the scheme or target letter.</p></li>
+<li><p><strong>spell</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to a spelling correction file.</p></li>
+<li><p><strong>scheme</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to a valid item list for the given category.</p></li>
+<li><p><strong>group</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Filter data by group.</p></li>
+<li><p><strong>subject</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em><em>, </em><em>optional</em>) – Filter data by subject ID.</p></li>
+<li><p><strong>removeNonAlphaChars</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, remove non-alphabetic characters from item names.</p></li>
+<li><p><strong>hierarchical</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, marks the returned structure as hierarchical.</p></li>
+<li><p><strong>targetletter</strong> (<em>str</em><em>, </em><em>optional</em>) – Restrict responses to those starting with this letter (used for letter fluency tasks).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Data object containing structured fluency data including:
+- ‘Xs’: response index lists,
+- ‘items’: subject-specific item index mappings,
+- ‘irts’: inter-response times (if present),
+- ‘categories’: category info,
+- ‘spell_corrected’: spelling corrections,
+- ‘perseverations’: repeated items,
+- ‘intrusions’: invalid responses.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="structs.html#snafu.structs.Data" title="snafu.structs.Data">Data</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.io.load_graph">
+<span class="sig-prename descclassname"><span class="pre">snafu.io.</span></span><span class="sig-name descname"><span class="pre">load_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/io.html#load_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.io.load_graph" title="Link to this definition"></a></dt>
+<dd><p>Alias for load_network for backwards compatibility.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> (<em>tuple</em>) – Positional arguments passed to load_network.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – Keyword arguments passed to load_network.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output of the load_network function.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.io.load_network">
+<span class="sig-prename descclassname"><span class="pre">snafu.io.</span></span><span class="sig-name descname"><span class="pre">load_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">undirected</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/io.html#load_network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.io.load_network" title="Link to this definition"></a></dt>
+<dd><p>Load a network from a CSV file and return its adjacency matrix and node labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fh</strong> (<em>str</em>) – Filepath to a CSV file containing the network edges.</p></li>
+<li><p><strong>cols</strong> (<em>tuple</em><em> of </em><em>int</em><em> or </em><em>str</em><em>, </em><em>optional</em>) – Column indices or names indicating source and target node columns. Default is (0, 1).</p></li>
+<li><p><strong>header</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether the CSV file has a header row. Default is False.</p></li>
+<li><p><strong>filters</strong> (<em>dict</em><em>, </em><em>optional</em>) – Dictionary to filter rows based on additional column values. Only used if <cite>header=True</cite>.</p></li>
+<li><p><strong>undirected</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, adds symmetric edges to make the graph undirected. Default is True.</p></li>
+<li><p><strong>sparse</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, returns a sparse adjacency matrix. Otherwise, returns a dense NumPy array. Default is False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>graph</strong> (<em>ndarray or csr_matrix</em>) – The adjacency matrix representing the network.</p></li>
+<li><p><strong>items</strong> (<em>dict</em>) – Mapping from node indices to node labels.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.io.readX">
+<span class="sig-prename descclassname"><span class="pre">snafu.io.</span></span><span class="sig-name descname"><span class="pre">readX</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/io.html#readX"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.io.readX" title="Link to this definition"></a></dt>
+<dd><p>Alias for load_fluency_data for backwards compatibility.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> (<em>tuple</em>) – Positional arguments passed to load_fluency_data.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – Keyword arguments passed to load_fluency_data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output of the load_fluency_data function.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.io.read_graph">
+<span class="sig-prename descclassname"><span class="pre">snafu.io.</span></span><span class="sig-name descname"><span class="pre">read_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/io.html#read_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.io.read_graph" title="Link to this definition"></a></dt>
+<dd><p>Alias for load_network for backwards compatibility.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> (<em>tuple</em>) – Positional arguments passed to load_network.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – Keyword arguments passed to load_network.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output of the load_network function.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.io.write_graph">
+<span class="sig-prename descclassname"><span class="pre">snafu.io.</span></span><span class="sig-name descname"><span class="pre">write_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/io.html#write_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.io.write_graph" title="Link to this definition"></a></dt>
+<dd><p>Alias for write_network for backwards compatibility.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> (<em>tuple</em>) – Positional arguments passed to write_network.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – Keyword arguments passed to write_network.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output of the write_network function.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.io.write_network">
+<span class="sig-prename descclassname"><span class="pre">snafu.io.</span></span><span class="sig-name descname"><span class="pre">write_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'NA'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/io.html#write_network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.io.write_network" title="Link to this definition"></a></dt>
+<dd><p>Write one or more graphs to a CSV file in edge-list format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gs</strong> (<em>list</em><em> or </em><em>networkx.Graph</em>) – A graph or list of graphs to be written.</p></li>
+<li><p><strong>fh</strong> (<em>str</em>) – Path to the output file.</p></li>
+<li><p><strong>subj</strong> (<em>str</em><em>, </em><em>optional</em>) – Subject identifier to include in the output. Default is “NA”.</p></li>
+<li><p><strong>directed</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, treat the graphs as directed. Default is False.</p></li>
+<li><p><strong>extra_data</strong> (<em>dict</em><em>, </em><em>optional</em>) – Optional nested dictionary of additional edge-level data.</p></li>
+<li><p><strong>header</strong> (<em>bool</em><em> or </em><em>str</em><em>, </em><em>optional</em>) – If True, write a default header. If str, use as custom header. Default is True.</p></li>
+<li><p><strong>labels</strong> (<em>dict</em><em> or </em><em>list</em><em> of </em><em>dict</em><em>, </em><em>optional</em>) – Optional relabeling of graph node indices to string labels.</p></li>
+<li><p><strong>sparse</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, only write edges that are present. If False, write all pair combinations. Default is False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Writes data to file and returns nothing.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

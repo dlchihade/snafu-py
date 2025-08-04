@@ -50,7 +50,11 @@
 <li class="toctree-l2"><a class="reference internal" href="clustering.html">clustering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="core.html">core</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generate_graphs.html">generate_graphs</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">generate_lists</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">generate_lists</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.generate_lists.gen_lists"><code class="docutils literal notranslate"><span class="pre">gen_lists()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.generate_lists.random_walk"><code class="docutils literal notranslate"><span class="pre">random_walk()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="gui.html">gui</a></li>
 <li class="toctree-l2"><a class="reference internal" href="helper.html">helper</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intrusions.html">intrusions</a></li>
@@ -92,8 +96,62 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="generate-lists">
-<h1>generate_lists<a class="headerlink" href="#generate-lists" title="Link to this heading"></a></h1>
+  <section id="module-snafu.generate_lists">
+<span id="generate-lists"></span><h1>generate_lists<a class="headerlink" href="#module-snafu.generate_lists" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.generate_lists.gen_lists">
+<span class="sig-prename descclassname"><span class="pre">snafu.generate_lists.</span></span><span class="sig-name descname"><span class="pre">gen_lists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/generate_lists.html#gen_lists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.generate_lists.gen_lists" title="Link to this definition"></a></dt>
+<dd><p>Generate simulated lists by running censored random walks on a graph.</p>
+<p>This function simulates category fluency-style data by performing repeated
+random walks on a given graph <cite>g</cite>, using parameters defined in <cite>td</cite>. It returns
+the visited item lists, unused step info (placeholder), and a flag indicating
+whether the output used all nodes in the graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>g</strong> (<em>networkx.Graph</em>) – The graph on which the random walks are performed.</p></li>
+<li><p><strong>td</strong> (<em>DataModel</em>) – Object containing simulation parameters such as list length, jump probability,
+priming, and censoring behavior.</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – Random seed for reproducibility. Default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>list of list</em> – Simulated fluency data (visited node sequences) for each run.</p></li>
+<li><p><em>list</em> – Placeholder for step counts between items (currently unused).</p></li>
+<li><p><em>int</em> – A binary flag indicating if not all nodes were visited (1 = graph altered).</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.generate_lists.random_walk">
+<span class="sig-prename descclassname"><span class="pre">snafu.generate_lists.</span></span><span class="sig-name descname"><span class="pre">random_walk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priming_vector</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/generate_lists.html#random_walk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.generate_lists.random_walk" title="Link to this definition"></a></dt>
+<dd><p>Perform a censored random walk on a graph, optionally with priming and jumping.</p>
+<p>This function simulates a walk on graph <cite>g</cite>, incorporating jump probabilities,
+censoring behavior, and optional priming effects to simulate memory recall or
+fluency search strategies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>g</strong> (<em>networkx.Graph</em>) – Graph on which the random walk is performed.</p></li>
+<li><p><strong>td</strong> (<em>DataModel</em>) – Object defining walk behavior: jump probability, jump type, max steps,
+starting node policy, censoring, and priming.</p></li>
+<li><p><strong>priming_vector</strong> (<em>list</em><em>, </em><em>optional</em>) – List of previously visited nodes to bias the walk. Default is empty.</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – Random seed for reproducibility. Default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of (from_node, to_node) edges representing the random walk path.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

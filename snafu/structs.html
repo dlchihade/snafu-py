@@ -60,7 +60,18 @@
 <li class="toctree-l2"><a class="reference internal" href="pci.html">pci</a></li>
 <li class="toctree-l2"><a class="reference internal" href="perseverations.html">perseverations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="search.html">search</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">structs</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">structs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.structs.Data"><code class="docutils literal notranslate"><span class="pre">Data</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#snafu.structs.Data.hierarchical"><code class="docutils literal notranslate"><span class="pre">Data.hierarchical()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#snafu.structs.Data.nonhierarchical"><code class="docutils literal notranslate"><span class="pre">Data.nonhierarchical()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#snafu.structs.Data.subs"><code class="docutils literal notranslate"><span class="pre">Data.subs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.structs.DataModel"><code class="docutils literal notranslate"><span class="pre">DataModel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.structs.Fitinfo"><code class="docutils literal notranslate"><span class="pre">Fitinfo()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.structs.Irts"><code class="docutils literal notranslate"><span class="pre">Irts()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="triadic.html">triadic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="word_properties.html">word_properties</a></li>
 </ul>
@@ -92,8 +103,116 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="structs">
-<h1>structs<a class="headerlink" href="#structs" title="Link to this heading"></a></h1>
+  <section id="module-snafu.structs">
+<span id="structs"></span><h1>structs<a class="headerlink" href="#module-snafu.structs" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="snafu.structs.Data">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snafu.structs.</span></span><span class="sig-name descname"><span class="pre">Data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/structs.html#Data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.structs.Data" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Container for fluency data used in SNAFU analyses.</p>
+<p>This class processes hierarchical and non-hierarchical list data structures
+into formats that are convenient for analysis, including labeled responses,
+corrected spellings, intrusions, and IRTs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – Dictionary containing keys:
+- ‘Xs’ : nested dict of fluency responses
+- ‘items’ : dict of item labels
+- ‘structure’ : bool, True if hierarchical
+- ‘spell_corrected’, ‘perseverations’, ‘intrusions’, ‘categories’, ‘irts’ (optional)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="snafu.structs.Data.hierarchical">
+<span class="sig-name descname"><span class="pre">hierarchical</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/structs.html#Data.hierarchical"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.structs.Data.hierarchical" title="Link to this definition"></a></dt>
+<dd><p>Process hierarchical (nested) fluency data structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> – The Data object with hierarchical attributes populated.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#snafu.structs.Data" title="snafu.structs.Data">Data</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snafu.structs.Data.nonhierarchical">
+<span class="sig-name descname"><span class="pre">nonhierarchical</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/structs.html#Data.nonhierarchical"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.structs.Data.nonhierarchical" title="Link to this definition"></a></dt>
+<dd><p>Process non-hierarchical fluency data, mapping individuals into group space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> – The Data object with flattened attributes populated.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#snafu.structs.Data" title="snafu.structs.Data">Data</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="snafu.structs.Data.subs">
+<span class="sig-name descname"><span class="pre">subs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/structs.html#Data.subs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.structs.Data.subs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.structs.DataModel">
+<span class="sig-prename descclassname"><span class="pre">snafu.structs.</span></span><span class="sig-name descname"><span class="pre">DataModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/structs.html#DataModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.structs.DataModel" title="Link to this definition"></a></dt>
+<dd><p>Fill in missing parameters in a data dictionary for generative model configuration.</p>
+<p>This sets default values for generative search parameters, such as jump probability,
+priming effects, and censoring faults.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – Dictionary with optional keys like ‘trim’, ‘jump’, ‘jumptype’, ‘priming’,
+‘jumponcensored’, ‘censor_fault’, ‘emission_fault’, etc.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary-like object with attribute access to the parameters.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="helper.html#snafu.helper.dotdict" title="snafu.helper.dotdict">dotdict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.structs.Fitinfo">
+<span class="sig-prename descclassname"><span class="pre">snafu.structs.</span></span><span class="sig-name descname"><span class="pre">Fitinfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fitinfo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/structs.html#Fitinfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.structs.Fitinfo" title="Link to this definition"></a></dt>
+<dd><p>Fill in missing fields in a dictionary of model-fitting configuration.</p>
+<p>Sets default values for priors, graph options, and Conceptual Network parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fitinfo</strong> (<em>dict</em>) – Dictionary of model fitting options.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary with all required fitting parameters populated.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="helper.html#snafu.helper.dotdict" title="snafu.helper.dotdict">dotdict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.structs.Irts">
+<span class="sig-prename descclassname"><span class="pre">snafu.structs.</span></span><span class="sig-name descname"><span class="pre">Irts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">irts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/structs.html#Irts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.structs.Irts" title="Link to this definition"></a></dt>
+<dd><p>Fill in missing parameters in IRT configuration dictionary.</p>
+<p>Supports gamma and ex-Gaussian IRT types. Sets default parameter values if missing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>irts</strong> (<em>dict</em>) – Dictionary with keys like ‘irttype’, ‘gamma_beta’, ‘exgauss_lambda’, etc.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary-like object with completed IRT configuration.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="helper.html#snafu.helper.dotdict" title="snafu.helper.dotdict">dotdict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

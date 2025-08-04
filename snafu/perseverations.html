@@ -58,7 +58,11 @@
 <li class="toctree-l2"><a class="reference internal" href="irts.html">irts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="netstats.html">netstats</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pci.html">pci</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">perseverations</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">perseverations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.perseverations.perseverations"><code class="docutils literal notranslate"><span class="pre">perseverations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.perseverations.perseverationsList"><code class="docutils literal notranslate"><span class="pre">perseverationsList()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="search.html">search</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structs.html">structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="triadic.html">triadic</a></li>
@@ -92,8 +96,48 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="perseverations">
-<h1>perseverations<a class="headerlink" href="#perseverations" title="Link to this heading"></a></h1>
+  <section id="module-snafu.perseverations">
+<span id="perseverations"></span><h1>perseverations<a class="headerlink" href="#module-snafu.perseverations" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.perseverations.perseverations">
+<span class="sig-prename descclassname"><span class="pre">snafu.perseverations.</span></span><span class="sig-name descname"><span class="pre">perseverations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/perseverations.html#perseverations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.perseverations.perseverations" title="Link to this definition"></a></dt>
+<dd><p>Count the number of perseverations (repeated items) in fluency data.</p>
+<p>Computes the number of repeated responses per list. If the input is
+hierarchical (e.g., per subject with multiple lists), the function
+returns the mean number of perseverations per subject.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>l</strong> (<em>list</em>) – Fluency data: a list of lists (or list of list of lists) of responses.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of perseveration counts per list, or mean per subject if hierarchical.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of float or list of list of float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.perseverations.perseverationsList">
+<span class="sig-prename descclassname"><span class="pre">snafu.perseverations.</span></span><span class="sig-name descname"><span class="pre">perseverationsList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/perseverations.html#perseverationsList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.perseverations.perseverationsList" title="Link to this definition"></a></dt>
+<dd><p>Identify repeated (perseverated) items in fluency lists.</p>
+<p>Handles both hierarchical (list of lists of lists) and flat (list of lists) formats.
+For each list, returns the unique items that occur more than once.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>l</strong> (<em>list</em>) – A list of lists (or list of list of lists) representing fluency responses.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of lists where each inner list contains the items repeated
+in the corresponding fluency list.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

@@ -47,7 +47,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../Overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../demos/index.html">Demos</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">SNAFU</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">clustering</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">clustering</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.clustering.clusterSize"><code class="docutils literal notranslate"><span class="pre">clusterSize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.clustering.clusterSwitch"><code class="docutils literal notranslate"><span class="pre">clusterSwitch()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.clustering.findClusters"><code class="docutils literal notranslate"><span class="pre">findClusters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.clustering.labelClusters"><code class="docutils literal notranslate"><span class="pre">labelClusters()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="core.html">core</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generate_graphs.html">generate_graphs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generate_lists.html">generate_lists</a></li>
@@ -92,8 +98,108 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="clustering">
-<h1>clustering<a class="headerlink" href="#clustering" title="Link to this heading"></a></h1>
+  <section id="module-snafu.clustering">
+<span id="clustering"></span><h1>clustering<a class="headerlink" href="#module-snafu.clustering" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.clustering.clusterSize">
+<span class="sig-prename descclassname"><span class="pre">snafu.clustering.</span></span><span class="sig-name descname"><span class="pre">clusterSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clustertype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fluid'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/clustering.html#clusterSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.clustering.clusterSize" title="Link to this definition"></a></dt>
+<dd><p>Compute average cluster sizes from a list or list of lists.</p>
+<p>This function identifies clusters in the input data using a specified
+clustering scheme and type, then calculates the average cluster size
+for each list. If a single list is passed, it still works and returns
+a single averaged result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l</strong> (<em>list</em>) – A list of cluster data or a list of lists, where each inner list
+contains cluster lengths or indices.</p></li>
+<li><p><strong>scheme</strong> (<em>object</em>) – Clustering scheme or method used to find clusters.</p></li>
+<li><p><strong>clustertype</strong> (<em>str</em><em>, </em><em>optional</em>) – Type of clustering to apply. Default is ‘fluid’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of average cluster sizes, one per input list (or a single
+average if the input was a single list).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.clustering.clusterSwitch">
+<span class="sig-prename descclassname"><span class="pre">snafu.clustering.</span></span><span class="sig-name descname"><span class="pre">clusterSwitch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clustertype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fluid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">switchrate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/clustering.html#clusterSwitch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.clustering.clusterSwitch" title="Link to this definition"></a></dt>
+<dd><p>Compute the number of cluster switches in a list or nested lists.</p>
+<p>Determines how often the category or type of cluster changes within
+a list (or nested list) based on a clustering scheme. Optionally
+returns the switch rate (normalized by list length).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l</strong> (<em>list</em>) – A list of items or a list of lists of items.</p></li>
+<li><p><strong>scheme</strong> (<em>object</em>) – Clustering scheme (e.g., semantic or letter-based) used to define clusters.</p></li>
+<li><p><strong>clustertype</strong> (<em>str</em><em>, </em><em>optional</em>) – Type of clustering logic to apply. Options are ‘fluid’ or ‘static’. Default is ‘fluid’.</p></li>
+<li><p><strong>switchrate</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, returns the switch count as a proportion of list length. Default is False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The number or rate of cluster switches per list or sublist.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.clustering.findClusters">
+<span class="sig-prename descclassname"><span class="pre">snafu.clustering.</span></span><span class="sig-name descname"><span class="pre">findClusters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clustertype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fluid'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/clustering.html#findClusters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.clustering.findClusters" title="Link to this definition"></a></dt>
+<dd><p>Find and measure clusters in a list or list of lists.</p>
+<p>Clusters are formed based on overlapping categories (semantic or letter).
+Returns cluster sizes or nested lists of sizes depending on the input format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l</strong> (<em>list</em>) – A list of items or a list of lists of items.</p></li>
+<li><p><strong>scheme</strong> (<em>object</em>) – Clustering scheme to apply (e.g., a semantic mapping file or int for letter clusters).</p></li>
+<li><p><strong>clustertype</strong> (<em>str</em><em>, </em><em>optional</em>) – Type of clustering logic. ‘fluid’ retains overlapping categories; ‘static’ requires consistency.
+Default is ‘fluid’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of cluster sizes or nested list of cluster sizes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.clustering.labelClusters">
+<span class="sig-prename descclassname"><span class="pre">snafu.clustering.</span></span><span class="sig-name descname"><span class="pre">labelClusters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labelIntrusions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targetLetter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/clustering.html#labelClusters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.clustering.labelClusters" title="Link to this definition"></a></dt>
+<dd><p>Convert items into cluster labels based on a clustering scheme.</p>
+<p>Supports both semantic (dictionary file-based) and letter-based
+clustering. Optionally labels unknown items as “intrusion”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l</strong> (<em>list</em>) – List or nested list of words/items to label.</p></li>
+<li><p><strong>scheme</strong> (<em>str</em><em> or </em><em>int</em>) – Path to a semantic category file (str) or an integer representing the number of letters to use.</p></li>
+<li><p><strong>labelIntrusions</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to assign an “intrusion” label to unknown items. Default is False.</p></li>
+<li><p><strong>targetLetter</strong> (<em>str</em><em>, </em><em>optional</em>) – Restricts labeling to items starting with this letter. Only relevant for letter-based clustering.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list (or nested list) of labels corresponding to each item.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

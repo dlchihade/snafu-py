@@ -56,7 +56,11 @@
 <li class="toctree-l2"><a class="reference internal" href="intrusions.html">intrusions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="io.html">io</a></li>
 <li class="toctree-l2"><a class="reference internal" href="irts.html">irts</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">netstats</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">netstats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.netstats.degree_dist"><code class="docutils literal notranslate"><span class="pre">degree_dist()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.netstats.smallworld"><code class="docutils literal notranslate"><span class="pre">smallworld()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="pci.html">pci</a></li>
 <li class="toctree-l2"><a class="reference internal" href="perseverations.html">perseverations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="search.html">search</a></li>
@@ -92,8 +96,50 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="netstats">
-<h1>netstats<a class="headerlink" href="#netstats" title="Link to this heading"></a></h1>
+  <section id="module-snafu.netstats">
+<span id="netstats"></span><h1>netstats<a class="headerlink" href="#module-snafu.netstats" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.netstats.degree_dist">
+<span class="sig-prename descclassname"><span class="pre">snafu.netstats.</span></span><span class="sig-name descname"><span class="pre">degree_dist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/netstats.html#degree_dist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.netstats.degree_dist" title="Link to this definition"></a></dt>
+<dd><p>Compute the degree distribution of a graph.</p>
+<p>Accepts either a NetworkX graph or an adjacency matrix (as a NumPy array),
+and returns a list of degree values along with their corresponding frequencies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>g</strong> (<em>networkx.Graph</em><em> or </em><em>ndarray</em>) – Input graph. Can be a NetworkX graph object or an adjacency matrix.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of (degree, count) pairs representing the degree distribution.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.netstats.smallworld">
+<span class="sig-prename descclassname"><span class="pre">snafu.netstats.</span></span><span class="sig-name descname"><span class="pre">smallworld</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/netstats.html#smallworld"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.netstats.smallworld" title="Link to this definition"></a></dt>
+<dd><p>Compute the small-worldness statistic of a graph.</p>
+<p>Uses the largest connected component of the graph to compute:
+- average clustering coefficient (C)
+- average shortest path length (L)
+Then compares these to their expected values in a random graph of the same size
+using the formula from Humphries &amp; Gurney (2008).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>a</strong> (<em>ndarray</em>) – Adjacency matrix representing the graph.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Small-worldness statistic S = (C / C_rand) / (L / L_rand).
+Values &gt; 1 typically indicate small-world properties.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

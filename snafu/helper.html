@@ -52,7 +52,29 @@
 <li class="toctree-l2"><a class="reference internal" href="generate_graphs.html">generate_graphs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generate_lists.html">generate_lists</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gui.html">gui</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">helper</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">helper</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.censored"><code class="docutils literal notranslate"><span class="pre">censored()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.dotdict"><code class="docutils literal notranslate"><span class="pre">dotdict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.edges_from_nodes"><code class="docutils literal notranslate"><span class="pre">edges_from_nodes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.find_ngrams"><code class="docutils literal notranslate"><span class="pre">find_ngrams()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.firstHits"><code class="docutils literal notranslate"><span class="pre">firstHits()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.flatten_list"><code class="docutils literal notranslate"><span class="pre">flatten_list()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.groupToIndividual"><code class="docutils literal notranslate"><span class="pre">groupToIndividual()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.logTrick"><code class="docutils literal notranslate"><span class="pre">logTrick()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.maxn"><code class="docutils literal notranslate"><span class="pre">maxn()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.mexgauss"><code class="docutils literal notranslate"><span class="pre">mexgauss()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.no_persev"><code class="docutils literal notranslate"><span class="pre">no_persev()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.nodes_from_edges"><code class="docutils literal notranslate"><span class="pre">nodes_from_edges()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.nogc"><code class="docutils literal notranslate"><span class="pre">nogc()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.numToItemLabel"><code class="docutils literal notranslate"><span class="pre">numToItemLabel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.numToLabel"><code class="docutils literal notranslate"><span class="pre">numToLabel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.pearsonr"><code class="docutils literal notranslate"><span class="pre">pearsonr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.rand_exg"><code class="docutils literal notranslate"><span class="pre">rand_exg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.reverseDict"><code class="docutils literal notranslate"><span class="pre">reverseDict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.stationary"><code class="docutils literal notranslate"><span class="pre">stationary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.helper.timer"><code class="docutils literal notranslate"><span class="pre">timer()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="intrusions.html">intrusions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="io.html">io</a></li>
 <li class="toctree-l2"><a class="reference internal" href="irts.html">irts</a></li>
@@ -92,8 +114,399 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="helper">
-<h1>helper<a class="headerlink" href="#helper" title="Link to this heading"></a></h1>
+  <section id="module-snafu.helper">
+<span id="helper"></span><h1>helper<a class="headerlink" href="#module-snafu.helper" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.helper.censored">
+<span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">censored</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#censored"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.censored" title="Link to this definition"></a></dt>
+<dd><p>Apply censoring rules to a random walk to simulate participant data.</p>
+<p>Filters repeated items from a walk according to emission and censoring faults.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>walk</strong> (<em>list</em><em> of </em><em>tuple</em>) – List of edges representing the walk.</p></li>
+<li><p><strong>td</strong> (<em>object</em><em>, </em><em>optional</em>) – Object with attributes <cite>emission_fault</cite> and <cite>censor_fault</cite> (probabilities).</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – Seed for random number generator for reproducibility.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of nodes after applying censoring.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="snafu.helper.dotdict">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">dotdict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#dotdict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.dotdict" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.helper.edges_from_nodes">
+<span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">edges_from_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#edges_from_nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.edges_from_nodes" title="Link to this definition"></a></dt>
+<dd><p>Convert a sequence of nodes into a sequence of edges.</p>
+<p>Creates a list of consecutive (source, target) tuples from an ordered list
+of nodes representing a walk through a graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>list</em>) – List of nodes in the order they were visited.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of edges representing transitions between consecutive nodes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.helper.find_ngrams">
+<span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">find_ngrams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#find_ngrams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.find_ngrams" title="Link to this definition"></a></dt>
+<dd><p>Generate a list of n-grams from an input list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_list</strong> (<em>list</em>) – The input list from which to generate n-grams.</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – The number of elements in each n-gram.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of n-gram tuples.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.helper.firstHits">
+<span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">firstHits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#firstHits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.firstHits" title="Link to this definition"></a></dt>
+<dd><p>Compute first hitting times for each node in a censored walk.</p>
+<p>For each unique node in a censored walk, finds the index of its first occurrence
+in the original walk’s edge list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>walk</strong> (<em>list</em><em> of </em><em>int</em>)</p></li>
+<li><p><strong>walk.</strong> (<em>List</em><em> of </em><em>nodes visited in a</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>list of tuple</em></p></li>
+<li><p><em>List of (node, index) pairs representing the first time each node is visited.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.helper.flatten_list">
+<span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">flatten_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numtimes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#flatten_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.flatten_list" title="Link to this definition"></a></dt>
+<dd><p>Flatten a nested list or numpy array by one level, optionally multiple times.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l</strong> (<em>list</em>) – The list to flatten.</p></li>
+<li><p><strong>numtimes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of times to flatten the list, by default 1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The flattened list.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.helper.groupToIndividual">
+<span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">groupToIndividual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#groupToIndividual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.groupToIndividual" title="Link to this definition"></a></dt>
+<dd><p>Map group-level node labels to individual-level indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Xs</strong> (<em>list</em><em> of </em><em>list</em><em> of </em><em>int</em>) – Participant responses in group space.</p></li>
+<li><p><strong>group_dict</strong> (<em>dict</em>) – Mapping of group node indices to labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>Translated data with local indices.</p></li>
+<li><p>Dictionary mapping local indices to labels.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.helper.logTrick">
+<span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">logTrick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loglist</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#logTrick"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.logTrick" title="Link to this definition"></a></dt>
+<dd><p>Numerically stable log-sum-exp trick for a list of log-likelihoods.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>loglist</strong> (<em>list</em><em> of </em><em>float</em>) – A list of log-likelihood values.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The log of the summed exponentiated values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.helper.maxn">
+<span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">maxn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#maxn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.maxn" title="Link to this definition"></a></dt>
+<dd><p>Return the top n maximum elements from a list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>items</strong> (<em>list</em>) – Input list of numeric values.</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – Number of maximum values to retrieve.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A sorted list of the top n maximum values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.helper.mexgauss">
+<span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">mexgauss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#mexgauss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.mexgauss" title="Link to this definition"></a></dt>
+<dd><p>Estimate parameters for the ex-Gaussian distribution from response times.</p>
+<p>This function estimates the parameters of an ex-Gaussian distribution
+(mu, sigma, lambda) using the method of moments. It is ported from the
+<cite>mexgauss</cite> function in R’s <cite>retimes</cite> package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rts</strong> (<em>array-like</em>) – A list or array of response times.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>tuple of float</em></p></li>
+<li><p><em>A tuple containing</em> –</p>
+<ul>
+<li><dl class="simple">
+<dt>mu<span class="classifier">float</span></dt><dd><p>Mean of the normal component.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>sigma<span class="classifier">float</span></dt><dd><p>Standard deviation of the normal component.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>lambda<span class="classifier">float</span></dt><dd><p>Rate parameter of the exponential component (1/tau).</p>
+</dd>
+</dl>
+</li>
+</ul>
+</li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.helper.no_persev">
+<span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">no_persev</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#no_persev"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.no_persev" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.helper.nodes_from_edges">
+<span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">nodes_from_edges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">walk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#nodes_from_edges"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.nodes_from_edges" title="Link to this definition"></a></dt>
+<dd><p>Convert a sequence of edges into a sequence of nodes.</p>
+<p>Assumes the input is a list of (source, target) tuples representing a walk
+through a graph. Reconstructs the sequence of visited nodes by taking the
+source of each edge and appending the target of the last edge.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>walk</strong> (<em>list</em><em> of </em><em>tuple</em>) – List of edges (as tuples of nodes) representing a walk.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of nodes visited in the walk.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.helper.nogc">
+<span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">nogc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fun</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#nogc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.nogc" title="Link to this definition"></a></dt>
+<dd><p>Decorator to disable garbage collection during function execution.</p>
+<p>Temporarily disables garbage collection to potentially speed up functions
+that involve frequent memory allocations and deallocations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fun</strong> (<em>callable</em>) – The function to wrap.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The wrapped function with garbage collection disabled during execution.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.helper.numToItemLabel">
+<span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">numToItemLabel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#numToItemLabel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.numToItemLabel" title="Link to this definition"></a></dt>
+<dd><p>Convert numerical indices in nested lists to corresponding item labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>list</em><em> of </em><em>list</em><em> of </em><em>int</em>) – Lists containing indices of items.</p></li>
+<li><p><strong>items</strong> (<em>dict</em>) – Dictionary mapping indices to labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Nested lists with item labels instead of indices.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of list of str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.helper.numToLabel">
+<span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">numToLabel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#numToLabel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.numToLabel" title="Link to this definition"></a></dt>
+<dd><p>Convert numerical node IDs to corresponding labels in-place.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Xs</strong> (<em>list</em><em> of </em><em>list</em><em> of </em><em>int</em>) – Lists containing node indices.</p></li>
+<li><p><strong>items</strong> (<em>dict</em>) – Dictionary mapping node indices to labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Lists with node labels.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of list of str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.helper.pearsonr">
+<span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">pearsonr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#pearsonr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.pearsonr" title="Link to this definition"></a></dt>
+<dd><p>Compute the Pearson correlation coefficient between two arrays.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>array-like</em>) – First input array.</p></li>
+<li><p><strong>y</strong> (<em>array-like</em>) – Second input array.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Pearson correlation coefficient.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.helper.rand_exg">
+<span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">rand_exg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">irt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambd</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#rand_exg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.rand_exg" title="Link to this definition"></a></dt>
+<dd><p>Generate a random sample from an ex-Gaussian distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>irt</strong> (<em>float</em>) – Mean of the Gaussian component.</p></li>
+<li><p><strong>sigma</strong> (<em>float</em>) – Standard deviation of the Gaussian component.</p></li>
+<li><p><strong>lambd</strong> (<em>float</em>) – Rate parameter (1/tau) of the exponential component.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A sample drawn from the ex-Gaussian distribution.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.helper.reverseDict">
+<span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">reverseDict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#reverseDict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.reverseDict" title="Link to this definition"></a></dt>
+<dd><p>Reverse keys and values in a dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>items</strong> (<em>dict</em>) – Dictionary to reverse.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary with keys and values swapped.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.helper.stationary">
+<span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">stationary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'unweighted'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#stationary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.stationary" title="Link to this definition"></a></dt>
+<dd><p>Compute the stationary distribution of a transition matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t</strong> (<em>ndarray</em>) – Transition matrix.</p></li>
+<li><p><strong>method</strong> (<em>str</em><em>, </em><em>optional</em>) – Method for computing the stationary distribution. Options:
+- “unweighted”: Returns the proportion of non-zero entries (only works for unweighted matrices).
+- otherwise: Computes the dominant eigenvector (may be buggy).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Stationary distribution as a vector (if using eigen method), or a scalar proportion (if unweighted).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray or float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.helper.timer">
+<span class="sig-prename descclassname"><span class="pre">snafu.helper.</span></span><span class="sig-name descname"><span class="pre">timer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fun</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/helper.html#timer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.helper.timer" title="Link to this definition"></a></dt>
+<dd><p>Decorator that prints the elapsed time of a function call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fun</strong> (<em>callable</em>) – The function to time.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The wrapped function that prints execution time.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

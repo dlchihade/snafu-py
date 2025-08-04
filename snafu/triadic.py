@@ -3,6 +3,33 @@
 from . import *
 
 def commonNode(graph, items, node1, node2, numsims=100, jumpval=0.0):
+    """
+    Estimate common reachable nodes between two start nodes via random walk simulations.
+
+    Simulates two independent random walks (starting from node1 and node2),
+    and identifies first common nodes encountered. The resulting dictionary
+    ranks items by their shared visitation likelihood.
+
+    Parameters
+    ----------
+    graph : ndarray or scipy sparse matrix
+        Adjacency or transition matrix of the graph.
+    items : dict
+        Mapping from node index to item label.
+    node1 : str
+        Label of the first start node.
+    node2 : str
+        Label of the second start node.
+    numsims : int, optional
+        Number of simulation runs (default is 100).
+    jumpval : float, optional
+        Probability of jumping back to the start node at each step (default is 0.0).
+
+    Returns
+    -------
+    list of tuple
+        Sorted list of (item, probability) pairs indicating common nodes.
+    """
     import scipy.sparse as sp
     
     if sp.issparse(graph):
@@ -97,6 +124,31 @@ def commonNode(graph, items, node1, node2, numsims=100, jumpval=0.0):
 # monte carlo implementation of triadic comparison task, for when network is too large (works with sparse matrices)
 # sloppy code put together quickly...
 def triadicMonteCarlo(graph, items, triad, numsims=100,jumpval=0.0):
+    """
+    Simulate triadic comparison task using random walks.
+
+    For each simulation, a random walk is performed from each node in the triad.
+    The first walk to reach another node is recorded. Results are returned as
+    pairwise similarity probabilities between the three items.
+
+    Parameters
+    ----------
+    graph : ndarray or scipy sparse matrix
+        Adjacency or transition matrix of the graph.
+    items : dict
+        Mapping from node index to item label.
+    triad : list of str
+        Three item labels forming the triadic comparison.
+    numsims : int, optional
+        Number of simulations to run (default is 100).
+    jumpval : float, optional
+        Probability of jumping back to the start node at each step (default is 0.0).
+
+    Returns
+    -------
+    list of float
+        Estimated probabilities for [A vs B, A vs C, B vs C].
+    """
     import scipy.sparse as sp
 
     if sp.issparse(graph):
@@ -168,6 +220,33 @@ def triadicMonteCarlo(graph, items, triad, numsims=100,jumpval=0.0):
     return [ab/numsims, ac/numsims, bc/numsims]
 
 def similarity(a, items, start, choices, steps="inf", jumpval=0.0):
+    """
+    Compute choice probabilities via absorbing Markov chain from a start node to alternatives.
+
+    Given a start node and a set of choice nodes, computes the probability of
+    reaching each choice node based on either infinite or step-limited transitions.
+
+    Parameters
+    ----------
+    a : ndarray
+        Adjacency or transition matrix.
+    items : dict
+        Mapping from node index to item label.
+    start : str
+        Starting item label.
+    choices : list of str
+        Target item labels to compare against.
+    steps : int or str, optional
+        Maximum number of steps to simulate ("inf" for full absorbing solution).
+    jumpval : float, optional
+        Jump-back probability to restart from start node at each step.
+
+    Returns
+    -------
+    list of float or list of list of float
+        If steps is "inf", returns vector of probabilities for each choice.
+        If steps is int, returns list of probabilities for each step.
+    """
     inv_items = {v: k for k, v in items.items()}
     t=a/sum(a.astype(float))                                                                # link to transition matrix
     choices_idx=[inv_items[i] for i in choices]                                             # item labels to ids
@@ -219,6 +298,31 @@ def similarity(a, items, start, choices, steps="inf", jumpval=0.0):
     return probs
 
 def triadicComparison(graph, items, triad, steplimit=200, jumpval=0.0):
+    """
+    Perform analytic triadic comparison based on absorbing Markov chain dynamics.
+
+    Simulates walks from each node in a triad toward the other two, accumulating
+    evidence for which pair is most similar based on termination probabilities.
+
+    Parameters
+    ----------
+    graph : ndarray
+        Adjacency or transition matrix.
+    items : dict
+        Mapping from node index to item label.
+    triad : list of str
+        Three item labels to compare.
+    steplimit : int, optional
+        Maximum number of steps to simulate (default is 200).
+    jumpval : float, optional
+        Probability of jumping back to the start node at each step (default is 0.0).
+
+    Returns
+    -------
+    list of float
+        Probabilities corresponding to similarity judgments:
+        [P(A similar to B), P(A similar to C), P(B similar to C)]
+    """
     # should simplify this code / extend to work with arbitrary number of items
     starta = similarity(graph, items, start=triad[0], choices=[triad[1],triad[2]],steps=steplimit, jumpval=jumpval)
     startb = similarity(graph, items, start=triad[1], choices=[triad[0],triad[2]],steps=steplimit, jumpval=jumpval)

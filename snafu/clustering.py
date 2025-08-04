@@ -3,6 +3,30 @@ from . import *
 # given list of cluster lengths, compute average cluster size of each list, then return avearge of that
 # also works on single list
 def clusterSize(l, scheme, clustertype='fluid'):
+    """
+    Compute average cluster sizes from a list or list of lists.
+
+    This function identifies clusters in the input data using a specified
+    clustering scheme and type, then calculates the average cluster size 
+    for each list. If a single list is passed, it still works and returns 
+    a single averaged result.
+
+    Parameters
+    ----------
+    l : list
+        A list of cluster data or a list of lists, where each inner list 
+        contains cluster lengths or indices.
+    scheme : object
+        Clustering scheme or method used to find clusters.
+    clustertype : str, optional
+        Type of clustering to apply. Default is 'fluid'.
+
+    Returns
+    -------
+    list of float
+        A list of average cluster sizes, one per input list (or a single 
+        average if the input was a single list).
+    """
     clist = findClusters(l, scheme, clustertype)
     
     avglists=[]
@@ -16,7 +40,51 @@ def clusterSize(l, scheme, clustertype='fluid'):
 # given list of cluster lengths, compute average number of cluster switches of each list, then return avearge of that
 # also works on single list
 def clusterSwitch(l, scheme, clustertype='fluid',switchrate=False):
+    """
+    Compute the number of cluster switches in a list or nested lists.
+
+    Determines how often the category or type of cluster changes within 
+    a list (or nested list) based on a clustering scheme. Optionally 
+    returns the switch rate (normalized by list length).
+
+    Parameters
+    ----------
+    l : list
+        A list of items or a list of lists of items.
+    scheme : object
+        Clustering scheme (e.g., semantic or letter-based) used to define clusters.
+    clustertype : str, optional
+        Type of clustering logic to apply. Options are 'fluid' or 'static'. Default is 'fluid'.
+    switchrate : bool, optional
+        If True, returns the switch count as a proportion of list length. Default is False.
+
+    Returns
+    -------
+    list of float
+        The number or rate of cluster switches per list or sublist.
+    """    
     clist = findClusters(l, scheme, clustertype)
+    """
+    Find and measure clusters in a list or list of lists.
+
+    Clusters are formed based on overlapping categories (semantic or letter).
+    Returns cluster sizes or nested lists of sizes depending on the input format.
+
+    Parameters
+    ----------
+    l : list
+        A list of items or a list of lists of items.
+    scheme : object
+        Clustering scheme to apply (e.g., a semantic mapping file or int for letter clusters).
+    clustertype : str, optional
+        Type of clustering logic. 'fluid' retains overlapping categories; 'static' requires consistency. 
+        Default is 'fluid'.
+
+    Returns
+    -------
+    list
+        A list of cluster sizes or nested list of cluster sizes.
+    """
     
     avglists=[]
     for inum, i in enumerate(clist):
@@ -41,6 +109,29 @@ def clusterSwitch(l, scheme, clustertype='fluid',switchrate=False):
 # report average cluster size for list or nested lists
 def findClusters(l, scheme, clustertype='fluid'):
     # only convert items to labels if list of items, not list of lists
+
+    """
+    Find and measure clusters in a list or list of lists.
+
+    Clusters are formed based on overlapping categories (semantic or letter).
+    Returns cluster sizes or nested lists of sizes depending on the input format.
+
+    Parameters
+    ----------
+    l : list
+        A list of items or a list of lists of items.
+    scheme : object
+        Clustering scheme to apply (e.g., a semantic mapping file or int for letter clusters).
+    clustertype : str, optional
+        Type of clustering logic. 'fluid' retains overlapping categories; 'static' requires consistency. 
+        Default is 'fluid'.
+
+    Returns
+    -------
+    list
+        A list of cluster sizes or nested list of cluster sizes.
+    """
+
     if len(l) > 0:
         if isinstance(l[0], list):
             clusters=l
@@ -82,6 +173,31 @@ def findClusters(l, scheme, clustertype='fluid'):
 # returns labels in place of items for list or nested lists
 # provide list (l) and coding scheme (external file)
 def labelClusters(l, scheme, labelIntrusions=False, targetLetter=None):
+
+    """
+    Convert items into cluster labels based on a clustering scheme.
+
+    Supports both semantic (dictionary file-based) and letter-based 
+    clustering. Optionally labels unknown items as "intrusion".
+
+    Parameters
+    ----------
+    l : list
+        List or nested list of words/items to label.
+    scheme : str or int
+        Path to a semantic category file (str) or an integer representing the number of letters to use.
+    labelIntrusions : bool, optional
+        Whether to assign an "intrusion" label to unknown items. Default is False.
+    targetLetter : str, optional
+        Restricts labeling to items starting with this letter. Only relevant for letter-based clustering.
+
+    Returns
+    -------
+    list
+        A list (or nested list) of labels corresponding to each item.
+    """
+    ...
+
     if isinstance(scheme,str):
         clustertype = "semantic"    # reads clusters from a fixed file
     elif isinstance(scheme,int):

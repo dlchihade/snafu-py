@@ -1,6 +1,22 @@
 from . import *
 
 def degree_dist(g):
+    """
+    Compute the degree distribution of a graph.
+
+    Accepts either a NetworkX graph or an adjacency matrix (as a NumPy array),
+    and returns a list of degree values along with their corresponding frequencies.
+
+    Parameters
+    ----------
+    g : networkx.Graph or ndarray
+        Input graph. Can be a NetworkX graph object or an adjacency matrix.
+
+    Returns
+    -------
+    list of tuple
+        A list of (degree, count) pairs representing the degree distribution.
+    """    
     if isinstance(g,np.ndarray):
         g=nx.to_networkx_graph(g)    # if matrix is passed, convert to networkx
     d=dict(g.degree()).values()
@@ -11,6 +27,26 @@ def degree_dist(g):
 # return small world statistic of a graph
 # returns metric of largest component if disconnected
 def smallworld(a):
+    """
+    Compute the small-worldness statistic of a graph.
+
+    Uses the largest connected component of the graph to compute:
+    - average clustering coefficient (C)
+    - average shortest path length (L)
+    Then compares these to their expected values in a random graph of the same size
+    using the formula from Humphries & Gurney (2008).
+
+    Parameters
+    ----------
+    a : ndarray
+        Adjacency matrix representing the graph.
+
+    Returns
+    -------
+    float
+        Small-worldness statistic S = (C / C_rand) / (L / L_rand).
+        Values > 1 typically indicate small-world properties.
+    """    
     g_sm=nx.from_numpy_matrix(a)
     g_sm=g_sm.subgraph(max(nx.connected_components(g_sm),key=len))   # largest component
     numnodes=g_sm.number_of_nodes()

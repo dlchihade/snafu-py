@@ -4,6 +4,32 @@ from . import *
 # Include an extra parameter 'tail' which allows m-1 "null" nodes in
 # neighborhood of every node to better match scale-free distribution.
 def generate_tenenbaum_steyvers_network(n, m, tail=True, seed=None):
+    """
+    Generate a scale-free network using the Steyvers & Tenenbaum (2005) model.
+
+    Constructs a network where each new node attaches to a randomly chosen
+    neighborhood of an existing node, optionally padded with null (non-attaching)
+    nodes to simulate a power-law distribution in node degrees.
+
+    Parameters
+    ----------
+    n : int
+        Total number of nodes in the graph.
+    m : int
+        Number of edges each new node forms. Must be <= n.
+    tail : bool, optional
+        If True, adds (m-1) null nodes to each candidate neighborhood to allow
+        non-attachment and better simulate a scale-free structure. Default is True.
+    seed : int or None, optional
+        Random seed for reproducibility. Default is None.
+
+    Returns
+    -------
+    networkx.Graph
+        An undirected graph generated according to the Steyvers-Tenenbaum model.
+    """
+
+
     nplocal = np.random.RandomState(seed)
     a = np.zeros((n,n))                                  # initialize matrix
     for i in range(m):                                   # complete m x m graph

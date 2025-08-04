@@ -8,33 +8,145 @@ from . import *
 
 # alias for backwards compatibility
 def write_graph(*args, **kwargs):
+    """
+    Alias for write_network for backwards compatibility.
+
+    Parameters
+    ----------
+    *args : tuple
+        Positional arguments passed to write_network.
+    **kwargs : dict
+        Keyword arguments passed to write_network.
+
+    Returns
+    -------
+    Any
+        Output of the write_network function.
+    """    
     return write_network(*args, **kwargs)
 
 # alias for backwards compatibility
 def readX(*args, **kwargs):
+    """
+    Alias for load_fluency_data for backwards compatibility.
+
+    Parameters
+    ----------
+    *args : tuple
+        Positional arguments passed to load_fluency_data.
+    **kwargs : dict
+        Keyword arguments passed to load_fluency_data.
+
+    Returns
+    -------
+    Any
+        Output of the load_fluency_data function.
+    """    
     return load_fluency_data(*args, **kwargs)
 
 # alias for backwards compatibility
 def load_graph(*args, **kwargs):
+    """
+    Alias for load_network for backwards compatibility.
+
+    Parameters
+    ----------
+    *args : tuple
+        Positional arguments passed to load_network.
+    **kwargs : dict
+        Keyword arguments passed to load_network.
+
+    Returns
+    -------
+    Any
+        Output of the load_network function.
+    """    
     return load_network(*args, **kwargs)
 
 # alias for backwards compatibility
 def read_graph(*args, **kwargs):
+    """
+    Alias for load_network for backwards compatibility.
+
+    Parameters
+    ----------
+    *args : tuple
+        Positional arguments passed to load_network.
+    **kwargs : dict
+        Keyword arguments passed to load_network.
+
+    Returns
+    -------
+    Any
+        Output of the load_network function.
+    """    
     return load_network(*args, **kwargs)
 
 # DEFUNCT
 def graphToHash(a):
+    """
+    DEPRECATED: This function is no longer supported by NetworkX.
+
+    Parameters
+    ----------
+    a : array-like
+        Adjacency representation of a graph.
+
+    Returns
+    -------
+    None
+        Function does not perform any operation.
+    """    
     print('This function is defunct, as it is no longer supported by NetworkX')
     return #nx.generate_sparse6(nx.to_networkx_graph(a),header=False)
 
 # DEFUNCT
 def hashToGraph(graphhash):
+
+    """
+    DEPRECATED: This function is no longer supported by NetworkX.
+
+    Parameters
+    ----------
+    graphhash : str
+        Hash representation of a graph.
+
+    Returns
+    -------
+    None
+        Function does not perform any operation.
+    """
     print('This function is defunct, as it is no longer supported by NetworkX')
     return #nx.to_numpy_array(nx.parse_graph6(graphhash))
 
 # reads in graph from CSV
 # row order not preserved; could be optimized more
 def load_network(fh,cols=(0,1),header=False,filters={},undirected=True,sparse=False):
+    """
+    Load a network from a CSV file and return its adjacency matrix and node labels.
+
+    Parameters
+    ----------
+    fh : str
+        Filepath to a CSV file containing the network edges.
+    cols : tuple of int or str, optional
+        Column indices or names indicating source and target node columns. Default is (0, 1).
+    header : bool, optional
+        Whether the CSV file has a header row. Default is False.
+    filters : dict, optional
+        Dictionary to filter rows based on additional column values. Only used if `header=True`.
+    undirected : bool, optional
+        If True, adds symmetric edges to make the graph undirected. Default is True.
+    sparse : bool, optional
+        If True, returns a sparse adjacency matrix. Otherwise, returns a dense NumPy array. Default is False.
+
+    Returns
+    -------
+    graph : ndarray or csr_matrix
+        The adjacency matrix representing the network.
+    items : dict
+        Mapping from node indices to node labels.
+    """    
     fh=open(fh,'rt', encoding='utf-8-sig')
     idx=0
     bigdict={}
@@ -106,6 +218,46 @@ def load_network(fh,cols=(0,1),header=False,filters={},undirected=True,sparse=Fa
     return graph, items
 
 def load_fluency_data(filepath,category=None,removePerseverations=False,removeIntrusions=False,spell=None,scheme=None,group=None,subject=None,removeNonAlphaChars=False,hierarchical=False,targetletter=None):
+    """
+    Load verbal fluency data from a CSV file and preprocess it according to options.
+
+    Parameters
+    ----------
+    filepath : str
+        Path to the CSV file containing fluency data.
+    category : str or list of str, optional
+        Restrict to specific semantic categories.
+    removePerseverations : bool, optional
+        If True, remove repeated responses in the same list.
+    removeIntrusions : bool, optional
+        If True, remove responses not in the scheme or target letter.
+    spell : str, optional
+        Path to a spelling correction file.
+    scheme : str, optional
+        Path to a valid item list for the given category.
+    group : str or list of str, optional
+        Filter data by group.
+    subject : str or list of str, optional
+        Filter data by subject ID.
+    removeNonAlphaChars : bool, optional
+        If True, remove non-alphabetic characters from item names.
+    hierarchical : bool, optional
+        If True, marks the returned structure as hierarchical.
+    targetletter : str, optional
+        Restrict responses to those starting with this letter (used for letter fluency tasks).
+
+    Returns
+    -------
+    Data
+        A Data object containing structured fluency data including:
+        - 'Xs': response index lists,
+        - 'items': subject-specific item index mappings,
+        - 'irts': inter-response times (if present),
+        - 'categories': category info,
+        - 'spell_corrected': spelling corrections,
+        - 'perseverations': repeated items,
+        - 'intrusions': invalid responses.
+    """    
     if targetletter:
         targetletter = targetletter.lower()
     if type(group) is str:
@@ -254,6 +406,33 @@ def load_fluency_data(filepath,category=None,removePerseverations=False,removeIn
                  'spell_corrected': spell_corrected, 'perseverations': perseverations, 'intrusions': intrusions})
 
 def write_network(gs, fh, subj="NA", directed=False, extra_data={}, header=True, labels=None, sparse=False):
+    """
+    Write one or more graphs to a CSV file in edge-list format.
+
+    Parameters
+    ----------
+    gs : list or networkx.Graph
+        A graph or list of graphs to be written.
+    fh : str
+        Path to the output file.
+    subj : str, optional
+        Subject identifier to include in the output. Default is "NA".
+    directed : bool, optional
+        If True, treat the graphs as directed. Default is False.
+    extra_data : dict, optional
+        Optional nested dictionary of additional edge-level data.
+    header : bool or str, optional
+        If True, write a default header. If str, use as custom header. Default is True.
+    labels : dict or list of dict, optional
+        Optional relabeling of graph node indices to string labels.
+    sparse : bool, optional
+        If True, only write edges that are present. If False, write all pair combinations. Default is False.
+
+    Returns
+    -------
+    None
+        Writes data to file and returns nothing.
+    """     
     onezero={True: '1', False: '0'}        
     import networkx as nx
     fh=open(fh,'w')

@@ -1,0 +1,17 @@
+sphinx>=7.0.0
+ghp-import>=2.1.0
+
+# Optional: Theme (only include if you're using it in conf.py)
+sphinx_rtd_theme>=1.2.0
+
+# Optional: For type hints in docstrings (if used)
+sphinx-autodoc-typehints>=1.25.2
+
+# Optional: NumPy-style docstring support
+numpydoc>=1.5.0
+
+# Optional: Automatically generate .rst files from code
+sphinx-apidoc
+
+# Optional: Syntax highlighting
+Pygments>=2.16.0

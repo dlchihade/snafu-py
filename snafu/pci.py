@@ -5,7 +5,23 @@ from . import *
 # copied from https://malishoaib.wordpress.com/2014/04/15/the-beautiful-beta-functions-in-raw-python/
 def contfractbeta(a,b,x, ITMAX = 200):
     """ contfractbeta() evaluates the continued fraction form of the incomplete Beta function; incompbeta().  
-    (Code translated from: Numerical Recipes in C.)"""
+    (Code translated from: Numerical Recipes in C.)
+    Parameters
+    ----------
+    a : float
+        Alpha parameter of the beta distribution (a > 0).
+    b : float
+        Beta parameter of the beta distribution (b > 0).
+    x : float
+        The evaluation point (0 <= x <= 1).
+    ITMAX : int, optional
+        Maximum number of iterations (default is 200).
+
+    Returns
+    -------
+    float
+        Continued fraction approximation of the incomplete beta function.
+    """ 
     EPS = 3.0e-7
     bm = az = am = 1.0
     qab = a+b
@@ -35,7 +51,21 @@ def contfractbeta(a,b,x, ITMAX = 200):
 # normalized incomplete beta is same as beta cdf
 def incomplete_beta(a, b, x):
     ''' incompbeta(a,b,x) evaluates incomplete beta function, here a, b > 0 and 0 <= x <= 1. This function requires contfractbeta(a,b,x, ITMAX = 200) 
-    (Code translated from: Numerical Recipes in C.)'''
+    (Code translated from: Numerical Recipes in C.)
+    Parameters
+    ----------
+    a : float
+        Alpha parameter (a > 0).
+    b : float
+        Beta parameter (b > 0).
+    x : float
+        Evaluation point (0 <= x <= 1).
+
+    Returns
+    -------
+    float
+        Value of the regularized incomplete beta function at `x`.
+    '''
     if (x == 0):
         return 0;
     elif (x == 1):
@@ -50,6 +80,32 @@ def incomplete_beta(a, b, x):
 # implements beta ppf
 # same result as stats.beta.ppf(alpha_2, a, b)
 def ppf(alpha_2, a, b, lower=0.0, upper=1.0, span=11, maxiter=20):
+    """Invert the incomplete beta function to find the quantile (percent point function).
+
+    Uses binary search to find the quantile corresponding to a given cumulative
+    probability `alpha_2`. This approximates the inverse of the beta CDF.
+
+    Parameters
+    ----------
+    alpha_2 : float
+        Target probability (between 0 and 1).
+    a : float
+        Alpha parameter of the beta distribution.
+    b : float
+        Beta parameter of the beta distribution.
+    lower : float, optional
+        Lower bound for the search interval (default is 0.0).
+    upper : float, optional
+        Upper bound for the search interval (default is 1.0).
+    span : int, optional
+        Number of evenly spaced points to test in the interval (default is 11).
+    maxiter : int, optional
+        Maximum recursion depth for binary search (default is 20).
+
+    Returns
+    -------
+    float
+        Quantile corresponding to `alpha_2`. """
     if alpha_2 == 1.0:
         return 1.0
     elif alpha_2 == 0.0:
@@ -69,5 +125,25 @@ def ppf(alpha_2, a, b, lower=0.0, upper=1.0, span=11, maxiter=20):
 
 # same result as stats.beta.ppf(alpha_2, count, nobs - count + 1) (from statsmodels)
 def pci_lowerbound(cooccur, total, alpha):
+    """
+    Compute the lower bound of a confidence interval using the Clopper-Pearson method.
+
+    This is a conservative (exact) method for estimating a binomial proportion's 
+    confidence interval using the inverse incomplete beta function.
+
+    Parameters
+    ----------
+    cooccur : int
+        Number of successes (co-occurrences).
+    total : int
+        Total number of trials.
+    alpha : float
+        Significance level (e.g., 0.05 for 95% CI).
+
+    Returns
+    -------
+    float
+        Lower bound of the (1 - alpha) confidence interval.
+    """
     alpha_2 = alpha * 0.5
     return ppf(alpha_2, cooccur, total - cooccur + 1)

@@ -6,7 +6,7 @@
 SNAFU: The Semantic Network and Fluency Utility
 ===============================================
 
-What is SNAFU?
+What is SNAFU??
 --------------
 
 The semantic fluency task is frequently used in psychology by both researchers and clinicians. SNAFU is a tool that helps you analyze fluency data. It can help with:

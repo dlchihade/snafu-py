@@ -64,28 +64,6 @@ def clusterSwitch(l, scheme, clustertype='fluid',switchrate=False):
         The number or rate of cluster switches per list or sublist.
     """    
     clist = findClusters(l, scheme, clustertype)
-    """
-    Find and measure clusters in a list or list of lists.
-
-    Clusters are formed based on overlapping categories (semantic or letter).
-    Returns cluster sizes or nested lists of sizes depending on the input format.
-
-    Parameters
-    ----------
-    l : list
-        A list of items or a list of lists of items.
-    scheme : object
-        Clustering scheme to apply (e.g., a semantic mapping file or int for letter clusters).
-    clustertype : str, optional
-        Type of clustering logic. 'fluid' retains overlapping categories; 'static' requires consistency. 
-        Default is 'fluid'.
-
-    Returns
-    -------
-    list
-        A list of cluster sizes or nested list of cluster sizes.
-    """
-    
     avglists=[]
     for inum, i in enumerate(clist):
         avgnum=[]

@@ -9,7 +9,6 @@ from functools import reduce
 #jump probability
 
 def estimateJumpProbability(fluency_list, group_network, data_model):
-
     """
     Estimate the best jump probability using likelihood maximization.
 

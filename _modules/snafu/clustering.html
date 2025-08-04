@@ -142,28 +142,6 @@
 <span class="sd">        The number or rate of cluster switches per list or sublist.</span>
 <span class="sd">    &quot;&quot;&quot;</span>    
     <span class="n">clist</span> <span class="o">=</span> <span class="n">findClusters</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">scheme</span><span class="p">,</span> <span class="n">clustertype</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Find and measure clusters in a list or list of lists.</span>
-
-<span class="sd">    Clusters are formed based on overlapping categories (semantic or letter).</span>
-<span class="sd">    Returns cluster sizes or nested lists of sizes depending on the input format.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    l : list</span>
-<span class="sd">        A list of items or a list of lists of items.</span>
-<span class="sd">    scheme : object</span>
-<span class="sd">        Clustering scheme to apply (e.g., a semantic mapping file or int for letter clusters).</span>
-<span class="sd">    clustertype : str, optional</span>
-<span class="sd">        Type of clustering logic. &#39;fluid&#39; retains overlapping categories; &#39;static&#39; requires consistency. </span>
-<span class="sd">        Default is &#39;fluid&#39;.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    list</span>
-<span class="sd">        A list of cluster sizes or nested list of cluster sizes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    
     <span class="n">avglists</span><span class="o">=</span><span class="p">[]</span>
     <span class="k">for</span> <span class="n">inum</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">clist</span><span class="p">):</span>
         <span class="n">avgnum</span><span class="o">=</span><span class="p">[]</span>

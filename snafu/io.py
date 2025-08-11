@@ -82,43 +82,6 @@ def read_graph(*args, **kwargs):
     """    
     return load_network(*args, **kwargs)
 
-# DEFUNCT
-def graphToHash(a):
-    """
-    DEPRECATED: This function is no longer supported by NetworkX.
-
-    Parameters
-    ----------
-    a : array-like
-        Adjacency representation of a graph.
-
-    Returns
-    -------
-    None
-        Function does not perform any operation.
-    """    
-    print('This function is defunct, as it is no longer supported by NetworkX')
-    return #nx.generate_sparse6(nx.to_networkx_graph(a),header=False)
-
-# DEFUNCT
-def hashToGraph(graphhash):
-
-    """
-    DEPRECATED: This function is no longer supported by NetworkX.
-
-    Parameters
-    ----------
-    graphhash : str
-        Hash representation of a graph.
-
-    Returns
-    -------
-    None
-        Function does not perform any operation.
-    """
-    print('This function is defunct, as it is no longer supported by NetworkX')
-    return #nx.to_numpy_array(nx.parse_graph6(graphhash))
-
 # reads in graph from CSV
 # row order not preserved; could be optimized more
 def load_network(fh,cols=(0,1),header=False,filters={},undirected=True,sparse=False):

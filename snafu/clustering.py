@@ -1,33 +1,30 @@
 from . import *
 
-# given list of cluster lengths, compute average cluster size of each list, then return avearge of that
-# also works on single list
-def clusterSize(l, scheme, clustertype='fluid'):
+def clusterSize(fluency_lists, scheme, clustertype='fluid'):
     """
-    Compute average cluster sizes from a list or list of lists.
+    Calculate average cluster size of a fluency list (or list of fluency lists).
 
-    This function identifies clusters in the input data using a specified
-    clustering scheme and type, then calculates the average cluster size 
-    for each list. If a single list is passed, it still works and returns 
-    a single averaged result.
+    This function expects a list of lists. If you want to calculate the average
+    cluster size of a single list, you can wrap it in another list, e.g.,
+    [fluency_list]
 
     Parameters
     ----------
-    l : list
-        A list of cluster data or a list of lists, where each inner list 
-        contains cluster lengths or indices.
-    scheme : object
-        Clustering scheme or method used to find clusters.
+    fluency_lists : list
+        A list of fluency lists, e.g., fluencydata.labeledlists
+    scheme : str or int
+        For semantic fluency data, specify a path indicating clustering scheme
+        (.csv) to use. For letter fluency data, specify an in integer
+        indicating the number of initial letters to use as clusters (e.g., 2)
     clustertype : str, optional
-        Type of clustering to apply. Default is 'fluid'.
+        Type of clustering to apply. Default is 'fluid'. The other option is 'static'.
 
     Returns
     -------
     list of float
-        A list of average cluster sizes, one per input list (or a single 
-        average if the input was a single list).
+        A list containing the average cluster size in each fluency list.
     """
-    clist = findClusters(l, scheme, clustertype)
+    clist = findClusters(fluency_lists, scheme, clustertype)
     
     avglists=[]
     for i in clist:
@@ -37,33 +34,35 @@ def clusterSize(l, scheme, clustertype='fluid'):
         avglists.append(np.mean(avglist))
     return avglists
 
-# given list of cluster lengths, compute average number of cluster switches of each list, then return avearge of that
-# also works on single list
-def clusterSwitch(l, scheme, clustertype='fluid',switchrate=False):
+def clusterSwitch(fluency_lists, scheme, clustertype='fluid', switchrate=False):
     """
-    Compute the number of cluster switches in a list or nested lists.
+    Calculate the number of cluster switches in a fluency list (or list of
+    fluency lists. Alternatively, calculate the switch rate (number of switches
+    divided by list length).
 
-    Determines how often the category or type of cluster changes within 
-    a list (or nested list) based on a clustering scheme. Optionally 
-    returns the switch rate (normalized by list length).
+    This function expects a list of lists. If you want to calculate the number of
+    cluster switches in a single list, you can wrap it in another list, e.g.,
+    [fluency_list]
 
     Parameters
     ----------
-    l : list
-        A list of items or a list of lists of items.
-    scheme : object
-        Clustering scheme (e.g., semantic or letter-based) used to define clusters.
+    fluency_lists : list
+        A list of fluency lists, e.g., fluencydata.labeledlists
+    scheme : str or int
+        For semantic fluency data, specify a path indicating clustering scheme
+        (.csv) to use. For letter fluency data, specify an in integer
+        indicating the number of initial letters to use as clusters (e.g., 2)
     clustertype : str, optional
-        Type of clustering logic to apply. Options are 'fluid' or 'static'. Default is 'fluid'.
+        Type of clustering to apply. Default is 'fluid'. The other option is 'static'.
     switchrate : bool, optional
-        If True, returns the switch count as a proportion of list length. Default is False.
+        If True, returns the switch rate instead of switch count. Default is False.
 
     Returns
     -------
     list of float
-        The number or rate of cluster switches per list or sublist.
+        A list containing the number of switches in each fluency list.
     """    
-    clist = findClusters(l, scheme, clustertype)
+    clist = findClusters(fluency_lists, scheme, clustertype)
     avglists=[]
     for inum, i in enumerate(clist):
         avgnum=[]
@@ -78,43 +77,43 @@ def clusterSwitch(l, scheme, clustertype='fluid',switchrate=False):
             else:
                 switches = len(i)-1
                 if switchrate:
-                    switches = switches / len(l[inum])
+                    switches = switches / len(fluency_lists[inum])
                 avglists.append(switches)
         else:
             avglists.append(0)
     return avglists
 
-# report average cluster size for list or nested lists
-def findClusters(l, scheme, clustertype='fluid'):
-    # only convert items to labels if list of items, not list of lists
-
+def findClusters(fluency_lists, scheme, clustertype='fluid'):
     """
-    Find and measure clusters in a list or list of lists.
+    Calculate the size of each cluster in a fluency list (or list of fluency
+    lists) and return these cluster sizes as a list. For example, ['dog',
+    'cat', 'whale', 'shark'] might return [2, 2], as there are two clusters of
+    size 2.
 
-    Clusters are formed based on overlapping categories (semantic or letter).
-    Returns cluster sizes or nested lists of sizes depending on the input format.
+    This function is used internally by snafu.clusterSize and snafu.clusterSwitch.
 
     Parameters
     ----------
-    l : list
-        A list of items or a list of lists of items.
-    scheme : object
-        Clustering scheme to apply (e.g., a semantic mapping file or int for letter clusters).
+    fluency_lists : list
+        A list of fluency lists, e.g., fluencydata.labeledlists
+    scheme : str or int
+        For semantic fluency data, specify a path indicating clustering scheme
+        (.csv) to use. For letter fluency data, specify an in integer
+        indicating the number of initial letters to use as clusters (e.g., 2)
     clustertype : str, optional
-        Type of clustering logic. 'fluid' retains overlapping categories; 'static' requires consistency. 
-        Default is 'fluid'.
+        Type of clustering to apply. Default is 'fluid'. The other option is 'static'.
 
     Returns
     -------
     list
-        A list of cluster sizes or nested list of cluster sizes.
+        A list of cluster sizes (or nested list of cluster sizes).
     """
 
-    if len(l) > 0:
+    if len(fluency_lists) > 0:
         if isinstance(l[0], list):
-            clusters=l
+            clusters=fluency_lists
         else:
-            clusters=labelClusters(l, scheme)
+            clusters=labelClusters(fluency_list, scheme)
     else:
         clusters=[]
     
@@ -148,31 +147,35 @@ def findClusters(l, scheme, clustertype='fluid'):
         clustList += csize
     return clustList
 
-# returns labels in place of items for list or nested lists
-# provide list (l) and coding scheme (external file)
-def labelClusters(l, scheme, labelIntrusions=False, targetLetter=None):
-
+def labelClusters(fluency_lists, scheme, labelIntrusions=False, targetLetter=None):
     """
-    Convert items into cluster labels based on a clustering scheme.
-
-    Supports both semantic (dictionary file-based) and letter-based 
-    clustering. Optionally labels unknown items as "intrusion".
-
+    Replace each item in a fluency list (or list of fluency lists) with its
+    category or categories. For example, ['dog', 'cat', 'whale', 'shark'] might
+    return ['canine;pets', 'pets', 'fish;water', 'fish;water'].
+    
+    This function is used internally by snafu.findClusters.
+   
     Parameters
     ----------
-    l : list
-        List or nested list of words/items to label.
+    fluency_lists : list
+        A list of fluency lists, e.g., fluencydata.labeledlists
     scheme : str or int
-        Path to a semantic category file (str) or an integer representing the number of letters to use.
+        For semantic fluency data, specify a path indicating clustering scheme
+        (.csv) to use. For letter fluency data, specify an in integer
+        indicating the number of initial letters to use as clusters (e.g., 2)
     labelIntrusions : bool, optional
-        Whether to assign an "intrusion" label to unknown items. Default is False.
+        When False, intrusions are silently omitted (as if they do not exist).
+        When True, intrusions are replaced with the pseudo-category label 'intrusion'.
+        Default is False.
     targetLetter : str, optional
-        Restricts labeling to items starting with this letter. Only relevant for letter-based clustering.
+        For letter fluency data, identifies the target letter. This is
+        necessary only to identify intrusions (when labelIntrusions is set to
+        True), otherwise it has no effect. Default is None.
 
     Returns
     -------
     list
-        A list (or nested list) of labels corresponding to each item.
+        A list (or nested list) of categoriesed corresponding to each item.
     """
     ...
 
@@ -202,7 +205,7 @@ def labelClusters(l, scheme, labelIntrusions=False, targetLetter=None):
                 if cat not in cats[item]:
                     cats[item]=cats[item] + ';' + cat
     labels=[]
-    for inum, item in enumerate(l):
+    for inum, item in enumerate(fluency_lists):
         if isinstance(item, list):
             labels.append(labelClusters(item, scheme, labelIntrusions=labelIntrusions, targetLetter=targetLetter))
         else:

@@ -73,36 +73,33 @@
   <h1>Source code for snafu.clustering</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
-<span class="c1"># given list of cluster lengths, compute average cluster size of each list, then return avearge of that</span>
-<span class="c1"># also works on single list</span>
 <div class="viewcode-block" id="clusterSize">
 <a class="viewcode-back" href="../../snafu/clustering.html#snafu.clustering.clusterSize">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">clusterSize</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">scheme</span><span class="p">,</span> <span class="n">clustertype</span><span class="o">=</span><span class="s1">&#39;fluid&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">clusterSize</span><span class="p">(</span><span class="n">fluency_lists</span><span class="p">,</span> <span class="n">scheme</span><span class="p">,</span> <span class="n">clustertype</span><span class="o">=</span><span class="s1">&#39;fluid&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compute average cluster sizes from a list or list of lists.</span>
+<span class="sd">    Calculate average cluster size of a fluency list (or list of fluency lists).</span>
 
-<span class="sd">    This function identifies clusters in the input data using a specified</span>
-<span class="sd">    clustering scheme and type, then calculates the average cluster size </span>
-<span class="sd">    for each list. If a single list is passed, it still works and returns </span>
-<span class="sd">    a single averaged result.</span>
+<span class="sd">    This function expects a list of lists. If you want to calculate the average</span>
+<span class="sd">    cluster size of a single list, you can wrap it in another list, e.g.,</span>
+<span class="sd">    [fluency_list]</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    l : list</span>
-<span class="sd">        A list of cluster data or a list of lists, where each inner list </span>
-<span class="sd">        contains cluster lengths or indices.</span>
-<span class="sd">    scheme : object</span>
-<span class="sd">        Clustering scheme or method used to find clusters.</span>
+<span class="sd">    fluency_lists : list</span>
+<span class="sd">        A list of fluency lists, e.g., fluencydata.labeledlists</span>
+<span class="sd">    scheme : str or int</span>
+<span class="sd">        For semantic fluency data, specify a path indicating clustering scheme</span>
+<span class="sd">        (.csv) to use. For letter fluency data, specify an in integer</span>
+<span class="sd">        indicating the number of initial letters to use as clusters (e.g., 2)</span>
 <span class="sd">    clustertype : str, optional</span>
-<span class="sd">        Type of clustering to apply. Default is &#39;fluid&#39;.</span>
+<span class="sd">        Type of clustering to apply. Default is &#39;fluid&#39;. The other option is &#39;static&#39;.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    list of float</span>
-<span class="sd">        A list of average cluster sizes, one per input list (or a single </span>
-<span class="sd">        average if the input was a single list).</span>
+<span class="sd">        A list containing the average cluster size in each fluency list.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">clist</span> <span class="o">=</span> <span class="n">findClusters</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">scheme</span><span class="p">,</span> <span class="n">clustertype</span><span class="p">)</span>
+    <span class="n">clist</span> <span class="o">=</span> <span class="n">findClusters</span><span class="p">(</span><span class="n">fluency_lists</span><span class="p">,</span> <span class="n">scheme</span><span class="p">,</span> <span class="n">clustertype</span><span class="p">)</span>
     
     <span class="n">avglists</span><span class="o">=</span><span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">clist</span><span class="p">:</span>
@@ -113,35 +110,37 @@
     <span class="k">return</span> <span class="n">avglists</span></div>
 
 
-<span class="c1"># given list of cluster lengths, compute average number of cluster switches of each list, then return avearge of that</span>
-<span class="c1"># also works on single list</span>
 <div class="viewcode-block" id="clusterSwitch">
 <a class="viewcode-back" href="../../snafu/clustering.html#snafu.clustering.clusterSwitch">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">clusterSwitch</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">scheme</span><span class="p">,</span> <span class="n">clustertype</span><span class="o">=</span><span class="s1">&#39;fluid&#39;</span><span class="p">,</span><span class="n">switchrate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">clusterSwitch</span><span class="p">(</span><span class="n">fluency_lists</span><span class="p">,</span> <span class="n">scheme</span><span class="p">,</span> <span class="n">clustertype</span><span class="o">=</span><span class="s1">&#39;fluid&#39;</span><span class="p">,</span> <span class="n">switchrate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compute the number of cluster switches in a list or nested lists.</span>
+<span class="sd">    Calculate the number of cluster switches in a fluency list (or list of</span>
+<span class="sd">    fluency lists. Alternatively, calculate the switch rate (number of switches</span>
+<span class="sd">    divided by list length).</span>
 
-<span class="sd">    Determines how often the category or type of cluster changes within </span>
-<span class="sd">    a list (or nested list) based on a clustering scheme. Optionally </span>
-<span class="sd">    returns the switch rate (normalized by list length).</span>
+<span class="sd">    This function expects a list of lists. If you want to calculate the number of</span>
+<span class="sd">    cluster switches in a single list, you can wrap it in another list, e.g.,</span>
+<span class="sd">    [fluency_list]</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    l : list</span>
-<span class="sd">        A list of items or a list of lists of items.</span>
-<span class="sd">    scheme : object</span>
-<span class="sd">        Clustering scheme (e.g., semantic or letter-based) used to define clusters.</span>
+<span class="sd">    fluency_lists : list</span>
+<span class="sd">        A list of fluency lists, e.g., fluencydata.labeledlists</span>
+<span class="sd">    scheme : str or int</span>
+<span class="sd">        For semantic fluency data, specify a path indicating clustering scheme</span>
+<span class="sd">        (.csv) to use. For letter fluency data, specify an in integer</span>
+<span class="sd">        indicating the number of initial letters to use as clusters (e.g., 2)</span>
 <span class="sd">    clustertype : str, optional</span>
-<span class="sd">        Type of clustering logic to apply. Options are &#39;fluid&#39; or &#39;static&#39;. Default is &#39;fluid&#39;.</span>
+<span class="sd">        Type of clustering to apply. Default is &#39;fluid&#39;. The other option is &#39;static&#39;.</span>
 <span class="sd">    switchrate : bool, optional</span>
-<span class="sd">        If True, returns the switch count as a proportion of list length. Default is False.</span>
+<span class="sd">        If True, returns the switch rate instead of switch count. Default is False.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    list of float</span>
-<span class="sd">        The number or rate of cluster switches per list or sublist.</span>
+<span class="sd">        A list containing the number of switches in each fluency list.</span>
 <span class="sd">    &quot;&quot;&quot;</span>    
-    <span class="n">clist</span> <span class="o">=</span> <span class="n">findClusters</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">scheme</span><span class="p">,</span> <span class="n">clustertype</span><span class="p">)</span>
+    <span class="n">clist</span> <span class="o">=</span> <span class="n">findClusters</span><span class="p">(</span><span class="n">fluency_lists</span><span class="p">,</span> <span class="n">scheme</span><span class="p">,</span> <span class="n">clustertype</span><span class="p">)</span>
     <span class="n">avglists</span><span class="o">=</span><span class="p">[]</span>
     <span class="k">for</span> <span class="n">inum</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">clist</span><span class="p">):</span>
         <span class="n">avgnum</span><span class="o">=</span><span class="p">[]</span>
@@ -156,46 +155,46 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">switches</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
                 <span class="k">if</span> <span class="n">switchrate</span><span class="p">:</span>
-                    <span class="n">switches</span> <span class="o">=</span> <span class="n">switches</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="n">inum</span><span class="p">])</span>
+                    <span class="n">switches</span> <span class="o">=</span> <span class="n">switches</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">fluency_lists</span><span class="p">[</span><span class="n">inum</span><span class="p">])</span>
                 <span class="n">avglists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">switches</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">avglists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">avglists</span></div>
 
 
-<span class="c1"># report average cluster size for list or nested lists</span>
 <div class="viewcode-block" id="findClusters">
 <a class="viewcode-back" href="../../snafu/clustering.html#snafu.clustering.findClusters">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">findClusters</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">scheme</span><span class="p">,</span> <span class="n">clustertype</span><span class="o">=</span><span class="s1">&#39;fluid&#39;</span><span class="p">):</span>
-    <span class="c1"># only convert items to labels if list of items, not list of lists</span>
-
+<span class="k">def</span><span class="w"> </span><span class="nf">findClusters</span><span class="p">(</span><span class="n">fluency_lists</span><span class="p">,</span> <span class="n">scheme</span><span class="p">,</span> <span class="n">clustertype</span><span class="o">=</span><span class="s1">&#39;fluid&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Find and measure clusters in a list or list of lists.</span>
+<span class="sd">    Calculate the size of each cluster in a fluency list (or list of fluency</span>
+<span class="sd">    lists) and return these cluster sizes as a list. For example, [&#39;dog&#39;,</span>
+<span class="sd">    &#39;cat&#39;, &#39;whale&#39;, &#39;shark&#39;] might return [2, 2], as there are two clusters of</span>
+<span class="sd">    size 2.</span>
 
-<span class="sd">    Clusters are formed based on overlapping categories (semantic or letter).</span>
-<span class="sd">    Returns cluster sizes or nested lists of sizes depending on the input format.</span>
+<span class="sd">    This function is used internally by snafu.clusterSize and snafu.clusterSwitch.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    l : list</span>
-<span class="sd">        A list of items or a list of lists of items.</span>
-<span class="sd">    scheme : object</span>
-<span class="sd">        Clustering scheme to apply (e.g., a semantic mapping file or int for letter clusters).</span>
+<span class="sd">    fluency_lists : list</span>
+<span class="sd">        A list of fluency lists, e.g., fluencydata.labeledlists</span>
+<span class="sd">    scheme : str or int</span>
+<span class="sd">        For semantic fluency data, specify a path indicating clustering scheme</span>
+<span class="sd">        (.csv) to use. For letter fluency data, specify an in integer</span>
+<span class="sd">        indicating the number of initial letters to use as clusters (e.g., 2)</span>
 <span class="sd">    clustertype : str, optional</span>
-<span class="sd">        Type of clustering logic. &#39;fluid&#39; retains overlapping categories; &#39;static&#39; requires consistency. </span>
-<span class="sd">        Default is &#39;fluid&#39;.</span>
+<span class="sd">        Type of clustering to apply. Default is &#39;fluid&#39;. The other option is &#39;static&#39;.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    list</span>
-<span class="sd">        A list of cluster sizes or nested list of cluster sizes.</span>
+<span class="sd">        A list of cluster sizes (or nested list of cluster sizes).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fluency_lists</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="n">clusters</span><span class="o">=</span><span class="n">l</span>
+            <span class="n">clusters</span><span class="o">=</span><span class="n">fluency_lists</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">clusters</span><span class="o">=</span><span class="n">labelClusters</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">scheme</span><span class="p">)</span>
+            <span class="n">clusters</span><span class="o">=</span><span class="n">labelClusters</span><span class="p">(</span><span class="n">fluency_list</span><span class="p">,</span> <span class="n">scheme</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">clusters</span><span class="o">=</span><span class="p">[]</span>
     
@@ -230,33 +229,37 @@
     <span class="k">return</span> <span class="n">clustList</span></div>
 
 
-<span class="c1"># returns labels in place of items for list or nested lists</span>
-<span class="c1"># provide list (l) and coding scheme (external file)</span>
 <div class="viewcode-block" id="labelClusters">
 <a class="viewcode-back" href="../../snafu/clustering.html#snafu.clustering.labelClusters">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">labelClusters</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">scheme</span><span class="p">,</span> <span class="n">labelIntrusions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">targetLetter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-
+<span class="k">def</span><span class="w"> </span><span class="nf">labelClusters</span><span class="p">(</span><span class="n">fluency_lists</span><span class="p">,</span> <span class="n">scheme</span><span class="p">,</span> <span class="n">labelIntrusions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">targetLetter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Convert items into cluster labels based on a clustering scheme.</span>
-
-<span class="sd">    Supports both semantic (dictionary file-based) and letter-based </span>
-<span class="sd">    clustering. Optionally labels unknown items as &quot;intrusion&quot;.</span>
-
+<span class="sd">    Replace each item in a fluency list (or list of fluency lists) with its</span>
+<span class="sd">    category or categories. For example, [&#39;dog&#39;, &#39;cat&#39;, &#39;whale&#39;, &#39;shark&#39;] might</span>
+<span class="sd">    return [&#39;canine;pets&#39;, &#39;pets&#39;, &#39;fish;water&#39;, &#39;fish;water&#39;].</span>
+<span class="sd">    </span>
+<span class="sd">    This function is used internally by snafu.findClusters.</span>
+<span class="sd">   </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    l : list</span>
-<span class="sd">        List or nested list of words/items to label.</span>
+<span class="sd">    fluency_lists : list</span>
+<span class="sd">        A list of fluency lists, e.g., fluencydata.labeledlists</span>
 <span class="sd">    scheme : str or int</span>
-<span class="sd">        Path to a semantic category file (str) or an integer representing the number of letters to use.</span>
+<span class="sd">        For semantic fluency data, specify a path indicating clustering scheme</span>
+<span class="sd">        (.csv) to use. For letter fluency data, specify an in integer</span>
+<span class="sd">        indicating the number of initial letters to use as clusters (e.g., 2)</span>
 <span class="sd">    labelIntrusions : bool, optional</span>
-<span class="sd">        Whether to assign an &quot;intrusion&quot; label to unknown items. Default is False.</span>
+<span class="sd">        When False, intrusions are silently omitted (as if they do not exist).</span>
+<span class="sd">        When True, intrusions are replaced with the pseudo-category label &#39;intrusion&#39;.</span>
+<span class="sd">        Default is False.</span>
 <span class="sd">    targetLetter : str, optional</span>
-<span class="sd">        Restricts labeling to items starting with this letter. Only relevant for letter-based clustering.</span>
+<span class="sd">        For letter fluency data, identifies the target letter. This is</span>
+<span class="sd">        necessary only to identify intrusions (when labelIntrusions is set to</span>
+<span class="sd">        True), otherwise it has no effect. Default is None.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    list</span>
-<span class="sd">        A list (or nested list) of labels corresponding to each item.</span>
+<span class="sd">        A list (or nested list) of categoriesed corresponding to each item.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="o">...</span>
 
@@ -286,7 +289,7 @@
                 <span class="k">if</span> <span class="n">cat</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cats</span><span class="p">[</span><span class="n">item</span><span class="p">]:</span>
                     <span class="n">cats</span><span class="p">[</span><span class="n">item</span><span class="p">]</span><span class="o">=</span><span class="n">cats</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;;&#39;</span> <span class="o">+</span> <span class="n">cat</span>
     <span class="n">labels</span><span class="o">=</span><span class="p">[]</span>
-    <span class="k">for</span> <span class="n">inum</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">inum</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fluency_lists</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">labelClusters</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">scheme</span><span class="p">,</span> <span class="n">labelIntrusions</span><span class="o">=</span><span class="n">labelIntrusions</span><span class="p">,</span> <span class="n">targetLetter</span><span class="o">=</span><span class="n">targetLetter</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>

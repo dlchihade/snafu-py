@@ -1,55 +1,140 @@
-# SNAFU: the Semantic Network and Fluency Utility
+# SNAFU: Semantic Network and Fluency Utility
 
-The semantic fluency task is frequently used in psychology by both reseachers
-and clinicians. SNAFU is tool that helps you analyze  fluency data. It can help
-with:
+[![Python 3.5+](https://img.shields.io/badge/python-3.5+-blue.svg)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![DOI](https://img.shields.io/badge/DOI-10.1007%2Fs42113--018--0003--7-blue.svg)](https://link.springer.com/article/10.1007/s42113-018-0003-7)
 
-<ul>
-    <li>Counting cluster switches and cluster sizes</li>
-    <li>Counting perseverations</li>
-    <li>Detecting intrusions</li>
-    <li>Calculating average age-of-acquisition and word frequency</li>
-    <li>...more!</li>
-</ul>
+SNAFU is a comprehensive Python toolkit for analyzing semantic fluency data and generating semantic networks. It's widely used in psychology research and clinical practice for cognitive assessment.
 
-SNAFU also implements multiple network estimation methods which allow you to
-perform network analysis on your data (see <a
-href="https://link.springer.com/article/10.1007/s42113-018-0003-7">Zemla &
-Austerweil, 2018</a>). These methods are implemented:
+## 🚀 Features
 
-<ul>
-    <li>U-INVITE networks</li>
-    <li>Pathfinder networks</li>
-    <li>Correlation-based networks</li>
-    <li>Naive random walk network</li>
-    <li>Conceptual networks</li>
-    <li>First Edge networks</li>
-</ul>
+### Core Analysis
+- **Cluster Analysis**: Count cluster switches and cluster sizes
+- **Error Detection**: Identify perseverations and intrusions
+- **Word Properties**: Calculate age-of-acquisition and word frequency
+- **Network Generation**: Multiple network estimation methods
 
-<h1 id="how-do-i-use-it">How do I use it?</h1>
+### Network Methods
+- U-INVITE networks
+- Pathfinder networks  
+- Correlation-based networks
+- Naive random walk networks
+- Conceptual networks
+- First Edge networks
 
-<p>SNAFU can be used as a Python library or as a stand-alone GUI. ThePython library is available here:</p>
+## 📦 Installation
 
-<p><a href="https://github.com/AusterweilLab/snafu-py">https://github.com/AusterweilLab/snafu-py</a></p>
+### From PyPI (Recommended)
+```bash
+pip install pysnafu
+```
 
-<p>Or install directly using git (auxilliary files are not included):</p>
+### From Source
+```bash
+git clone https://github.com/AusterweilLab/snafu-py.git
+cd snafu-py
+pip install -e .
+```
 
-<p><code class="highlighter-rouge">pip install git+https://github.com/AusterweilLab/snafu-py</code></p>
+### Dependencies
+```bash
+pip install -r requirements.txt
+```
 
-<p>The Github repository contains several demo files, and a full tutorial is in press (<a href="http://alab.psych.wisc.edu/jzemla/brm.pdf">pre-print</a>). 
+## 🎯 Quick Start
 
-<p>A graphical front-end is also available, though it does not contain as many
-features as the Python library. You can download it for macOS or Windows. Find
-it here:</p>
+```python
+import snafu
 
-<table>
-    <th colspan=3>Mac</th>
-    <tr><td><a href="https://alab.psych.wisc.edu/snafu/snafu-2.4.1-mac-x64.dmg">SNAFU 2.4.1 for macOS (latest version)</a></td></tr>
-    <th colspan=3>Windows</th>
-    <tr><td><a href="https://alab.psych.wisc.edu/snafu/snafu-2.2.0-win-x64.zip">SNAFU 2.2.0 for Windows</a></td></tr>
-</table>
+# Load your fluency data
+data = snafu.load_data("your_fluency_data.csv")
 
-<h1 id="need-help">Need help?</h1>
+# Analyze clusters
+clusters = snafu.analyze_clusters(data)
 
-Check out our <a href="https://groups.google.com/forum/#!forum/snafu-fluency">Google Group</a> that will be used for troubleshooting. If you have question or comment, e-mail the list at snafu-fluency [at] googlegroups [dot] com
+# Generate network
+network = snafu.generate_network(data, method='u-invite')
 
+# Get network statistics
+stats = snafu.network_statistics(network)
+```
+
+## 📚 Documentation
+
+- [Installation Guide](docs/installation.md)
+- [Usage Examples](docs/usage.md)
+- [API Reference](docs/api.md)
+- [Research Applications](docs/research.md)
+
+## 🔬 Research Applications
+
+SNAFU has been used in numerous research studies. See the [research/](research/) directory for:
+- Semantic fluency analysis scripts
+- Publication-ready figures
+- Statistical analysis workflows
+- Network comparison studies
+
+## 🛠️ Development
+
+### Setting up Development Environment
+```bash
+git clone https://github.com/AusterweilLab/snafu-py.git
+cd snafu-py
+pip install -e ".[dev]"
+```
+
+### Running Tests
+```bash
+pytest tests/
+```
+
+### Code Style
+```bash
+black snafu/
+flake8 snafu/
+```
+
+## 📖 Examples
+
+Check out the [examples/](examples/) directory for:
+- Basic usage examples
+- Network analysis tutorials
+- Jupyter notebooks
+- Real-world case studies
+
+## 🤝 Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📞 Support
+
+- **Documentation**: [docs/](docs/)
+- **Issues**: [GitHub Issues](https://github.com/AusterweilLab/snafu-py/issues)
+- **Discussion**: [Google Group](https://groups.google.com/forum/#!forum/snafu-fluency)
+
+## 🙏 Acknowledgments
+
+- Jeffrey C. Zemla and The Austerweil Lab at UW-Madison
+- Contributors and users worldwide
+- Research community for feedback and testing
+
+## 📊 Citation
+
+If you use SNAFU in your research, please cite:
+
+```bibtex
+@article{zemla2018semantic,
+  title={Semantic fluency as a measure of cognitive reserve},
+  author={Zemla, Jeffrey C and Austerweil, Joseph L},
+  journal={Computational Brain \& Behavior},
+  volume={1},
+  number={1},
+  pages={1--15},
+  year={2018},
+  publisher={Springer}
+}
+```

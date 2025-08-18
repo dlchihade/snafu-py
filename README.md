@@ -93,6 +93,8 @@ The Dutch-language schemes for bike parts, fruits, foods, transportation, and fa
 
 The Italian-language animal scheme (snafu_Italian_scheme_Costantini.csv) was provided by Sabia Costantini (Universität Potsdam)
 
+The Galician language animal scheme (GAL_Scheme_AE_SMF.csv) and extended Spanish animal scheme (ES_Scheme_AE_SMF_cleaned.csv) were provided by Ana Estrada (University of Groningen).
+
 If would like to contribute additional files to this repository, and/or would like to change the list citations associated with your work, please contact us.
 
 # Need help?

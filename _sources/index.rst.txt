@@ -44,12 +44,6 @@ To install directly:
 
 The GitHub repository contains several demo files, and a tutorial covering some basic usage is available in Zemla et al., 2020.
 
-If you plan to use the ``correlationBasedNetwork()`` function, install `planarity` separately:
-
-::
-
-    pip install planarity
-
 A graphical front-end is also available, though it contains fewer features than the Python library. Download it here:
 
 **macOS**

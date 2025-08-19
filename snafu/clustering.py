@@ -30,7 +30,7 @@ def clusterSize(fluency_lists, scheme, clustertype='fluid'):
     for i in clist:
         avglist=[]
         for l in i:
-            avglist.append(np.mean(l))
+            avglist.append(np.mean(fluency_lists))
         avglists.append(np.mean(avglist))
     return avglists
 

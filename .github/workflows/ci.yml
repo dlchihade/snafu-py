@@ -43,4 +43,15 @@ jobs:
           # Ensures imports work even if you didn’t install the package
           PYTHONPATH: ${{ github.workspace }}
         run: |
-          python -m pytest tests -q --disable-warnings --maxfail=1
+            set -euo pipefail
+            echo "PWD: $(pwd)"
+            echo "Repo root contents:"; ls -la
+            # Find a directory literally named 'tests' within the repo (depth 2 is enough here)
+            TESTDIR="$(find . -maxdepth 2 -type d -name tests | head -n1)"
+            if [ -z "$TESTDIR" ]; then
+              echo "::error::Could not find a 'tests' directory"; exit 1
+            fi
+            echo "Found tests at: $TESTDIR"
+            cd "$TESTDIR"
+            echo "Now in: $(pwd)"; ls -la
+            python -m pytest -q --disable-warnings --maxfail=1

@@ -71,7 +71,7 @@ def clusterSwitch(fluency_lists, scheme, clustertype='fluid', switchrate=False):
                 for lstnum, lst in enumerate(i):
                     switches = len(lst)-1
                     if switchrate:
-                        switches = switches / len(l[inum][lstnum])
+                        switches = switches / len(fluency_lists[inum][lstnum])
                     avgnum.append(switches)
                 avglists.append(np.mean(avgnum))
             else:
@@ -110,10 +110,10 @@ def findClusters(fluency_lists, scheme, clustertype='fluid'):
     """
 
     if len(fluency_lists) > 0:
-        if isinstance(l[0], list):
+        if isinstance(fluency_lists[0], list):
             clusters=fluency_lists
         else:
-            clusters=labelClusters(fluency_list, scheme)
+            clusters=labelClusters(fluency_lists, scheme)
     else:
         clusters=[]
     

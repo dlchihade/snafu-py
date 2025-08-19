@@ -19,3 +19,6 @@ matplotlib
 # Optional: Syntax highlighting
 Pygments>=2.16.0
 
+# Test dependencies
+pytest
+pytest-cov

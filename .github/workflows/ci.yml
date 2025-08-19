@@ -42,4 +42,4 @@ jobs:
           # Ensures imports work even if you didn’t install the package
           PYTHONPATH: ${{ github.workspace }}
         run: |
-          pytest
+          python -m pytest tests -q --disable-warnings --maxfail=1

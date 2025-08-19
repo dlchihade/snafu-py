@@ -2,7 +2,7 @@ import numpy as np
 from . import *
 
 def intrusionsList(l, scheme):  
-        """
+    """
     Identify intrusions in fluency lists based on a target scheme.
 
     Parameters
@@ -16,8 +16,7 @@ def intrusionsList(l, scheme):
     Returns
     -------
     list
-        A list of intruded items for each list or participant. Maintains original hierarchical structure.
-    """      
+        A list of intruded items for each list or participant. Maintains original hierarchical structure."""      
     if len(l) > 0:
         if isinstance(l[0][0], list):
             intrusion_items = [intrusionsList(i, scheme) for i in l]

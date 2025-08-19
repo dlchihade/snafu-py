@@ -8,51 +8,56 @@ from functools import reduce
 
 #jump probability
 
-def estimateJumpProbability(fluency_list, group_network, data_model):
+import numpy as np
+import math
 
+def estimateJumpProbability(group_network, data_model, fluency_list):
     """
-    Estimate the best jump probability using likelihood maximization.
-
-    This function tries different jump probabilities between 0.01 and 0.99
-    and evaluates which one maximizes the likelihood of the data under the
-    current model.
+    Grid-search jump in [0.01, 0.99] to maximize likelihood for ONE fluency list.
 
     Parameters
     ----------
-    fluency_list : list
-        A list of observed sequences (fluency responses).
-    group_network : array-like
-        The group-level graph adjacency matrix.
+    group_network : np.ndarray (N x N)
+        Adjacency matrix for the known network.
     data_model : DataModel
-        The current data model configuration (e.g., jump, priming settings).
+        SNAFU data model. Only the `.jump` field is varied here.
+    fluency_list : list[int]
+        Single fluency list as item indices aligned to group_network.
 
     Returns
     -------
     float
-        Best jump probability.
-    float
-        Best log-likelihood score.
-    list of float
-        Log-probabilities of each transition under the best jump.
+        Best jump probability (0.01..0.99).
     """
+    # Basic checks
+    A = np.asarray(group_network, dtype=float)
+    if A.ndim != 2 or A.shape[0] != A.shape[1]:
+        raise ValueError("group_network must be a square adjacency matrix.")
+    if not fluency_list:
+        raise ValueError("fluency_list must be non-empty.")
 
-    best_jump = -1
+    original_jump = getattr(data_model, "jump", 0.0)
+
+    best_jump = None
     best_ll = -np.inf
-    best_ll_by_transition = []
 
-    for i in range(1, 101):  # Try jump from 0.01 to 0.99
-        jump_val = i / 100.0
-        data_model.jump = jump_val
+    try:
+        # Sweep 0.01, 0.02, ..., 0.99
+        for i in range(1, 100):
+            data_model.jump = i / 100.0
+            ll, _ = probX([fluency_list], A, data_model)
+            if ll > best_ll:
+                best_ll = ll
+                best_jump = data_model.jump
+    finally:
+        # restore caller’s value no matter what
+        data_model.jump = original_jump
 
-        ll, p_by_transition = snafu.probX([fluency_list], group_network, data_model)
+    if best_jump is None or not math.isfinite(best_ll):
+        raise RuntimeError("Failed to find a valid jump over 0.01..0.99.")
 
-        if ll > best_ll:
-            best_ll = ll
-            best_jump = jump_val
-            best_ll_by_transition = [math.log(x) for x in snafu.addJumps(
-                p_by_transition, data_model, numnodes=len(group_network))[0]]
+    return best_jump
 
-    return best_jump, best_ll, best_ll_by_transition
 
 # alias for backwards compatibility
 def communitynetwork(*args, **kwargs):

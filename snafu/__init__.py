@@ -38,3 +38,4 @@ from .irts import *
 
 from .core import *
 from . import gui
+from .core import estimateJumpProbability

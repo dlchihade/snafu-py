@@ -38,6 +38,7 @@ jobs:
           if [ -f pyproject.toml ] || [ -f setup.py ]; then pip install -e .; fi
 
       - name: Run tests
+        working-directory: tests
         env:
           # Ensures imports work even if you didn’t install the package
           PYTHONPATH: ${{ github.workspace }}

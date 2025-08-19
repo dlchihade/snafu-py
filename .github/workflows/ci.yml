@@ -32,26 +32,16 @@ jobs:
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
-          # If your package is installable, this will work; if not, no problem—PYTHONPATH handles it.
-          if [ -f pyproject.toml ] || [ -f setup.py ]; then pip install -e .; fi
+          [ -f requirements.txt ] && python -m pip install -r requirements.txt
+          python -m pip install pytest pytest-cov
+          # install package so `import snafu` works
+          [ -f setup.py ] || [ -f pyproject.toml ] && python -m pip install -e .
 
-      - name: Run tests
+      - name: Run tests (cwd=tests so ../fluency_data paths work)
         working-directory: tests
         env:
-          # Ensures imports work even if you didn’t install the package
           PYTHONPATH: ${{ github.workspace }}
         run: |
-            set -euo pipefail
-            echo "PWD: $(pwd)"
-            echo "Repo root contents:"; ls -la
-            # Find a directory literally named 'tests' within the repo (depth 2 is enough here)
-            TESTDIR="$(find . -maxdepth 2 -type d -name tests | head -n1)"
-            if [ -z "$TESTDIR" ]; then
-              echo "::error::Could not find a 'tests' directory"; exit 1
-            fi
-            echo "Found tests at: $TESTDIR"
-            cd "$TESTDIR"
-            echo "Now in: $(pwd)"; ls -la
-            python -m pytest -q --disable-warnings --maxfail=1
+          pwd
+          ls -la
+          python -m pytest -q --disable-warnings --maxfail=1

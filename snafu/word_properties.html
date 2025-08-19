@@ -61,7 +61,12 @@
 <li class="toctree-l2"><a class="reference internal" href="search.html">search</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structs.html">structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="triadic.html">triadic</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">word_properties</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">word_properties</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.word_properties.ageOfAcquisition"><code class="docutils literal notranslate"><span class="pre">ageOfAcquisition()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.word_properties.wordFrequency"><code class="docutils literal notranslate"><span class="pre">wordFrequency()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.word_properties.wordStat"><code class="docutils literal notranslate"><span class="pre">wordStat()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -91,8 +96,92 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="word-properties">
-<h1>word_properties<a class="headerlink" href="#word-properties" title="Link to this heading"></a></h1>
+  <section id="module-snafu.word_properties">
+<span id="word-properties"></span><h1>word_properties<a class="headerlink" href="#module-snafu.word_properties" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.word_properties.ageOfAcquisition">
+<span class="sig-prename descclassname"><span class="pre">snafu.word_properties.</span></span><span class="sig-name descname"><span class="pre">ageOfAcquisition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">missing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/word_properties.html#ageOfAcquisition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.word_properties.ageOfAcquisition" title="Link to this definition"></a></dt>
+<dd><p>Compute average age of acquisition (AoA) for fluency responses.</p>
+<p>This function loads a dictionary of age-of-acquisition scores and computes
+average values for each list or participant.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subj</strong> (<em>list</em>) – Fluency data. Can be a list of lists (non-hierarchical) or list of list of lists (hierarchical).</p></li>
+<li><p><strong>missing</strong> (<em>float</em><em>, </em><em>optional</em>) – Value to use for words not found in the AoA dictionary. If None, such words are excluded.</p></li>
+<li><p><strong>data</strong> (<em>str</em>) – Path to a CSV file containing AoA scores. File should have columns: ‘word’, ‘val’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>For hierarchical data: a tuple of (list of average AoA per individual, list of excluded words).
+For non-hierarchical data: a tuple of (list of AoA scores per list, list of excluded words).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list or tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.word_properties.wordFrequency">
+<span class="sig-prename descclassname"><span class="pre">snafu.word_properties.</span></span><span class="sig-name descname"><span class="pre">wordFrequency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">missing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/word_properties.html#wordFrequency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.word_properties.wordFrequency" title="Link to this definition"></a></dt>
+<dd><p>Compute average word frequency for fluency responses.</p>
+<p>This function loads a word frequency dictionary from a file and computes
+average frequency scores for each list or participant. It supports both
+hierarchical and non-hierarchical fluency data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subj</strong> (<em>list</em>) – Fluency data. Can be a list of lists (non-hierarchical) or a list of list of lists (hierarchical).</p></li>
+<li><p><strong>missing</strong> (<em>float</em><em>, </em><em>optional</em>) – Value to substitute for missing words not found in the frequency dictionary (default is 0.5).</p></li>
+<li><p><strong>data</strong> (<em>str</em>) – Path to a CSV file containing word frequencies. File should have columns: ‘word’, ‘val’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>For hierarchical data: a tuple of (list of average frequencies per individual, list of excluded words).
+For non-hierarchical data: a tuple of (list of frequencies per list, list of excluded words).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list or tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.word_properties.wordStat">
+<span class="sig-prename descclassname"><span class="pre">snafu.word_properties.</span></span><span class="sig-name descname"><span class="pre">wordStat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">missing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/word_properties.html#wordStat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.word_properties.wordStat" title="Link to this definition"></a></dt>
+<dd><p>Compute word-level statistics (e.g., frequency or AoA) from a word-to-value dictionary.</p>
+<p>Loads a dictionary mapping words to numeric values (e.g., frequency, AoA), then computes
+mean values for each list. Handles missing words either by substitution or exclusion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subj</strong> (<em>list</em><em> of </em><em>list</em><em> of </em><em>str</em>) – List(s) of words for which to compute statistics.</p></li>
+<li><p><strong>missing</strong> (<em>float</em><em>, </em><em>optional</em>) – Value to substitute for missing words. If None, missing words are excluded from computation.</p></li>
+<li><p><strong>data</strong> (<em>str</em>) – Path to a CSV file with ‘word’ and ‘val’ columns.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><dl class="simple">
+<dt>word_val<span class="classifier">list of float</span></dt><dd><p>Mean value for each list (e.g., frequency or AoA).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>words_excluded<span class="classifier">list of list of str</span></dt><dd><p>Words not found in the dictionary for each list.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

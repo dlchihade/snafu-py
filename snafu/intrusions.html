@@ -53,7 +53,11 @@
 <li class="toctree-l2"><a class="reference internal" href="generate_lists.html">generate_lists</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gui.html">gui</a></li>
 <li class="toctree-l2"><a class="reference internal" href="helper.html">helper</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">intrusions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">intrusions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.intrusions.intrusions"><code class="docutils literal notranslate"><span class="pre">intrusions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.intrusions.intrusionsList"><code class="docutils literal notranslate"><span class="pre">intrusionsList()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="io.html">io</a></li>
 <li class="toctree-l2"><a class="reference internal" href="irts.html">irts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="netstats.html">netstats</a></li>
@@ -92,8 +96,49 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="intrusions">
-<h1>intrusions<a class="headerlink" href="#intrusions" title="Link to this heading"></a></h1>
+  <section id="module-snafu.intrusions">
+<span id="intrusions"></span><h1>intrusions<a class="headerlink" href="#module-snafu.intrusions" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.intrusions.intrusions">
+<span class="sig-prename descclassname"><span class="pre">snafu.intrusions.</span></span><span class="sig-name descname"><span class="pre">intrusions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/intrusions.html#intrusions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.intrusions.intrusions" title="Link to this definition"></a></dt>
+<dd><p>Compute number of intrusions per list or per participant.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l</strong> (<em>list</em>) – Fluency data, either a list of lists (non-hierarchical) or a list of list of lists (hierarchical).</p></li>
+<li><p><strong>scheme</strong> (<em>list</em><em> or </em><em>str</em>) – Target category or categories used to identify intrusions.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of intrusions per list (non-hierarchical) or mean intrusions per participant (hierarchical).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.intrusions.intrusionsList">
+<span class="sig-prename descclassname"><span class="pre">snafu.intrusions.</span></span><span class="sig-name descname"><span class="pre">intrusionsList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/intrusions.html#intrusionsList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.intrusions.intrusionsList" title="Link to this definition"></a></dt>
+<dd><p>Identify intrusions in fluency lists based on a target scheme.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>l</strong> (<em>list</em>) – A list of lists representing recalled items. Can be hierarchical (list of lists of lists).</p></li>
+<li><p><strong>scheme</strong> (<em>list</em><em> or </em><em>str</em>) – Target category or categories used to identify intrusions. Can be a single category (str)
+or a list specifying valid categories.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of intruded items for each list or participant. Maintains original hierarchical structure.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

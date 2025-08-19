@@ -51,7 +51,19 @@
 <li class="toctree-l2"><a class="reference internal" href="core.html">core</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generate_graphs.html">generate_graphs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generate_lists.html">generate_lists</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">gui</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">gui</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.gui.analyze_graph"><code class="docutils literal notranslate"><span class="pre">analyze_graph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.gui.data_properties"><code class="docutils literal notranslate"><span class="pre">data_properties()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.gui.error"><code class="docutils literal notranslate"><span class="pre">error()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.gui.generate_csv_file"><code class="docutils literal notranslate"><span class="pre">generate_csv_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.gui.graph_properties"><code class="docutils literal notranslate"><span class="pre">graph_properties()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.gui.jsonGraph"><code class="docutils literal notranslate"><span class="pre">jsonGraph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.gui.label_to_filepath"><code class="docutils literal notranslate"><span class="pre">label_to_filepath()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.gui.list_subjects_and_categories"><code class="docutils literal notranslate"><span class="pre">list_subjects_and_categories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.gui.network_properties"><code class="docutils literal notranslate"><span class="pre">network_properties()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.gui.quit"><code class="docutils literal notranslate"><span class="pre">quit()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="helper.html">helper</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intrusions.html">intrusions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="io.html">io</a></li>
@@ -92,8 +104,161 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="gui">
-<h1>gui<a class="headerlink" href="#gui" title="Link to this heading"></a></h1>
+  <section id="module-snafu.gui">
+<span id="gui"></span><h1>gui<a class="headerlink" href="#module-snafu.gui" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.gui.analyze_graph">
+<span class="sig-prename descclassname"><span class="pre">snafu.gui.</span></span><span class="sig-name descname"><span class="pre">analyze_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/gui.html#analyze_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.gui.analyze_graph" title="Link to this definition"></a></dt>
+<dd><p>Loads a graph from JSON file and computes its properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>command</strong> (<em>dict</em>) – Dictionary containing ‘fullpath’ to the JSON graph file.</p></li>
+<li><p><strong>root_path</strong> (<em>str</em>) – Root path (not used in function).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Graph properties including degree, density, and clustering.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.gui.data_properties">
+<span class="sig-prename descclassname"><span class="pre">snafu.gui.</span></span><span class="sig-name descname"><span class="pre">data_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/gui.html#data_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.gui.data_properties" title="Link to this definition"></a></dt>
+<dd><p>Compute descriptive properties of the fluency data including intrusions, perseverations,
+cluster sizes, frequency, and age of acquisition statistics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>command</strong> (<em>dict</em>) – Dictionary with nested ‘data_parameters’ including cluster scheme, subject selection, and imputation values.</p></li>
+<li><p><strong>root_path</strong> (<em>str</em>) – Root directory containing the data and auxiliary files.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary containing computed data metrics and values for further GUI rendering.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.gui.error">
+<span class="sig-prename descclassname"><span class="pre">snafu.gui.</span></span><span class="sig-name descname"><span class="pre">error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/gui.html#error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.gui.error" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.gui.generate_csv_file">
+<span class="sig-prename descclassname"><span class="pre">snafu.gui.</span></span><span class="sig-name descname"><span class="pre">generate_csv_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/gui.html#generate_csv_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.gui.generate_csv_file" title="Link to this definition"></a></dt>
+<dd><p>Converts a dictionary of lists into a CSV-formatted string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>json_file</strong> (<em>dict</em>) – Dictionary where each key is a column name and each value is a list of values.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>CSV-formatted string with header and rows.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.gui.graph_properties">
+<span class="sig-prename descclassname"><span class="pre">snafu.gui.</span></span><span class="sig-name descname"><span class="pre">graph_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nxg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nxg_json</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/gui.html#graph_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.gui.graph_properties" title="Link to this definition"></a></dt>
+<dd><p>Computes graph-level properties from a NetworkX graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nxg</strong> (<em>networkx.Graph</em>) – The input graph.</p></li>
+<li><p><strong>nxg_json</strong> (<em>dict</em>) – JSON-serializable format of the same graph.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary of computed metrics including degree, density, clustering, and betweenness.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.gui.jsonGraph">
+<span class="sig-prename descclassname"><span class="pre">snafu.gui.</span></span><span class="sig-name descname"><span class="pre">jsonGraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/gui.html#jsonGraph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.gui.jsonGraph" title="Link to this definition"></a></dt>
+<dd><p>Convert a NetworkX graph to a JSON-compatible format, including node labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>g</strong> (<em>networkx.Graph</em>) – Input NetworkX graph.</p></li>
+<li><p><strong>items</strong> (<em>list</em><em> of </em><em>str</em>) – List of item labels indexed by node ID.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary formatted for JSON export with labeled nodes and uniquely indexed edges.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.gui.label_to_filepath">
+<span class="sig-prename descclassname"><span class="pre">snafu.gui.</span></span><span class="sig-name descname"><span class="pre">label_to_filepath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filetype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/gui.html#label_to_filepath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.gui.label_to_filepath" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.gui.list_subjects_and_categories">
+<span class="sig-prename descclassname"><span class="pre">snafu.gui.</span></span><span class="sig-name descname"><span class="pre">list_subjects_and_categories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/gui.html#list_subjects_and_categories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.gui.list_subjects_and_categories" title="Link to this definition"></a></dt>
+<dd><p>Extract unique subject IDs, categories, and groups from a CSV file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>command</strong> (<em>dict</em>) – Dictionary containing the key <cite>‘fullpath’</cite> to the input CSV file.</p></li>
+<li><p><strong>root_path</strong> (<em>str</em>) – Root directory path (unused in this function but kept for interface consistency).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary with subject metadata and default selected values for subject, category, and group.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.gui.network_properties">
+<span class="sig-prename descclassname"><span class="pre">snafu.gui.</span></span><span class="sig-name descname"><span class="pre">network_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/gui.html#network_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.gui.network_properties" title="Link to this definition"></a></dt>
+<dd><p>Infers a network structure from fluency data using the selected algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>command</strong> (<em>dict</em>) – Dictionary with ‘data_parameters’ and ‘network_parameters’.</p></li>
+<li><p><strong>root_path</strong> (<em>str</em>) – Root directory to access supporting files such as priors or spell files.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Network statistics and graph structure in JSON format.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.gui.quit">
+<span class="sig-prename descclassname"><span class="pre">snafu.gui.</span></span><span class="sig-name descname"><span class="pre">quit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/gui.html#quit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.gui.quit" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </section>
 
 

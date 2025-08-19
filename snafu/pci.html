@@ -57,7 +57,13 @@
 <li class="toctree-l2"><a class="reference internal" href="io.html">io</a></li>
 <li class="toctree-l2"><a class="reference internal" href="irts.html">irts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="netstats.html">netstats</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">pci</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pci</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.pci.contfractbeta"><code class="docutils literal notranslate"><span class="pre">contfractbeta()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.pci.incomplete_beta"><code class="docutils literal notranslate"><span class="pre">incomplete_beta()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.pci.pci_lowerbound"><code class="docutils literal notranslate"><span class="pre">pci_lowerbound()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.pci.ppf"><code class="docutils literal notranslate"><span class="pre">ppf()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="perseverations.html">perseverations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="search.html">search</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structs.html">structs</a></li>
@@ -92,8 +98,102 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="pci">
-<h1>pci<a class="headerlink" href="#pci" title="Link to this heading"></a></h1>
+  <section id="module-snafu.pci">
+<span id="pci"></span><h1>pci<a class="headerlink" href="#module-snafu.pci" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.pci.contfractbeta">
+<span class="sig-prename descclassname"><span class="pre">snafu.pci.</span></span><span class="sig-name descname"><span class="pre">contfractbeta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ITMAX</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/pci.html#contfractbeta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.pci.contfractbeta" title="Link to this definition"></a></dt>
+<dd><p>contfractbeta() evaluates the continued fraction form of the incomplete Beta function; incompbeta().
+(Code translated from: Numerical Recipes in C.)
+:param a: Alpha parameter of the beta distribution (a &gt; 0).
+:type a: float
+:param b: Beta parameter of the beta distribution (b &gt; 0).
+:type b: float
+:param x: The evaluation point (0 &lt;= x &lt;= 1).
+:type x: float
+:param ITMAX: Maximum number of iterations (default is 200).
+:type ITMAX: int, optional</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Continued fraction approximation of the incomplete beta function.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.pci.incomplete_beta">
+<span class="sig-prename descclassname"><span class="pre">snafu.pci.</span></span><span class="sig-name descname"><span class="pre">incomplete_beta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/pci.html#incomplete_beta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.pci.incomplete_beta" title="Link to this definition"></a></dt>
+<dd><p>incompbeta(a,b,x) evaluates incomplete beta function, here a, b &gt; 0 and 0 &lt;= x &lt;= 1. This function requires contfractbeta(a,b,x, ITMAX = 200)
+(Code translated from: Numerical Recipes in C.)
+:param a: Alpha parameter (a &gt; 0).
+:type a: float
+:param b: Beta parameter (b &gt; 0).
+:type b: float
+:param x: Evaluation point (0 &lt;= x &lt;= 1).
+:type x: float</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Value of the regularized incomplete beta function at <cite>x</cite>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.pci.pci_lowerbound">
+<span class="sig-prename descclassname"><span class="pre">snafu.pci.</span></span><span class="sig-name descname"><span class="pre">pci_lowerbound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cooccur</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/pci.html#pci_lowerbound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.pci.pci_lowerbound" title="Link to this definition"></a></dt>
+<dd><p>Compute the lower bound of a confidence interval using the Clopper-Pearson method.</p>
+<p>This is a conservative (exact) method for estimating a binomial proportion’s
+confidence interval using the inverse incomplete beta function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cooccur</strong> (<em>int</em>) – Number of successes (co-occurrences).</p></li>
+<li><p><strong>total</strong> (<em>int</em>) – Total number of trials.</p></li>
+<li><p><strong>alpha</strong> (<em>float</em>) – Significance level (e.g., 0.05 for 95% CI).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Lower bound of the (1 - alpha) confidence interval.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.pci.ppf">
+<span class="sig-prename descclassname"><span class="pre">snafu.pci.</span></span><span class="sig-name descname"><span class="pre">ppf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">span</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">11</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/pci.html#ppf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.pci.ppf" title="Link to this definition"></a></dt>
+<dd><p>Invert the incomplete beta function to find the quantile (percent point function).</p>
+<p>Uses binary search to find the quantile corresponding to a given cumulative
+probability <cite>alpha_2</cite>. This approximates the inverse of the beta CDF.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>alpha_2</strong> (<em>float</em>) – Target probability (between 0 and 1).</p></li>
+<li><p><strong>a</strong> (<em>float</em>) – Alpha parameter of the beta distribution.</p></li>
+<li><p><strong>b</strong> (<em>float</em>) – Beta parameter of the beta distribution.</p></li>
+<li><p><strong>lower</strong> (<em>float</em><em>, </em><em>optional</em>) – Lower bound for the search interval (default is 0.0).</p></li>
+<li><p><strong>upper</strong> (<em>float</em><em>, </em><em>optional</em>) – Upper bound for the search interval (default is 1.0).</p></li>
+<li><p><strong>span</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of evenly spaced points to test in the interval (default is 11).</p></li>
+<li><p><strong>maxiter</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum recursion depth for binary search (default is 20).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Quantile corresponding to <cite>alpha_2</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

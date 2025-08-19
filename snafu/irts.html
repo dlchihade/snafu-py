@@ -55,7 +55,12 @@
 <li class="toctree-l2"><a class="reference internal" href="helper.html">helper</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intrusions.html">intrusions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="io.html">io</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">irts</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">irts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.irts.expectedHidden"><code class="docutils literal notranslate"><span class="pre">expectedHidden()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.irts.stepsToIRT"><code class="docutils literal notranslate"><span class="pre">stepsToIRT()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.irts.trim_lists"><code class="docutils literal notranslate"><span class="pre">trim_lists()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="netstats.html">netstats</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pci.html">pci</a></li>
 <li class="toctree-l2"><a class="reference internal" href="perseverations.html">perseverations</a></li>
@@ -92,8 +97,114 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="irts">
-<h1>irts<a class="headerlink" href="#irts" title="Link to this heading"></a></h1>
+  <section id="module-snafu.irts">
+<span id="irts"></span><h1>irts<a class="headerlink" href="#module-snafu.irts" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.irts.expectedHidden">
+<span class="sig-prename descclassname"><span class="pre">snafu.irts.</span></span><span class="sig-name descname"><span class="pre">expectedHidden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/irts.html#expectedHidden"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.irts.expectedHidden" title="Link to this definition"></a></dt>
+<dd><p>Compute expected number of hidden node visits for each position in sequences.</p>
+<p>This function takes a list of index sequences and a transition count matrix,
+and calculates the expected number of hidden transitions (i.e., visits to
+intermediate nodes) between each pair of observed nodes in the sequence,
+assuming a Markov process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Xs</strong> (<em>list</em><em> of </em><em>list</em><em> of </em><em>int</em>) – A list of sequences, where each sequence is a list of node indices.
+Each sequence represents observed states in order.</p></li>
+<li><p><strong>a</strong> (<em>ndarray</em><em> of </em><em>shape</em><em> (</em><em>n</em><em>, </em><em>n</em><em>)</em>) – A square matrix representing raw transition counts between <cite>n</cite> nodes.
+The matrix will be normalized to form a transition probability matrix.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>expecteds</strong> – A list where each element corresponds to a sequence in <cite>Xs</cite>, and contains
+the expected number of hidden node visits between each consecutive pair
+of observed nodes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of list of float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.irts.stepsToIRT">
+<span class="sig-prename descclassname"><span class="pre">snafu.irts.</span></span><span class="sig-name descname"><span class="pre">stepsToIRT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">irts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/irts.html#stepsToIRT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.irts.stepsToIRT" title="Link to this definition"></a></dt>
+<dd><p>Convert step-based inter-response times (IRTs) to simulated time-based IRTs.</p>
+<p>This function takes a set of IRTs (interpreted as mean durations in steps) and
+simulates corresponding continuous-valued IRTs based on a specified distribution
+type. It supports gamma and ex-Gaussian distributions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>irts</strong> (<em>object</em>)</p></li>
+<li><p><strong>containing</strong> (<em>An object</em>) – <ul>
+<li><dl class="simple">
+<dt><cite>data</cite><span class="classifier">list of list of float</span></dt><dd><p>Step-based IRTs for each trial or sequence.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><cite>irttype</cite><span class="classifier">{‘gamma’, ‘exgauss’}</span></dt><dd><p>Type of distribution used to simulate real-valued IRTs.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><cite>gamma_beta</cite><span class="classifier">float, optional</span></dt><dd><p>Inverse scale parameter (rate) for the gamma distribution.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><cite>exgauss_sigma</cite><span class="classifier">float, optional</span></dt><dd><p>Standard deviation of the Gaussian component for the ex-Gaussian distribution.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><cite>exgauss_lambda</cite><span class="classifier">float, optional</span></dt><dd><p>Rate parameter of the exponential component for the ex-Gaussian distribution.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Random seed for reproducibility.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>new_irts</strong> – Simulated time-based IRTs, one list per sequence in the input.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of list of float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.irts.trim_lists">
+<span class="sig-prename descclassname"><span class="pre">snafu.irts.</span></span><span class="sig-name descname"><span class="pre">trim_lists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trimprop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/irts.html#trim_lists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.irts.trim_lists" title="Link to this definition"></a></dt>
+<dd><p>Trim sequences to a fixed length or proportion and identify unused nodes.</p>
+<p>This function is primarily used to simulate human data that does not
+fully cover the entire graph. Although its functionality has been mostly
+moved to <cite>genX</cite>, it may still be useful in niche cases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trimprop</strong> (<em>float</em><em> or </em><em>int</em>) – If ≤ 1, interpreted as the proportion of each list to retain.
+If &gt; 1, interpreted as the absolute number of items to retain.</p></li>
+<li><p><strong>Xs</strong> (<em>list</em><em> of </em><em>list</em><em> of </em><em>int</em>) – Sequences of node indices (e.g., search paths) through a graph.</p></li>
+<li><p><strong>steps</strong> (<em>list</em><em> of </em><em>list</em>) – Sequences of step-related values, aligned with <cite>Xs</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>Xs_trimmed</strong> (<em>list of list of int</em>) – Trimmed node index sequences.</p></li>
+<li><p><strong>steps_trimmed</strong> (<em>list of list</em>) – Corresponding trimmed step sequences.</p></li>
+<li><p><strong>alter_graph_size</strong> (<em>int</em>) – 1 if any graph nodes are unused after trimming, else 0.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

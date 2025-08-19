@@ -61,7 +61,13 @@
 <li class="toctree-l2"><a class="reference internal" href="perseverations.html">perseverations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="search.html">search</a></li>
 <li class="toctree-l2"><a class="reference internal" href="structs.html">structs</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">triadic</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">triadic</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.triadic.commonNode"><code class="docutils literal notranslate"><span class="pre">commonNode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.triadic.similarity"><code class="docutils literal notranslate"><span class="pre">similarity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.triadic.triadicComparison"><code class="docutils literal notranslate"><span class="pre">triadicComparison()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.triadic.triadicMonteCarlo"><code class="docutils literal notranslate"><span class="pre">triadicMonteCarlo()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="word_properties.html">word_properties</a></li>
 </ul>
 </li>
@@ -92,8 +98,114 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="triadic">
-<h1>triadic<a class="headerlink" href="#triadic" title="Link to this heading"></a></h1>
+  <section id="module-snafu.triadic">
+<span id="triadic"></span><h1>triadic<a class="headerlink" href="#module-snafu.triadic" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.triadic.commonNode">
+<span class="sig-prename descclassname"><span class="pre">snafu.triadic.</span></span><span class="sig-name descname"><span class="pre">commonNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numsims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jumpval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/triadic.html#commonNode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.triadic.commonNode" title="Link to this definition"></a></dt>
+<dd><p>Estimate common reachable nodes between two start nodes via random walk simulations.</p>
+<p>Simulates two independent random walks (starting from node1 and node2),
+and identifies first common nodes encountered. The resulting dictionary
+ranks items by their shared visitation likelihood.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<em>ndarray</em><em> or </em><em>scipy sparse matrix</em>) – Adjacency or transition matrix of the graph.</p></li>
+<li><p><strong>items</strong> (<em>dict</em>) – Mapping from node index to item label.</p></li>
+<li><p><strong>node1</strong> (<em>str</em>) – Label of the first start node.</p></li>
+<li><p><strong>node2</strong> (<em>str</em>) – Label of the second start node.</p></li>
+<li><p><strong>numsims</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of simulation runs (default is 100).</p></li>
+<li><p><strong>jumpval</strong> (<em>float</em><em>, </em><em>optional</em>) – Probability of jumping back to the start node at each step (default is 0.0).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sorted list of (item, probability) pairs indicating common nodes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.triadic.similarity">
+<span class="sig-prename descclassname"><span class="pre">snafu.triadic.</span></span><span class="sig-name descname"><span class="pre">similarity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'inf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jumpval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/triadic.html#similarity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.triadic.similarity" title="Link to this definition"></a></dt>
+<dd><p>Compute choice probabilities via absorbing Markov chain from a start node to alternatives.</p>
+<p>Given a start node and a set of choice nodes, computes the probability of
+reaching each choice node based on either infinite or step-limited transitions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<em>ndarray</em>) – Adjacency or transition matrix.</p></li>
+<li><p><strong>items</strong> (<em>dict</em>) – Mapping from node index to item label.</p></li>
+<li><p><strong>start</strong> (<em>str</em>) – Starting item label.</p></li>
+<li><p><strong>choices</strong> (<em>list</em><em> of </em><em>str</em>) – Target item labels to compare against.</p></li>
+<li><p><strong>steps</strong> (<em>int</em><em> or </em><em>str</em><em>, </em><em>optional</em>) – Maximum number of steps to simulate (“inf” for full absorbing solution).</p></li>
+<li><p><strong>jumpval</strong> (<em>float</em><em>, </em><em>optional</em>) – Jump-back probability to restart from start node at each step.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If steps is “inf”, returns vector of probabilities for each choice.
+If steps is int, returns list of probabilities for each step.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of float or list of list of float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.triadic.triadicComparison">
+<span class="sig-prename descclassname"><span class="pre">snafu.triadic.</span></span><span class="sig-name descname"><span class="pre">triadicComparison</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">triad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steplimit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jumpval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/triadic.html#triadicComparison"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.triadic.triadicComparison" title="Link to this definition"></a></dt>
+<dd><p>Perform analytic triadic comparison based on absorbing Markov chain dynamics.</p>
+<p>Simulates walks from each node in a triad toward the other two, accumulating
+evidence for which pair is most similar based on termination probabilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<em>ndarray</em>) – Adjacency or transition matrix.</p></li>
+<li><p><strong>items</strong> (<em>dict</em>) – Mapping from node index to item label.</p></li>
+<li><p><strong>triad</strong> (<em>list</em><em> of </em><em>str</em>) – Three item labels to compare.</p></li>
+<li><p><strong>steplimit</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum number of steps to simulate (default is 200).</p></li>
+<li><p><strong>jumpval</strong> (<em>float</em><em>, </em><em>optional</em>) – Probability of jumping back to the start node at each step (default is 0.0).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Probabilities corresponding to similarity judgments:
+[P(A similar to B), P(A similar to C), P(B similar to C)]</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.triadic.triadicMonteCarlo">
+<span class="sig-prename descclassname"><span class="pre">snafu.triadic.</span></span><span class="sig-name descname"><span class="pre">triadicMonteCarlo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">triad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numsims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jumpval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/triadic.html#triadicMonteCarlo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.triadic.triadicMonteCarlo" title="Link to this definition"></a></dt>
+<dd><p>Simulate triadic comparison task using random walks.</p>
+<p>For each simulation, a random walk is performed from each node in the triad.
+The first walk to reach another node is recorded. Results are returned as
+pairwise similarity probabilities between the three items.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<em>ndarray</em><em> or </em><em>scipy sparse matrix</em>) – Adjacency or transition matrix of the graph.</p></li>
+<li><p><strong>items</strong> (<em>dict</em>) – Mapping from node index to item label.</p></li>
+<li><p><strong>triad</strong> (<em>list</em><em> of </em><em>str</em>) – Three item labels forming the triadic comparison.</p></li>
+<li><p><strong>numsims</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of simulations to run (default is 100).</p></li>
+<li><p><strong>jumpval</strong> (<em>float</em><em>, </em><em>optional</em>) – Probability of jumping back to the start node at each step (default is 0.0).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Estimated probabilities for [A vs B, A vs C, B vs C].</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of float</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

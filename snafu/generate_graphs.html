@@ -49,7 +49,10 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">SNAFU</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="clustering.html">clustering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="core.html">core</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">generate_graphs</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">generate_graphs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.generate_graphs.generate_tenenbaum_steyvers_network"><code class="docutils literal notranslate"><span class="pre">generate_tenenbaum_steyvers_network()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="generate_lists.html">generate_lists</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gui.html">gui</a></li>
 <li class="toctree-l2"><a class="reference internal" href="helper.html">helper</a></li>
@@ -92,8 +95,34 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="generate-graphs">
-<h1>generate_graphs<a class="headerlink" href="#generate-graphs" title="Link to this heading"></a></h1>
+  <section id="module-snafu.generate_graphs">
+<span id="generate-graphs"></span><h1>generate_graphs<a class="headerlink" href="#module-snafu.generate_graphs" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.generate_graphs.generate_tenenbaum_steyvers_network">
+<span class="sig-prename descclassname"><span class="pre">snafu.generate_graphs.</span></span><span class="sig-name descname"><span class="pre">generate_tenenbaum_steyvers_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tail</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/generate_graphs.html#generate_tenenbaum_steyvers_network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.generate_graphs.generate_tenenbaum_steyvers_network" title="Link to this definition"></a></dt>
+<dd><p>Generate a scale-free network using the Steyvers &amp; Tenenbaum (2005) model.</p>
+<p>Constructs a network where each new node attaches to a randomly chosen
+neighborhood of an existing node, optionally padded with null (non-attaching)
+nodes to simulate a power-law distribution in node degrees.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<em>int</em>) – Total number of nodes in the graph.</p></li>
+<li><p><strong>m</strong> (<em>int</em>) – Number of edges each new node forms. Must be &lt;= n.</p></li>
+<li><p><strong>tail</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, adds (m-1) null nodes to each candidate neighborhood to allow
+non-attachment and better simulate a scale-free structure. Default is True.</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Random seed for reproducibility. Default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An undirected graph generated according to the Steyvers-Tenenbaum model.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>networkx.Graph</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

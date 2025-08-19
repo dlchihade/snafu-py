@@ -48,7 +48,32 @@
 <li class="toctree-l1"><a class="reference internal" href="../demos/index.html">Demos</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">SNAFU</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="clustering.html">clustering</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">core</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">core</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.addJumps"><code class="docutils literal notranslate"><span class="pre">addJumps()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.adjustPriming"><code class="docutils literal notranslate"><span class="pre">adjustPriming()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.communitynetwork"><code class="docutils literal notranslate"><span class="pre">communitynetwork()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.conceptualNetwork"><code class="docutils literal notranslate"><span class="pre">conceptualNetwork()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.correlationBasedNetwork"><code class="docutils literal notranslate"><span class="pre">correlationBasedNetwork()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.cost"><code class="docutils literal notranslate"><span class="pre">cost()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.costSDT"><code class="docutils literal notranslate"><span class="pre">costSDT()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.estimateJumpProbability"><code class="docutils literal notranslate"><span class="pre">estimateJumpProbability()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.evalGraphPrior"><code class="docutils literal notranslate"><span class="pre">evalGraphPrior()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.firstEdge"><code class="docutils literal notranslate"><span class="pre">firstEdge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.fullyConnected"><code class="docutils literal notranslate"><span class="pre">fullyConnected()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.genGraphPrior"><code class="docutils literal notranslate"><span class="pre">genGraphPrior()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.genStartGraph"><code class="docutils literal notranslate"><span class="pre">genStartGraph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.gtom"><code class="docutils literal notranslate"><span class="pre">gtom()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.hierarchicalUinvite"><code class="docutils literal notranslate"><span class="pre">hierarchicalUinvite()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.makeValid"><code class="docutils literal notranslate"><span class="pre">makeValid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.naiveRandomWalk"><code class="docutils literal notranslate"><span class="pre">naiveRandomWalk()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.pathfinder"><code class="docutils literal notranslate"><span class="pre">pathfinder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.priorToGraph"><code class="docutils literal notranslate"><span class="pre">priorToGraph()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.priorToNetwork"><code class="docutils literal notranslate"><span class="pre">priorToNetwork()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.probX"><code class="docutils literal notranslate"><span class="pre">probX()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.probXhierarchical"><code class="docutils literal notranslate"><span class="pre">probXhierarchical()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.core.uinvite"><code class="docutils literal notranslate"><span class="pre">uinvite()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="generate_graphs.html">generate_graphs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generate_lists.html">generate_lists</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gui.html">gui</a></li>
@@ -92,8 +117,524 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="core">
-<h1>core<a class="headerlink" href="#core" title="Link to this heading"></a></h1>
+  <section id="module-snafu.core">
+<span id="core"></span><h1>core<a class="headerlink" href="#module-snafu.core" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.addJumps">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">addJumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">probs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numnodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statdist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Xs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#addJumps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.addJumps" title="Link to this definition"></a></dt>
+<dd><p>Adjusts transition probabilities by incorporating jump behavior.</p>
+<p>Depending on jump type (‘uniform’ or ‘stationary’), modifies the transition
+probabilities to allow for random jumps in the network.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>probs</strong> (<em>list</em><em> of </em><em>list</em>) – Original transition probabilities.</p></li>
+<li><p><strong>td</strong> (<em>DataModel</em>) – Data model containing the jump type and jump probability.</p></li>
+<li><p><strong>numnodes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of nodes (required for uniform jump).</p></li>
+<li><p><strong>statdist</strong> (<em>array-like</em><em>, </em><em>optional</em>) – Stationary distribution across nodes (required for stationary jump).</p></li>
+<li><p><strong>Xs</strong> (<em>list</em><em>, </em><em>optional</em>) – List of token sequences (used with stationary jump).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Jump-adjusted transition probabilities.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.adjustPriming">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">adjustPriming</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">probs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Xs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#adjustPriming"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.adjustPriming" title="Link to this definition"></a></dt>
+<dd><p>Modifies transition probabilities to account for priming across lists.</p>
+<p>If an item appears at the end of a list and is followed by the same
+transition in the next list, it is treated as a primed transition and
+boosted by a configurable weight.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>probs</strong> (<em>list</em><em> of </em><em>list</em>) – Transition probability matrix for each list.</p></li>
+<li><p><strong>td</strong> (<em>DataModel</em>) – Contains the priming parameter.</p></li>
+<li><p><strong>Xs</strong> (<em>list</em><em> of </em><em>list</em>) – Sequences of node indices (one per participant/list).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Transition probabilities adjusted for priming.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.communitynetwork">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">communitynetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#communitynetwork"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.communitynetwork" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.conceptualNetwork">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">conceptualNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numnodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitinfo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'cn_alpha':</span> <span class="pre">0.05,</span> <span class="pre">'cn_threshold':</span> <span class="pre">2,</span> <span class="pre">'cn_windowsize':</span> <span class="pre">2,</span> <span class="pre">'directed':</span> <span class="pre">False,</span> <span class="pre">'estimatePerseveration':</span> <span class="pre">False,</span> <span class="pre">'followtype':</span> <span class="pre">'avg',</span> <span class="pre">'other_limit':</span> <span class="pre">inf,</span> <span class="pre">'prior_a':</span> <span class="pre">2.0,</span> <span class="pre">'prior_b':</span> <span class="pre">1,</span> <span class="pre">'prune_limit':</span> <span class="pre">inf,</span> <span class="pre">'startGraph':</span> <span class="pre">'cn_valid',</span> <span class="pre">'triangle_limit':</span> <span class="pre">inf,</span> <span class="pre">'zibb_p':</span> <span class="pre">0.5}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#conceptualNetwork"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.conceptualNetwork" title="Link to this definition"></a></dt>
+<dd><p>Generate a semantic network using co-occurrence windows.</p>
+<p>Builds a network by identifying how often item pairs co-occur
+within a specified window, and filters edges based on frequency
+and significance.
+w = window size; two items appear within +/- w steps of each other (where w=1 means adjacent items)
+f = filter frequency; if two items don’t fall within the same window more than f times, then no edge is inferred
+c = confidence interval; retain the edge if there is a &lt;= c probability that two items occur within the same window n times by chance alone
+valid (t/f) ensures that graph can produce data using censored RW.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Xs</strong> (<em>list</em><em> of </em><em>list</em>) – List of item sequences.</p></li>
+<li><p><strong>numnodes</strong> (<em>int</em><em>, </em><em>optional</em>) – Total number of nodes.</p></li>
+<li><p><strong>fitinfo</strong> (<em>Fitinfo</em><em>, </em><em>optional</em>) – Parameters controlling window size, frequency threshold, etc.</p></li>
+<li><p><strong>valid</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, ensures resulting graph can produce valid walk data.</p></li>
+<li><p><strong>td</strong> (<em>DataModel</em><em>, </em><em>optional</em>) – Required if <cite>valid=True</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Binary adjacency matrix.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.correlationBasedNetwork">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">correlationBasedNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numnodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minlists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#correlationBasedNetwork"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.correlationBasedNetwork" title="Link to this definition"></a></dt>
+<dd><p>Generate a semantic network using item co-occurrence correlations.</p>
+<p>Constructs a correlation matrix from binary item-by-list occurrence
+and builds a Planar Maximally Filtered Graph (PMFG) by retaining only
+non-redundant edges while maintaining planarity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Xs</strong> (<em>list</em><em> of </em><em>list</em>) – List of observed item sequences.</p></li>
+<li><p><strong>numnodes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of unique nodes.</p></li>
+<li><p><strong>minlists</strong> (<em>int</em><em>, </em><em>optional</em>) – Minimum number of lists an item must appear in to be included.</p></li>
+<li><p><strong>valid</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, ensures the graph is usable with censored random walk.</p></li>
+<li><p><strong>td</strong> (<em>DataModel</em><em>, </em><em>optional</em>) – Required if <cite>valid=True</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Adjacency matrix of the PMFG network.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.cost">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">undirected</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.cost" title="Link to this definition"></a></dt>
+<dd><p>Computes the link cost between two graphs.</p>
+<p>Measures the number of differing edges between the estimated and target graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<em>ndarray</em>) – Estimated graph adjacency matrix.</p></li>
+<li><p><strong>a</strong> (<em>ndarray</em>) – Target or comparison graph.</p></li>
+<li><p><strong>undirected</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether the graphs are undirected. Default is True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of differing edges (adjusted for direction).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.costSDT">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">costSDT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#costSDT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.costSDT" title="Link to this definition"></a></dt>
+<dd><p>Computes signal detection theory metrics for graph comparison.</p>
+<p>Returns hit, miss, false alarm, and correct rejection counts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<em>ndarray</em>) – Estimated graph.</p></li>
+<li><p><strong>a</strong> (<em>ndarray</em>) – Ground truth or comparison graph.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>[hits, misses, false alarms, correct rejections]</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.estimateJumpProbability">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">estimateJumpProbability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group_network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fluency_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#estimateJumpProbability"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.estimateJumpProbability" title="Link to this definition"></a></dt>
+<dd><p>Grid-search jump in [0.01, 0.99] to maximize likelihood for ONE fluency list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>group_network</strong> (<em>np.ndarray</em><em> (</em><em>N x N</em><em>)</em>) – Adjacency matrix for the known network.</p></li>
+<li><p><strong>data_model</strong> (<em>DataModel</em>) – SNAFU data model. Only the <cite>.jump</cite> field is varied here.</p></li>
+<li><p><strong>fluency_list</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – Single fluency list as item indices aligned to group_network.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Best jump probability (0.01..0.99).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.evalGraphPrior">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">evalGraphPrior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">undirected</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#evalGraphPrior"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.evalGraphPrior" title="Link to this definition"></a></dt>
+<dd><p>Evaluates the log-likelihood of a graph under a prior.</p>
+<p>Calculates the total log probability of a graph based on a learned or assumed
+edge prior.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<em>ndarray</em>) – Graph adjacency matrix.</p></li>
+<li><p><strong>prior</strong> (<em>tuple</em>) – A tuple of (priordict, item dictionary).</p></li>
+<li><p><strong>undirected</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether the graph is undirected.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Total log-likelihood of the graph given the prior.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.firstEdge">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">firstEdge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numnodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#firstEdge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.firstEdge" title="Link to this definition"></a></dt>
+<dd><p>Constructs a graph connecting only the first two nodes of each list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Xs</strong> (<em>list</em><em> of </em><em>list</em>) – Node sequences.</p></li>
+<li><p><strong>numnodes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of unique nodes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Binary adjacency matrix.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.fullyConnected">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">fullyConnected</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numnodes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#fullyConnected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.fullyConnected" title="Link to this definition"></a></dt>
+<dd><p>Generate a fully connected undirected graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>numnodes</strong> (<em>int</em>) – Number of nodes in the graph.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Binary adjacency matrix with all non-diagonal elements set to 1.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.genGraphPrior">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">genGraphPrior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graphs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitinfo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'cn_alpha':</span> <span class="pre">0.05,</span> <span class="pre">'cn_threshold':</span> <span class="pre">2,</span> <span class="pre">'cn_windowsize':</span> <span class="pre">2,</span> <span class="pre">'directed':</span> <span class="pre">False,</span> <span class="pre">'estimatePerseveration':</span> <span class="pre">False,</span> <span class="pre">'followtype':</span> <span class="pre">'avg',</span> <span class="pre">'other_limit':</span> <span class="pre">inf,</span> <span class="pre">'prior_a':</span> <span class="pre">2.0,</span> <span class="pre">'prior_b':</span> <span class="pre">1,</span> <span class="pre">'prune_limit':</span> <span class="pre">inf,</span> <span class="pre">'startGraph':</span> <span class="pre">'cn_valid',</span> <span class="pre">'triangle_limit':</span> <span class="pre">inf,</span> <span class="pre">'zibb_p':</span> <span class="pre">0.5}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mincount</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">undirected</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returncounts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#genGraphPrior"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.genGraphPrior" title="Link to this definition"></a></dt>
+<dd><p>Generate edge prior probabilities from a collection of graphs.</p>
+<p>Uses a beta-binomial or zero-inflated beta-binomial model to calculate
+edge presence probability across subjects or samples.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graphs</strong> (<em>list</em><em> of </em><em>ndarray</em>) – List of adjacency matrices (one per subject).</p></li>
+<li><p><strong>items</strong> (<em>list</em><em> of </em><em>dict</em>) – Mapping of item index to item label (one per graph).</p></li>
+<li><p><strong>fitinfo</strong> (<em>Fitinfo</em><em>, </em><em>optional</em>) – Configuration object controlling prior method.</p></li>
+<li><p><strong>mincount</strong> (<em>int</em><em>, </em><em>optional</em>) – Minimum number of observations required to include an edge.</p></li>
+<li><p><strong>undirected</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether the graph is undirected.</p></li>
+<li><p><strong>returncounts</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, returns raw counts instead of probabilities.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Nested dictionary of edge probabilities or counts.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.genStartGraph">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">genStartGraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numnodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitinfo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#genStartGraph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.genStartGraph" title="Link to this definition"></a></dt>
+<dd><p>Generate an initial graph for U-INVITE fitting based on strategy.</p>
+<p>Strategy is determined by <cite>fitinfo.startGraph</cite>, which can include:
+- “cn_valid”, “pf_valid”, “rw”, “fully_connected”, etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Xs</strong> (<em>list</em><em> of </em><em>list</em>) – Input fluency data.</p></li>
+<li><p><strong>numnodes</strong> (<em>int</em>) – Number of unique nodes.</p></li>
+<li><p><strong>td</strong> (<em>DataModel</em>) – Model configuration.</p></li>
+<li><p><strong>fitinfo</strong> (<em>Fitinfo</em>) – Model fitting configuration.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Starting adjacency matrix.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.gtom">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">gtom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#gtom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.gtom" title="Link to this definition"></a></dt>
+<dd><p>Compute the Generalized Topological Overlap Measure (GTOM).</p>
+<p>Measures how similar nodes are in terms of shared neighbors.
+Currently supports GTOM with n=2.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>graph</strong> (<em>ndarray</em>) – Adjacency matrix of a graph.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Symmetric matrix of pairwise GTOM scores.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.hierarchicalUinvite">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">hierarchicalUinvite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numnodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'censor_fault':</span> <span class="pre">0.0,</span> <span class="pre">'emission_fault':</span> <span class="pre">0.0,</span> <span class="pre">'jump':</span> <span class="pre">0.0,</span> <span class="pre">'jumponcensored':</span> <span class="pre">None,</span> <span class="pre">'jumptype':</span> <span class="pre">'stationary',</span> <span class="pre">'priming':</span> <span class="pre">0.0,</span> <span class="pre">'start_node':</span> <span class="pre">'stationary',</span> <span class="pre">'trim':</span> <span class="pre">1.0}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">irts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitinfo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'cn_alpha':</span> <span class="pre">0.05,</span> <span class="pre">'cn_threshold':</span> <span class="pre">2,</span> <span class="pre">'cn_windowsize':</span> <span class="pre">2,</span> <span class="pre">'directed':</span> <span class="pre">False,</span> <span class="pre">'estimatePerseveration':</span> <span class="pre">False,</span> <span class="pre">'followtype':</span> <span class="pre">'avg',</span> <span class="pre">'other_limit':</span> <span class="pre">inf,</span> <span class="pre">'prior_a':</span> <span class="pre">2.0,</span> <span class="pre">'prior_b':</span> <span class="pre">1,</span> <span class="pre">'prune_limit':</span> <span class="pre">inf,</span> <span class="pre">'startGraph':</span> <span class="pre">'cn_valid',</span> <span class="pre">'triangle_limit':</span> <span class="pre">inf,</span> <span class="pre">'zibb_p':</span> <span class="pre">0.5}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#hierarchicalUinvite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.hierarchicalUinvite" title="Link to this definition"></a></dt>
+<dd><p>Fit subject-level U-INVITE models in a hierarchical manner.</p>
+<p>Iteratively fits subject graphs by conditioning on others’ graphs
+and generates a prior from group estimates. Process continues until
+no more changes in graphs are detected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Xs</strong> (<em>list</em><em> of </em><em>list</em>) – List of subject fluency data (sequences).</p></li>
+<li><p><strong>items</strong> (<em>list</em><em> of </em><em>dict</em>) – Mapping of item indices to labels.</p></li>
+<li><p><strong>numnodes</strong> (<em>int</em><em> or </em><em>list</em><em> of </em><em>int</em><em>, </em><em>optional</em>) – Number of unique nodes. If list, must match number of subjects.</p></li>
+<li><p><strong>td</strong> (<em>DataModel</em><em>, </em><em>optional</em>) – Configuration for U-INVITE model.</p></li>
+<li><p><strong>irts</strong> (<em>list</em><em> or </em><em>bool</em><em>, </em><em>optional</em>) – IRTs per subject or False to ignore.</p></li>
+<li><p><strong>fitinfo</strong> (<em>Fitinfo</em><em>, </em><em>optional</em>) – Model settings (starting graph, limits, etc.).</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – Random seed.</p></li>
+<li><p><strong>debug</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, prints debug output.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>list of ndarray</em> – List of fitted subject-level graphs.</p></li>
+<li><p><em>dict</em> – Final group prior dictionary.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.makeValid">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">makeValid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#makeValid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.makeValid" title="Link to this definition"></a></dt>
+<dd><p>Modify the graph to ensure all transitions in <cite>Xs</cite> are reachable.</p>
+<p>If a transition results in zero probability, adds necessary edges
+to make the sequence valid under the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Xs</strong> (<em>list</em><em> of </em><em>list</em>) – Observed sequences.</p></li>
+<li><p><strong>graph</strong> (<em>ndarray</em>) – Initial adjacency matrix.</p></li>
+<li><p><strong>td</strong> (<em>DataModel</em>) – Configuration object.</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – Random seed for reproducibility.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified, valid adjacency matrix.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.naiveRandomWalk">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">naiveRandomWalk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numnodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#naiveRandomWalk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.naiveRandomWalk" title="Link to this definition"></a></dt>
+<dd><p>Build a graph by connecting items based on their sequential occurrence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Xs</strong> (<em>list</em><em> of </em><em>list</em>) – Lists of node sequences.</p></li>
+<li><p><strong>numnodes</strong> (<em>int</em><em>, </em><em>optional</em>) – Total number of unique nodes.</p></li>
+<li><p><strong>directed</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to treat transitions as directed edges. Default is False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Binary adjacency matrix of the random walk graph.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.pathfinder">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">pathfinder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numnodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#pathfinder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.pathfinder" title="Link to this definition"></a></dt>
+<dd><p>Constructs a Pathfinder network (minimal spanning tree) based on item co-occurrences.</p>
+<p>The function builds a weighted graph from co-occurrence distances and then reduces
+it to a minimum spanning tree using the Pathfinder MST algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Xs</strong> (<em>list</em><em> of </em><em>list</em>) – Sequence of observed node transitions.</p></li>
+<li><p><strong>numnodes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of unique nodes.</p></li>
+<li><p><strong>valid</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, ensures that the resulting graph can generate data using censored RW.</p></li>
+<li><p><strong>td</strong> (<em>DataModel</em><em>, </em><em>optional</em>) – Used when <cite>valid=True</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Binary adjacency matrix of the Pathfinder network.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.priorToGraph">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">priorToGraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#priorToGraph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.priorToGraph" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.priorToNetwork">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">priorToNetwork</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">priordict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">undirected</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#priorToNetwork"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.priorToNetwork" title="Link to this definition"></a></dt>
+<dd><p>Convert a prior probability dictionary into a binary graph.</p>
+<p>Adds an edge between nodes if the prior probability exceeds a threshold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>priordict</strong> (<em>dict</em>) – Nested dictionary of prior edge probabilities.</p></li>
+<li><p><strong>items</strong> (<em>dict</em>) – Mapping of node index to item label.</p></li>
+<li><p><strong>cutoff</strong> (<em>float</em><em>, </em><em>optional</em>) – Threshold for edge inclusion. Default is 0.5.</p></li>
+<li><p><strong>undirected</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to mirror edges for symmetry. Default is True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Binary adjacency matrix.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.probX">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">probX</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">irts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'data':</span> <span class="pre">[],</span> <span class="pre">'irttype':</span> <span class="pre">'none',</span> <span class="pre">'rcutoff':</span> <span class="pre">20}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origmat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">changed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#probX"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.probX" title="Link to this definition"></a></dt>
+<dd><p>Compute the likelihood of observed sequences under a transition model.</p>
+<p>Calculates the log-likelihood of each sequence under the given adjacency
+matrix using the U-INVITE framework. Supports censoring, priming, jumping,
+and IRT models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Xs</strong> (<em>list</em><em> of </em><em>list</em>) – Sequences of node transitions.</p></li>
+<li><p><strong>a</strong> (<em>ndarray</em>) – Adjacency matrix representing the transition structure.</p></li>
+<li><p><strong>td</strong> (<em>DataModel</em>) – Configuration object (jump, priming, censoring).</p></li>
+<li><p><strong>irts</strong> (<em>Irts</em><em>, </em><em>optional</em>) – Inter-response time model. Default is empty.</p></li>
+<li><p><strong>prior</strong> (<em>tuple</em><em>, </em><em>optional</em>) – (priordict, items) for computing graph priors.</p></li>
+<li><p><strong>origmat</strong> (<em>list</em><em> of </em><em>list</em><em>, </em><em>optional</em>) – Previously computed probability matrix (for delta updates).</p></li>
+<li><p><strong>changed</strong> (<em>list</em><em>, </em><em>optional</em>) – List of nodes that changed since <cite>origmat</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>float</em> – Log-likelihood of the data.</p></li>
+<li><p><em>list of list</em> – Transition probabilities for each sequence.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.probXhierarchical">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">probXhierarchical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graphs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priordict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">irts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'data':</span> <span class="pre">[],</span> <span class="pre">'irttype':</span> <span class="pre">'none',</span> <span class="pre">'rcutoff':</span> <span class="pre">20}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#probXhierarchical"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.probXhierarchical" title="Link to this definition"></a></dt>
+<dd><p>Compute the total log-likelihood of a set of subject graphs under a hierarchical U-INVITE model.</p>
+<p>For each subject, this function calculates the likelihood of their observed data
+given their individual graph and optionally a shared group prior. Returns the sum
+of log-likelihoods across all subjects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Xs</strong> (<em>list</em><em> of </em><em>list</em>) – Observed sequences for each subject.</p></li>
+<li><p><strong>graphs</strong> (<em>list</em><em> of </em><em>ndarray</em>) – Individual graph (adjacency matrix) for each subject.</p></li>
+<li><p><strong>items</strong> (<em>list</em><em> of </em><em>dict</em>) – Mapping of node indices to item labels for each subject.</p></li>
+<li><p><strong>td</strong> (<em>DataModel</em>) – Data model settings including jump, priming, and censoring behavior.</p></li>
+<li><p><strong>priordict</strong> (<em>dict</em><em>, </em><em>optional</em>) – Group prior used to condition each subject’s likelihood. If None, prior is not used.</p></li>
+<li><p><strong>irts</strong> (<em>Irts</em><em>, </em><em>optional</em>) – Inter-response time data, one list per subject. Default is empty.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sum of log-likelihoods across all subjects.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.core.uinvite">
+<span class="sig-prename descclassname"><span class="pre">snafu.core.</span></span><span class="sig-name descname"><span class="pre">uinvite</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'censor_fault':</span> <span class="pre">0.0,</span> <span class="pre">'emission_fault':</span> <span class="pre">0.0,</span> <span class="pre">'jump':</span> <span class="pre">0.0,</span> <span class="pre">'jumponcensored':</span> <span class="pre">None,</span> <span class="pre">'jumptype':</span> <span class="pre">'stationary',</span> <span class="pre">'priming':</span> <span class="pre">0.0,</span> <span class="pre">'start_node':</span> <span class="pre">'stationary',</span> <span class="pre">'trim':</span> <span class="pre">1.0}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numnodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">irts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'data':</span> <span class="pre">[],</span> <span class="pre">'irttype':</span> <span class="pre">'none',</span> <span class="pre">'rcutoff':</span> <span class="pre">20}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitinfo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'cn_alpha':</span> <span class="pre">0.05,</span> <span class="pre">'cn_threshold':</span> <span class="pre">2,</span> <span class="pre">'cn_windowsize':</span> <span class="pre">2,</span> <span class="pre">'directed':</span> <span class="pre">False,</span> <span class="pre">'estimatePerseveration':</span> <span class="pre">False,</span> <span class="pre">'followtype':</span> <span class="pre">'avg',</span> <span class="pre">'other_limit':</span> <span class="pre">inf,</span> <span class="pre">'prior_a':</span> <span class="pre">2.0,</span> <span class="pre">'prior_b':</span> <span class="pre">1,</span> <span class="pre">'prune_limit':</span> <span class="pre">inf,</span> <span class="pre">'startGraph':</span> <span class="pre">'cn_valid',</span> <span class="pre">'triangle_limit':</span> <span class="pre">inf,</span> <span class="pre">'zibb_p':</span> <span class="pre">0.5}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/core.html#uinvite"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.core.uinvite" title="Link to this definition"></a></dt>
+<dd><p>Fit a graph to fluency data using the U-INVITE algorithm.</p>
+<p>Iteratively searches over graph space to find a structure that
+maximizes likelihood under a random walk model, using triangle-based
+heuristics and pruning. Optionally adjusts for IRTs and perseverations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Xs</strong> (<em>list</em><em> of </em><em>list</em>) – Observed sequences of node transitions.</p></li>
+<li><p><strong>td</strong> (<em>DataModel</em><em>, </em><em>optional</em>) – Model configuration (jump, priming, censoring).</p></li>
+<li><p><strong>numnodes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of unique nodes in the network.</p></li>
+<li><p><strong>irts</strong> (<em>Irts</em><em>, </em><em>optional</em>) – IRT model information.</p></li>
+<li><p><strong>fitinfo</strong> (<em>Fitinfo</em><em>, </em><em>optional</em>) – Algorithm parameters including edge strategy and convergence criteria.</p></li>
+<li><p><strong>prior</strong> (<em>tuple</em><em>, </em><em>optional</em>) – Prior probability dictionary and item mappings.</p></li>
+<li><p><strong>debug</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, prints debug output.</p></li>
+<li><p><strong>seed</strong> (<em>int</em><em>, </em><em>optional</em>) – Random seed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>ndarray</em> – Fitted graph adjacency matrix.</p></li>
+<li><p><em>float</em> – Log-likelihood of the fitted graph.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

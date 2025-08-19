@@ -59,7 +59,12 @@
 <li class="toctree-l2"><a class="reference internal" href="netstats.html">netstats</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pci.html">pci</a></li>
 <li class="toctree-l2"><a class="reference internal" href="perseverations.html">perseverations</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">search</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">search</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.search.cbdfs"><code class="docutils literal notranslate"><span class="pre">cbdfs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.search.nodeDegreeSearch"><code class="docutils literal notranslate"><span class="pre">nodeDegreeSearch()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#snafu.search.spreadingActivationSearch"><code class="docutils literal notranslate"><span class="pre">spreadingActivationSearch()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="structs.html">structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="triadic.html">triadic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="word_properties.html">word_properties</a></li>
@@ -92,8 +97,68 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="search">
-<h1>search<a class="headerlink" href="#search" title="Link to this heading"></a></h1>
+  <section id="module-snafu.search">
+<span id="search"></span><h1>search<a class="headerlink" href="#module-snafu.search" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.search.cbdfs">
+<span class="sig-prename descclassname"><span class="pre">snafu.search.</span></span><span class="sig-name descname"><span class="pre">cbdfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/search.html#cbdfs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.search.cbdfs" title="Link to this definition"></a></dt>
+<dd><p>Coverage-biased depth-first search on a graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>g</strong> (<em>networkx.Graph</em>) – The input graph.</p></li>
+<li><p><strong>td</strong> (<em>object</em>) – Parameters including <cite>trim</cite> and <cite>start_node</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sequence of visited node indices.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.search.nodeDegreeSearch">
+<span class="sig-prename descclassname"><span class="pre">snafu.search.</span></span><span class="sig-name descname"><span class="pre">nodeDegreeSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/search.html#nodeDegreeSearch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.search.nodeDegreeSearch" title="Link to this definition"></a></dt>
+<dd><p>Biased random walk where selection favors high-degree nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>g</strong> (<em>networkx.Graph</em>) – The input graph.</p></li>
+<li><p><strong>td</strong> (<em>object</em>) – Includes <cite>trim</cite> (float or int) and <cite>start_node</cite> (str or tuple).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sequence of visited node indices.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="snafu.search.spreadingActivationSearch">
+<span class="sig-prename descclassname"><span class="pre">snafu.search.</span></span><span class="sig-name descname"><span class="pre">spreadingActivationSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decay</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/snafu/search.html#spreadingActivationSearch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#snafu.search.spreadingActivationSearch" title="Link to this definition"></a></dt>
+<dd><p>Perform spreading activation search on a graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>g</strong> (<em>networkx.Graph</em>) – The graph to search.</p></li>
+<li><p><strong>td</strong> (<em>object</em>) – Configuration object with search parameters like <cite>trim</cite>, <cite>start_node</cite>, and <cite>priming</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ordered list of activated node indices.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

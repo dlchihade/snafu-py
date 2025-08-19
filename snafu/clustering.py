@@ -30,7 +30,7 @@ def clusterSize(fluency_lists, scheme, clustertype='fluid'):
     for i in clist:
         avglist=[]
         for l in i:
-            avglist.append(np.mean(fluency_lists))
+            avglist.append(np.mean(l))
         avglists.append(np.mean(avglist))
     return avglists
 
@@ -71,7 +71,7 @@ def clusterSwitch(fluency_lists, scheme, clustertype='fluid', switchrate=False):
                 for lstnum, lst in enumerate(i):
                     switches = len(lst)-1
                     if switchrate:
-                        switches = switches / len(l[inum][lstnum])
+                        switches = switches / len(fluency_lists[inum][lstnum])
                     avgnum.append(switches)
                 avglists.append(np.mean(avgnum))
             else:

@@ -113,7 +113,7 @@ def findClusters(fluency_lists, scheme, clustertype='fluid'):
         if isinstance(fluency_lists[0], list):
             clusters=fluency_lists
         else:
-            clusters=labelClusters(fluency_list, scheme)
+            clusters=labelClusters(fluency_lists, scheme)
     else:
         clusters=[]
     

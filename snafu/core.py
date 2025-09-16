@@ -10,11 +10,20 @@ from functools import reduce
 
 import numpy as np
 import math
+from typing import Tuple
 
-def estimateJumpProbability(group_network, data_model, fluency_list):
+def estimateJumpProbability(
+    group_network,
+    data_model,
+    fluency_list,
+    return_ll: bool = False,
+) -> Tuple[float, float]:
     """
     Grid-search jump in [0.01, 0.99] to maximize likelihood for ONE fluency list.
-
+    Always returns a (best_jump, best_log_likelihood) tuple.
+    If return_ll is False, best_log_likelihood will be np.nan and nothing is printed.
+    
+    
     Parameters
     ----------
     group_network : np.ndarray (N x N)
@@ -28,8 +37,9 @@ def estimateJumpProbability(group_network, data_model, fluency_list):
     -------
     float
         Best jump probability (0.01..0.99).
+
     """
-    # Basic checks
+
     A = np.asarray(group_network, dtype=float)
     if A.ndim != 2 or A.shape[0] != A.shape[1]:
         raise ValueError("group_network must be a square adjacency matrix.")
@@ -42,22 +52,24 @@ def estimateJumpProbability(group_network, data_model, fluency_list):
     best_ll = -np.inf
 
     try:
-        # Sweep 0.01, 0.02, ..., 0.99
         for i in range(1, 100):
-            data_model.jump = i / 100.0
+            candidate = i / 100.0
+            data_model.jump = candidate
             ll, _ = probX([fluency_list], A, data_model)
             if ll > best_ll:
                 best_ll = ll
-                best_jump = data_model.jump
+                best_jump = candidate
     finally:
-        # restore caller’s value no matter what
         data_model.jump = original_jump
 
     if best_jump is None or not math.isfinite(best_ll):
         raise RuntimeError("Failed to find a valid jump over 0.01..0.99.")
 
-    return best_jump
-
+    if return_ll:
+        print(f"Best jump: {best_jump:.2f}, Log-likelihood: {best_ll:.4f}")
+        return best_jump, best_ll
+    else:
+        return best_jump, np.nan
 
 # alias for backwards compatibility
 def communitynetwork(*args, **kwargs):

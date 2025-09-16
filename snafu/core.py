@@ -77,6 +77,9 @@ def communitynetwork(*args, **kwargs):
 
 # alias for backwards compatibility
 def priorToGraph(*args, **kwargs):
+    """
+    References priorToNetwork
+    """
     return priorToNetwork(*args, **kwargs) 
 
 # mix U-INVITE with random jumping model
@@ -574,6 +577,9 @@ def genStartGraph(Xs, numnodes, td, fitinfo):
 
 # deprecated alias for backwards compatibility
 def communitynetwork(*args, **kwargs):
+    """
+    references conceptualNetwork
+    """
     return conceptualNetwork(*args, **kwargs)
 
 # w = window size; two items appear within +/- w steps of each other (where w=1 means adjacent items)

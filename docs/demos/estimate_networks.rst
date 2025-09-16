@@ -18,8 +18,6 @@ This demo estimates semantic networks from fluency data using a variety of model
 
 4. Save each network's edge list as a `.csv` file for further visualization or analysis.
 
----
-
 **Functions Used:**
 
 - `snafu.load_fluency_data`
@@ -42,8 +40,6 @@ Each file contains an edge list in CSV format:
 - `fe_graph.csv`
 
 All files are saved in the `demos_data/` directory and labeled by group.
-
-----
 
 .. automodule:: demos.estimate_networks
    :members:

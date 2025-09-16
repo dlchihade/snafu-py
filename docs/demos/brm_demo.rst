@@ -36,8 +36,6 @@ Output includes:
 
    This demo is for illustration purposes and not all combinations of options (e.g., letter clustering with animal data) are semantically appropriate.
 
-----
-
 .. automodule:: demos.brm_demo
    :members:
    :undoc-members:

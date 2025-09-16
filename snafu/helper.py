@@ -322,6 +322,10 @@ def reverseDict(items):
 # remove perseverations -- keep only first occurrence in place
 # https://www.peterbe.com/plog/uniqifiers-benchmark
 def no_persev(x):
+    """
+     This function is copied from scipy to avoid shipping that whole library with snafu
+     unlike scipy version, this one doesn't return p-value (requires C code from scipy)
+    """
     seen = set()
     seen_add = seen.add
     return [i for i in x if not (i in seen or seen_add(i))]

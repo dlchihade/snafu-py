@@ -51,8 +51,6 @@ It demonstrates the power and limitations of different modeling approaches as th
 
 Hierarchical U-INVITE is not supported in this demo, but code structure hints at how it could be added in future experiments.
 
-----
-
 .. automodule:: demos.reconstruct_usf
    :members:
    :undoc-members:

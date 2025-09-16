@@ -40,8 +40,6 @@ These measures are calculated using both the full network and the **largest conn
 
 - `cn_metrics_expected.pkl`: A serialized Python dictionary of the computed metrics.
 
-----
-
 .. automodule:: demos.network_measures
    :members:
    :undoc-members:

@@ -16,7 +16,7 @@ release = '2.2.0'
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath(os.path.join("..", "snafu")))
+sys.path.insert(0, os.path.abspath(".."))
 
 
 # extensions = [ 'sphinx.ext.autodoc',
@@ -40,4 +40,4 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'sphinx_rtd_theme'
-html_static_path = ['_static']
+#html_static_path = ['_static']

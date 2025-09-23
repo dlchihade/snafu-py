@@ -93,7 +93,7 @@ def addJumps(probs, td, numnodes=None, statdist=None, Xs=None):
     Parameters
     ----------
     probs : list of list
-        Original transition probabilities.
+        Original transition probabilities
     td : DataModel
         Data model containing the jump type and jump probability.
     numnodes : int, optional

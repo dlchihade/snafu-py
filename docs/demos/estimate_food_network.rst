@@ -38,7 +38,7 @@ This demo showcases how to estimate a semantic network from fluency data in the 
 
 - `demos_data/foods_network.csv` — A full edge list of the estimated semantic network.
 
-.. automodule:: demos.estimate_food_network
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. .. automodule:: demos.estimate_food_network
+..    :members:
+..    :undoc-members:
+..    :show-inheritance:

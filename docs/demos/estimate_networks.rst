@@ -41,7 +41,7 @@ Each file contains an edge list in CSV format:
 
 All files are saved in the `demos_data/` directory and labeled by group.
 
-.. automodule:: demos.estimate_networks
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. .. automodule:: demos.estimate_networks
+..    :members:
+..    :undoc-members:
+..    :show-inheritance:

@@ -1,6 +1,6 @@
 # Configuration file for the Sphinx documentation builder.
 #
-# For the full list of built-in configuration values, see the documentation:
+# For the full list of built-in configuration values, see the dohelcumentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 # -- Project information -----------------------------------------------------
@@ -16,8 +16,7 @@ release = '2.2.0'
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath(".."))
-
+sys.path.insert(0, "..")
 
 # extensions = [ 'sphinx.ext.autodoc',
 #     'sphinx.ext.autosummary',

@@ -20,13 +20,9 @@ Cluster schemes
       
    .. container:: right-col
    
-      .. container:: citation-block
+     Troyer, A. K. (2000). Normative data for clustering and switching on verbal fluency tasks. Journal of Clinical and Experimental Neuropsychology, 22, 370-378.
       
-         Troyer, A. K. (2000). Normative data for clustering and switching on verbal fluency tasks. Journal of Clinical and Experimental Neuropsychology, 22, 370-378.
-      
-      .. container:: citation-block
-      
-         Hills, T. T., Jones, M. N., & Todd, P. M. (2012). Optimal foraging in semantic memory. Psychological Review, 119, 431-440.
+     Hills, T. T., Jones, M. N., & Todd, P. M. (2012). Optimal foraging in semantic memory. Psychological Review, 119, 431-440.
 
 .. container:: two-column-layout
 
@@ -37,13 +33,9 @@ Cluster schemes
       
    .. container:: right-col
    
-      .. container:: citation-block
-      
-         Troyer, A. K. (2000). Normative data for clustering and switching on verbal fluency tasks. Journal of Clinical and Experimental Neuropsychology, 22, 370-378.
-      
-      .. container:: citation-block
-      
-         Zemla, J. C., Cao, K., Mueller, K. D., & Austerweil, J. L. (2020). SNAFU: The semantic network and fluency utility. Behavior Research Methods, 52, 1681-1699.
+     Troyer, A. K. (2000). Normative data for clustering and switching on verbal fluency tasks. Journal of Clinical and Experimental Neuropsychology, 22, 370-378.
+  
+     Zemla, J. C., Cao, K., Mueller, K. D., & Austerweil, J. L. (2020). SNAFU: The semantic network and fluency utility. Behavior Research Methods, 52, 1681-1699.
 
 .. container:: two-column-layout
 
@@ -54,9 +46,7 @@ Cluster schemes
       
    .. container:: right-col
    
-      .. container:: citation-block
-      
-         Rofes, A., Beran, M., Jonkers, R., Geerlings, M.I., Vonk, J.M.J. (2023). What drives task performance in animal fluency in individuals without dementia? The SMART-MR study. Journal of Speech, Language, and Hearing Research (ASHA). `GitHub <https://github.com/jmjvonk/2022_Rofes_SMART-MR/blob/main/Dutch_animals_snafu_scheme.csv>`_
+     Rofes, A., Beran, M., Jonkers, R., Geerlings, M.I., Vonk, J.M.J. (2023). What drives task performance in animal fluency in individuals without dementia? The SMART-MR study. Journal of Speech, Language, and Hearing Research (ASHA). `GitHub <https://github.com/jmjvonk/2022_Rofes_SMART-MR/blob/main/Dutch_animals_snafu_scheme.csv>`_
 
 .. container:: two-column-layout
 
@@ -67,9 +57,7 @@ Cluster schemes
       
    .. container:: right-col
    
-      .. container:: citation-block
-      
-         Karousou, A., Economacou, D., & Makris, N. (2023). Clustering and Switching in Semantic Verbal Fluency: Their Development and Relationship with Word Productivity in Typically Developing Greek-Speaking Children and Adolescents. Journal of Intelligence, 11(11), 209. https://doi.org/10.3390/jintelligence11110209
+     Karousou, A., Economacou, D., & Makris, N. (2023). Clustering and Switching in Semantic Verbal Fluency: Their Development and Relationship with Word Productivity in Typically Developing Greek-Speaking Children and Adolescents. Journal of Intelligence, 11(11), 209. https://doi.org/10.3390/jintelligence11110209
 
 .. container:: two-column-layout
 
@@ -80,9 +68,7 @@ Cluster schemes
       
    .. container:: right-col
    
-      .. container:: citation-block
-      
-         Neergaard, K. D., Zemla, J. C., Lubrini, G., Periañez, J. A., Bernabéu, E., Ríos-Lago, M., ... & Ayesa-Arriola, R. (2025). Novel computational measure of semantic fluency performance associated with first-episode of psychosis. Psychiatry Research, 348, 116462.
+     Neergaard, K. D., Zemla, J. C., Lubrini, G., Periañez, J. A., Bernabéu, E., Ríos-Lago, M., ... & Ayesa-Arriola, R. (2025). Novel computational measure of semantic fluency performance associated with first-episode of psychosis. Psychiatry Research, 348, 116462.
 
 .. container:: two-column-layout
 
@@ -93,9 +79,7 @@ Cluster schemes
       
    .. container:: right-col
    
-      .. container:: citation-block
-      
-         Adapted from the Spanish-language scheme above. Provided by Yamilka Garcia Avila and Yaira Chamorro (Universidad of Guadalajara).
+     Adapted from the Spanish-language scheme above. Provided by Yamilka Garcia Avila and Yaira Chamorro (Universidad of Guadalajara).
 
 .. container:: two-column-layout
 
@@ -106,9 +90,7 @@ Cluster schemes
       
    .. container:: right-col
    
-      .. container:: citation-block
-      
-         Provided by Sabia Costantini (Universität Potsdam).
+     Provided by Sabia Costantini (Universität Potsdam).
 
 .. container:: two-column-layout
 
@@ -119,9 +101,7 @@ Cluster schemes
       
    .. container:: right-col
    
-      .. container:: citation-block
-      
-         Provided by Ana Estrada (University of Groningen).
+     Provided by Ana Estrada (University of Groningen).
 
 .. container:: two-column-layout
 
@@ -132,9 +112,7 @@ Cluster schemes
       
    .. container:: right-col
    
-      .. container:: citation-block
-      
-         Provided by Ana Estrada (University of Groningen).
+     Provided by Ana Estrada (University of Groningen).
 
 .. container:: two-column-layout
 
@@ -144,9 +122,7 @@ Cluster schemes
       
    .. container:: right-col
    
-      .. container:: citation-block
-      
-         Provided by Adria Rofes (University of Groningen).
+     Provided by Adria Rofes (University of Groningen).
 
 Other data files
 ----------------
@@ -160,9 +136,7 @@ Other data files
       
    .. container:: right-col
    
-      .. container:: citation-block
-      
-         Kuperman, V., Stadthagen-Gonzalez, H., & Brysbaert, M. (2012). Age-of-acquisition ratings for 30,000 English words. Behavior Research Methods, 44, 978-990.
+     Kuperman, V., Stadthagen-Gonzalez, H., & Brysbaert, M. (2012). Age-of-acquisition ratings for 30,000 English words. Behavior Research Methods, 44, 978-990.
 
 .. container:: two-column-layout
 
@@ -173,9 +147,7 @@ Other data files
       
    .. container:: right-col
    
-      .. container:: citation-block
-      
-         Brysbaert, M., & New, B. (2009). Moving beyond Kučera and Francis: A critical evaluation of current word frequency norms and the introduction of a new and improved word frequency measure for American English. Behavior Research Methods, 41, 977-990.
+     Brysbaert, M., & New, B. (2009). Moving beyond Kučera and Francis: A critical evaluation of current word frequency norms and the introduction of a new and improved word frequency measure for American English. Behavior Research Methods, 41, 977-990.
 
 Contributing
 ------------

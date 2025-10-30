@@ -28,7 +28,7 @@ SNAFU also implements multiple network estimation methods which allow you to per
 
 .. _Zemla & Austerweil, 2018: https://link.springer.com/article/10.1007/s42113-018-0003-7
 
-How do I use SNAFU?
+How do I use SNAFU??
 -------------------
 
 SNAFU can be used as a Python library or as a stand-alone GUI.  

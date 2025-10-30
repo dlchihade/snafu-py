@@ -10,18 +10,6 @@ from . import *
 def write_graph(*args, **kwargs):
     """
     Alias for write_network for backwards compatibility.
-
-    Parameters
-    ----------
-    *args : tuple
-        Positional arguments passed to write_network.
-    **kwargs : dict
-        Keyword arguments passed to write_network.
-
-    Returns
-    -------
-    Any
-        Output of the write_network function.
     """    
     return write_network(*args, **kwargs)
 
@@ -29,18 +17,6 @@ def write_graph(*args, **kwargs):
 def readX(*args, **kwargs):
     """
     Alias for load_fluency_data for backwards compatibility.
-
-    Parameters
-    ----------
-    *args : tuple
-        Positional arguments passed to load_fluency_data.
-    **kwargs : dict
-        Keyword arguments passed to load_fluency_data.
-
-    Returns
-    -------
-    Any
-        Output of the load_fluency_data function.
     """    
     return load_fluency_data(*args, **kwargs)
 
@@ -48,18 +24,6 @@ def readX(*args, **kwargs):
 def load_graph(*args, **kwargs):
     """
     Alias for load_network for backwards compatibility.
-
-    Parameters
-    ----------
-    *args : tuple
-        Positional arguments passed to load_network.
-    **kwargs : dict
-        Keyword arguments passed to load_network.
-
-    Returns
-    -------
-    Any
-        Output of the load_network function.
     """    
     return load_network(*args, **kwargs)
 
@@ -67,18 +31,6 @@ def load_graph(*args, **kwargs):
 def read_graph(*args, **kwargs):
     """
     Alias for load_network for backwards compatibility.
-
-    Parameters
-    ----------
-    *args : tuple
-        Positional arguments passed to load_network.
-    **kwargs : dict
-        Keyword arguments passed to load_network.
-
-    Returns
-    -------
-    Any
-        Output of the load_network function.
     """    
     return load_network(*args, **kwargs)
 

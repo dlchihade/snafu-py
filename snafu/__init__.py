@@ -30,10 +30,10 @@ from .clustering import *
 from .perseverations import *
 from .intrusions import *
 from .search import *
-from .triadic import *
+#from .triadic import *
 from .word_properties import *
 from .pci import *
-from .generate_graphs import *
+#from .generate_graphs import *
 from .irts import *
 
 from .core import *

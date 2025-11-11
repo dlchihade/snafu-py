@@ -1,0 +1,30 @@
+# Analysis Configuration
+cache_size: 1000
+clustering_threshold: 0.5
+similarity_threshold: 0.6  # Threshold for exploitation vs exploration phases
+
+# spaCy Model Configuration
+spacy_model: en_core_web_md
+batch_size: 1000  # For efficient batch processing
+min_similarity: 0.1  # Minimum similarity to consider words related
+max_similarity: 0.95  # Maximum similarity (to avoid identical words)
+
+# Data Paths
+data_paths:
+  fluency_data: data/fluency_data.csv
+  meg_data: data/meg_data.csv
+
+# Output Configuration
+output_dir: output
+plot_format: svg
+save_plots: true
+
+# Analysis Parameters
+semantic_weight: 0.7
+min_phase_length: 2  # Minimum number of words in a phase
+max_phase_length: 20  # Maximum number of words in a phase
+
+# Performance Settings
+enable_caching: true
+enable_batch_processing: true
+enable_parallel_processing: false  # Set to true if you have multiple cores

@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # Note: mcp-docker-server requires a custom build or official image
+  # Commenting out for now as the image doesn't exist
+  # mcp-docker-server:
+  #   image: mcp/docker-server:latest
+  #   container_name: mcp-docker-server
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - /Users/diettachihade/snafu-py:/workspace
+  #   environment:
+  #     - DOCKER_HOST=unix:///var/run/docker.sock
+  #     - WORKSPACE_PATH=/workspace
+  #   networks:
+  #     - mcp-network
+  #   ports:
+  #     - "3000:3000"
+
+  mcp-filesystem-server:
+    image: node:18-alpine
+    container_name: mcp-filesystem-server
+    restart: unless-stopped
+    working_dir: /workspace
+    volumes:
+      - /Users/diettachihade/snafu-py:/workspace
+    command: >
+      sh -c "npm install -g @modelcontextprotocol/server-filesystem && 
+             mcp-server-filesystem /workspace"
+    networks:
+      - mcp-network
+    ports:
+      - "3001:3001"
+
+  mcp-outlook-server:
+    image: node:18-alpine
+    container_name: mcp-outlook-server
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./mcp-outlook-server:/app
+    environment:
+      - AZURE_TENANT_ID=${AZURE_TENANT_ID}
+      - AZURE_CLIENT_ID=${AZURE_CLIENT_ID}
+      - AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET}
+      - OUTLOOK_USER_ID=${OUTLOOK_USER_ID}
+    command: >
+      sh -c "npm install && npm run build && npm start"
+    networks:
+      - mcp-network
+    ports:
+      - "3002:3002"
+
+networks:
+  mcp-network:
+    driver: bridge
+

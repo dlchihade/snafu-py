@@ -13,3 +13,10 @@ snet/swow_one.snet
 snet/swow_animals.snet
 transition_model_fresh.py
 pysnafu.egg-info/
+
+# Cursor IDE
+.cursor/
+
+# Node modules
+node_modules/
+**/node_modules/

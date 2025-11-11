@@ -1,0 +1,30 @@
+Variable,Description
+ID,Participant ID
+norm_LC_avg,LC integrity (normalized)
+alpha_NET_mean,α-power (8-12 Hz)
+exploitation_coherence_ratio,EE metric (Exploitation Coherence Ratio)
+SVF_count,SVF Count (number of words)
+Age,Age in years
+num_switches,Number of switches between exploitation/exploration
+novelty_score,Novelty score
+exploitation_intra_mean,Mean exploitation coherence
+exploration_intra_mean,Mean exploration coherence
+inter_phase_mean,Mean inter-phase coherence
+exploration_coherence_ratio,Exploration coherence ratio
+phase_separation_index,Phase separation index
+mean_zipf,Mean Zipf frequency
+median_zipf,Median Zipf frequency
+std_zipf,Standard deviation of Zipf frequency
+mean_rank,Mean word rank
+median_rank,Median word rank
+std_rank,Standard deviation of word rank
+symptom_onset_year,Year of first symptom onset
+diagnosis_year,Year of diagnosis
+disease_duration_symptoms,Disease duration since first symptoms (years)
+disease_duration_diagnosis,Disease duration since diagnosis (years)
+hoehn_yahr_score,Hoehn and Yahr score (disease severity)
+cognitive_measure_1,Cognitive measure 1
+cognitive_measure_2,Cognitive measure 2
+cognitive_measure_3,Cognitive measure 3
+cognitive_measure_4,Cognitive measure 4
+cognitive_measure_5,Cognitive measure 5

@@ -1,0 +1,39 @@
+{
+  "mcpServers": {
+    "docker": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "--network=host",
+        "-v", "/var/run/docker.sock:/var/run/docker.sock",
+        "mcp/docker-server"
+      ],
+      "env": {
+        "DOCKER_HOST": "unix:///var/run/docker.sock"
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/diettachihade/snafu-py"
+      ]
+    },
+    "outlook": {
+      "command": "node",
+      "args": [
+        "/Users/diettachihade/snafu-py/mcp-outlook-server/dist/index.js"
+      ],
+      "env": {
+        "AZURE_TENANT_ID": "${AZURE_TENANT_ID}",
+        "AZURE_CLIENT_ID": "${AZURE_CLIENT_ID}",
+        "AZURE_CLIENT_SECRET": "${AZURE_CLIENT_SECRET}",
+        "OUTLOOK_USER_ID": "${OUTLOOK_USER_ID}"
+      }
+    }
+  }
+}
+

@@ -102,13 +102,12 @@ def plot_mediation_disease_stage(result: dict, title: str, out_path: Path, outco
     y_c = (0.82, 0.32)
     rect_w, rect_h = 0.16, 0.10
 
-    # Publication palette mapping: keep X and M fixed; vary Y by outcome type to differentiate panels
+    # Use the same palette as the age-adjusted Nature figures for consistency
     colors = {
-        'x': '#2E86AB',     # X: vibrant blue
-        'm': '#A23B72',     # M: vibrant magenta
+        'x': colors_fig1['accent'],      # LC integrity
+        'm': colors_fig1['secondary'],   # α-power
     }
-    # EE (coherence) uses emerald green; SVF uses coral for clearer differentiation
-    y_color = '#18A558' if outcome_type == 'coherence' else '#E76F51'
+    y_color = colors_fig1['highlight'] if outcome_type == 'coherence' else colors_fig1['purple']
     edge = '#000000'
     ax.add_patch(Rectangle((x_c[0] - rect_w/2, x_c[1] - rect_h/2), rect_w, rect_h, facecolor=colors['x'], edgecolor=edge, linewidth=0.5))
     ax.add_patch(Rectangle((m_c[0] - rect_w/2, m_c[1] - rect_h/2), rect_w, rect_h, facecolor=colors['m'], edgecolor=edge, linewidth=0.5))
@@ -199,7 +198,7 @@ def plot_mediation_disease_stage(result: dict, title: str, out_path: Path, outco
     totals = [result['c'], cprime, result['indirect']]
     labels = ['Total (c)', 'Direct (c′)', 'Indirect (a×b)']
     # Bar colors: make Total (c) follow the outcome color to differentiate panels
-    bar_colors = [y_color, '#A23B72', '#2E86AB']
+    bar_colors = [y_color, colors_fig1['secondary'], colors_fig1['accent']]
     # Tighter spacing between bars
     xs = np.array([0.0, 0.85, 1.7])
     bars = ax_bars.bar(xs, totals, width=0.55, color=bar_colors, edgecolor='black', linewidth=0.5)

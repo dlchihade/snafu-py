@@ -2,7 +2,7 @@
 """
 One-stop mediation runner for real data:
  1) Loads metrics from output/NATURE_REAL_metrics.csv and merges SVF counts if available
- 2) Runs age-adjusted mediation for EE metric and SVF count
+ 2) Runs age-adjusted mediation for Exploitation coherence and SVF count
  3) Saves Nature-style mediation figures for both outcomes
  4) Stacks them into a combined, trimmed PDF/PNG
 
@@ -93,11 +93,11 @@ def main():
 
     df = _load_metrics()
 
-    # EE metric (exploitation_coherence_ratio)
+    # Exploitation coherence ratio (outcome column unchanged)
     res_ee = mediation_age_adjusted(df, 'exploitation_coherence_ratio')
     plot_mediation_nature(
         res_ee,
-        'LC → α-power → EE metric (Age-adjusted)',
+        'LC → α-power → Exploitation coherence (Age-adjusted)',
         out_dir / 'mediation_exploit_age_nature.png',
         outcome_type='coherence',
     )

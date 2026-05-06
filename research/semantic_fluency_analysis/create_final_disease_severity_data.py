@@ -85,7 +85,7 @@ def create_final_disease_severity_dataset():
         'ID': 'Participant ID',
         'norm_LC_avg': 'LC integrity (normalized)',
         'alpha_NET_mean': 'α-power (8-12 Hz)',
-        'exploitation_coherence_ratio': 'EE metric (Exploitation Coherence Ratio)',
+        'exploitation_coherence_ratio': 'Exploitation coherence',
         'SVF_count': 'SVF Count (number of words)',
         'Age': 'Age in years',
         'disease_duration_symptoms': 'Disease duration since first symptoms (years)',

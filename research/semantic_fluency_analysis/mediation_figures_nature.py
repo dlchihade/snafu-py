@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import matplotlib.lines as mlines
 from matplotlib.patches import Rectangle
+from matplotlib.ticker import MultipleLocator
 from pathlib import Path
 from scipy.stats import t as t_dist
 from create_nature_quality_figures_real import setup_nature_style
@@ -69,6 +70,15 @@ def apply_nature_style():
 # Display label for outcome when using exploitation_coherence_ratio (not the E–E ratio index).
 OUTCOME_LABEL_COHERENCE = 'Exploitation coherence'
 
+# Distinct from age_adjusted (sky blue / purple / green) so figures are not confused in manuscripts.
+_DISEASE_STAGE_PALETTE = {
+    'accent': '#332288',    # LC (deep indigo; was light blue)
+    'secondary': '#E69F00',  # α-power (orange; was purple)
+    'highlight': '#44AA99',  # Exploitation coherence (teal; was green)
+    'purple': '#AA4499',     # SVF count (magenta; was pink)
+    'neutral': '#777777',    # paths (slightly darker gray)
+}
+
 
 def _annotate_bar_values(ax_bars, bars, totals):
     """Place value labels in offset points so PDF export does not overlap x-axis tick labels."""
@@ -83,7 +93,10 @@ def _annotate_bar_values(ax_bars, bars, totals):
             xytext=(0, off),
             textcoords='offset points',
             ha='center', va=va, fontsize=7, color='#000000',
-            bbox=dict(boxstyle='round,pad=0.2', facecolor='white', alpha=0.9, edgecolor='gray'),
+            bbox=dict(
+                boxstyle='round,pad=0.2', facecolor='white', alpha=0.9,
+                edgecolor='#000000', linewidth=0.35,
+            ),
         )
 
 
@@ -181,12 +194,22 @@ def mediation_age_adjusted(df: pd.DataFrame, outcome_col: str, B: int = 5000, se
     }
 
 
-def plot_mediation_nature(result: dict, title: str, out_path: Path, outcome_type: str = 'coherence'):
-    """Mediation figure with left path diagram and right effects decomposition bars (Total, Direct, Indirect)."""
+def plot_mediation_figure_shared(
+    result: dict,
+    out_path: Path,
+    *,
+    outcome_type: str = 'coherence',
+    subtitle: str = 'Age-adjusted',
+    color_scheme: str = 'age_adjusted',
+) -> None:
+    """Single canonical layout for mediation (path diagram + bars). Used by age- and disease-stage exports.
 
-    # Apply style and load the same color palette used by Figure 1
-    # (setup_nature_style updates rcParams and returns a colors dict)
-    colors_fig1 = setup_nature_style()
+    color_scheme: 'age_adjusted' (default) or 'disease_stage' — distinct palettes so panels are not mistaken.
+    """
+
+    colors_fig1 = dict(setup_nature_style())
+    if color_scheme == 'disease_stage':
+        colors_fig1.update(_DISEASE_STAGE_PALETTE)
 
     fig = plt.figure(figsize=(6.2, 3.1))
     gs = fig.add_gridspec(1, 2, width_ratios=[0.55, 0.45], wspace=0.12)
@@ -205,7 +228,7 @@ def plot_mediation_nature(result: dict, title: str, out_path: Path, outcome_type
         'x': colors_fig1['accent'],     # X: blue
         'm': colors_fig1['secondary'],  # M: orange
     }
-    # EE (coherence) uses green; SVF uses purple for clearer differentiation
+    # Exploitation coherence outcome uses green; SVF uses purple for clearer differentiation
     y_color = colors_fig1['highlight'] if outcome_type == 'coherence' else colors_fig1['purple']
     edge = '#000000'
     ax.add_patch(Rectangle((x_c[0] - rect_w/2, x_c[1] - rect_h/2), rect_w, rect_h, facecolor=colors['x'], edgecolor=edge, linewidth=0.5))
@@ -228,7 +251,7 @@ def plot_mediation_nature(result: dict, title: str, out_path: Path, outcome_type
 
     # Arrow styling
     arrow_color = colors_fig1['neutral']
-    lw_arrow = 0.8
+    lw_arrow = 1.45
 
     def draw_arrow(p0, p1):
         ax.annotate('', xy=p1, xytext=p0, arrowprops=dict(arrowstyle='->', lw=lw_arrow, color=arrow_color))
@@ -261,26 +284,27 @@ def plot_mediation_nature(result: dict, title: str, out_path: Path, outcome_type
             ux, uy = -dy / L, dx / L
         off = 0.045
         ax.text(mx + off * ux, my + off * uy, text, ha='center', va='center', fontsize=7, color='#000000',
-                bbox=dict(boxstyle='round,pad=0.2', facecolor='white', alpha=0.8, edgecolor='gray'))
+                bbox=dict(boxstyle='round,pad=0.2', facecolor='white', alpha=0.8,
+                          edgecolor='#000000', linewidth=0.35))
 
     # X -> M (a)
     a_start = edge_point(x_c, m_c)
     a_end = edge_point(m_c, x_c)
     draw_arrow(a_start, a_end)
-    label_perp(a_start, a_end, f"a: β = {result['a']:.3f}")
+    label_perp(a_start, a_end, f"a:\nβ = {result['a']:.3f}")
 
     # M -> Y (b)
     b_start = edge_point(m_c, y_c)
     b_end = edge_point(y_c, m_c)
     draw_arrow(b_start, b_end)
-    label_perp(b_start, b_end, f"b: β = {result['b']:.3f}")
+    label_perp(b_start, b_end, f"b:\nβ = {result['b']:.3f}")
 
     # X -> Y (c' direct)
     c_start = edge_point(x_c, y_c)
     c_end = edge_point(y_c, x_c)
     draw_arrow(c_start, c_end)
     cprime = result["c'"]
-    label_perp(c_start, c_end, f"c′: β = {cprime:.3f}")
+    label_perp(c_start, c_end, f"c′:\nβ = {cprime:.3f}")
 
     # Remove extra footnote text for a cleaner look
 
@@ -291,7 +315,7 @@ def plot_mediation_nature(result: dict, title: str, out_path: Path, outcome_type
         mpatches.Patch(facecolor=colors['x'], edgecolor='black', linewidth=0.5, label='LC integrity'),
         mpatches.Patch(facecolor=colors['m'], edgecolor='black', linewidth=0.5, label='α-power'),
         mpatches.Patch(facecolor=y_color, edgecolor='black', linewidth=0.5, label=outcome_label),
-        mlines.Line2D([0], [0], color=arrow_color, lw=lw_arrow, label='Path (a, b, c′)')
+        mlines.Line2D([0], [0], color=arrow_color, lw=lw_arrow, label='Path\n(a, b, c′)')
     ]
     ax.legend(
         handles=legend_handles,
@@ -306,7 +330,7 @@ def plot_mediation_nature(result: dict, title: str, out_path: Path, outcome_type
 
     # Right: Effects decomposition bars
     totals = [result['c'], cprime, result['indirect']]
-    labels = ['Total (c)', 'Direct (c′)', 'Indirect (a×b)']
+    labels = ['Total\n(c)', 'Direct\n(c′)', 'Indirect\n(a×b)']
     # Bar colors: make Total (c) follow the outcome color to differentiate panels
     bar_colors = [y_color, colors_fig1['secondary'], colors_fig1['accent']]
     # Tighter spacing between bars
@@ -322,14 +346,17 @@ def plot_mediation_nature(result: dict, title: str, out_path: Path, outcome_type
         y_max = np.nanmax(totals) * 1.22
         ax_bars.set_ylim(0.0, y_max)
     else:
-        y_abs = max(0.22, np.nanmax(np.abs(totals)) * 1.38)
+        # Floor at ±0.4 (reference manuscript) so disease-stage panels match age-adjusted bar scale.
+        data_max = float(np.nanmax(np.abs(totals)))
+        y_abs = max(0.4, max(0.22, data_max * 1.38))
         ax_bars.set_ylim(-y_abs, y_abs)
+        ax_bars.yaxis.set_major_locator(MultipleLocator(0.1))
     ax_bars.set_xlim(-0.45, 2.05)
     ax_bars.margins(x=0.02)
     _annotate_bar_values(ax_bars, bars, totals)
     ax_bars.set_title(
-        f"Indirect: {result['indirect']:.3f} (95% CI: {result['ci_low']:.3f}, {result['ci_high']:.3f})  |  "
-        f"N = {result['N']}  |  Age-adjusted",
+        f"Indirect: {result['indirect']:.3f} (95% CI: {result['ci_low']:.3f}, {result['ci_high']:.3f})\n"
+        f"N = {result['N']}  |  {subtitle}",
         fontsize=7, color='#000000', pad=10, loc='center',
     )
 
@@ -338,145 +365,16 @@ def plot_mediation_nature(result: dict, title: str, out_path: Path, outcome_type
     fig.savefig(out_path, dpi=300, bbox_inches='tight', facecolor='white', pad_inches=0.12)
     fig.savefig(out_path.with_suffix('.pdf'), dpi=300, bbox_inches='tight', facecolor='white', pad_inches=0.12)
     plt.close(fig)
+
+
+def plot_mediation_nature(result: dict, title: str, out_path: Path, outcome_type: str = 'coherence'):
+    """Mediation figure with left path diagram and right effects decomposition bars (Total, Direct, Indirect)."""
+    plot_mediation_figure_shared(result, out_path, outcome_type=outcome_type, subtitle='Age-adjusted')
 
 
 def plot_mediation_nature_coherence(result: dict, title: str, out_path: Path, outcome_type: str = 'coherence'):
-    """Same layout as plot_mediation_nature; kept for a second output file if needed."""
-    colors_fig1 = setup_nature_style()
-    fig = plt.figure(figsize=(6.2, 3.1))
-    gs = fig.add_gridspec(1, 2, width_ratios=[0.55, 0.45], wspace=0.12)
-    ax = fig.add_subplot(gs[0])
-    ax_bars = fig.add_subplot(gs[1])
-    ax.axis('off')
-
-    x_c = (0.18, 0.32)
-    m_c = (0.50, 0.70)
-    y_c = (0.82, 0.32)
-    rect_w, rect_h = 0.16, 0.10
-
-    colors = {
-        'x': colors_fig1['accent'],
-        'm': colors_fig1['secondary'],
-    }
-    y_color = colors_fig1['highlight'] if outcome_type == 'coherence' else colors_fig1['purple']
-    edge = '#000000'
-    ax.add_patch(Rectangle((x_c[0] - rect_w/2, x_c[1] - rect_h/2), rect_w, rect_h, facecolor=colors['x'], edgecolor=edge, linewidth=0.5))
-    ax.add_patch(Rectangle((m_c[0] - rect_w/2, m_c[1] - rect_h/2), rect_w, rect_h, facecolor=colors['m'], edgecolor=edge, linewidth=0.5))
-    ax.add_patch(Rectangle((y_c[0] - rect_w/2, y_c[1] - rect_h/2), rect_w, rect_h, facecolor=y_color, edgecolor=edge, linewidth=0.5))
-
-    gap_below_box = 0.018
-    half_h = rect_h / 2
-    outcome_label = OUTCOME_LABEL_COHERENCE if outcome_type == 'coherence' else 'SVF Count'
-    fs_node = 6 if (outcome_type == 'coherence' and len(outcome_label) > 14) else 7
-
-    def _node_caption(x0, y0, s, fs=7):
-        ty = y0 - half_h - gap_below_box
-        ax.text(x0, ty, s, ha='center', va='top', fontsize=fs, color='#000000')
-
-    _node_caption(x_c[0], x_c[1], 'LC integrity', 7)
-    _node_caption(m_c[0], m_c[1], 'α-power', 7)
-    _node_caption(y_c[0], y_c[1], outcome_label, fs_node)
-
-    arrow_color = colors_fig1['neutral']
-    lw_arrow = 0.8
-
-    def draw_arrow(p0, p1):
-        ax.annotate('', xy=p1, xytext=p0, arrowprops=dict(arrowstyle='->', lw=lw_arrow, color=arrow_color))
-
-    def edge_point(c_from, c_to):
-        x0, y0 = c_from
-        x1, y1 = c_to
-        dx, dy = x1 - x0, y1 - y0
-        if dx == dy == 0:
-            return c_from
-        L = (dx**2 + dy**2) ** 0.5
-        ux, uy = dx / L, dy / L
-        hx, hy = rect_w/2, rect_h/2
-        tx = hx / abs(ux) if abs(ux) > 1e-8 else float('inf')
-        ty = hy / abs(uy) if abs(uy) > 1e-8 else float('inf')
-        t = min(tx, ty)
-        return (x0 + ux * t, y0 + uy * t)
-
-    def label_perp(p0, p1, text):
-        mx, my = (p0[0] + p1[0]) / 2.0, (p0[1] + p1[1]) / 2.0
-        dx, dy = p1[0] - p0[0], p1[1] - p0[1]
-        L = (dx**2 + dy**2) ** 0.5
-        if L < 1e-8:
-            return
-        if abs(dy) < 1e-5 and my < 0.42:
-            ux, uy = 0.0, -1.0
-        else:
-            ux, uy = -dy / L, dx / L
-        off = 0.045
-        ax.text(mx + off * ux, my + off * uy, text, ha='center', va='center', fontsize=7, color='#000000',
-                bbox=dict(boxstyle='round,pad=0.2', facecolor='white', alpha=0.8, edgecolor='gray'))
-
-    a_start = edge_point(x_c, m_c)
-    a_end = edge_point(m_c, x_c)
-    draw_arrow(a_start, a_end)
-    label_perp(a_start, a_end, f"a: β = {result['a']:.3f}")
-
-    b_start = edge_point(m_c, y_c)
-    b_end = edge_point(y_c, m_c)
-    draw_arrow(b_start, b_end)
-    label_perp(b_start, b_end, f"b: β = {result['b']:.3f}")
-
-    c_start = edge_point(x_c, y_c)
-    c_end = edge_point(y_c, x_c)
-    draw_arrow(c_start, c_end)
-    cprime = result["c'"]
-    label_perp(c_start, c_end, f"c′: β = {cprime:.3f}")
-
-    ax.set_xlim(0.0, 1.0)
-    ax.set_ylim(0.0, 1.0)
-
-    legend_handles = [
-        mpatches.Patch(facecolor=colors['x'], edgecolor='black', linewidth=0.5, label='LC integrity'),
-        mpatches.Patch(facecolor=colors['m'], edgecolor='black', linewidth=0.5, label='α-power'),
-        mpatches.Patch(facecolor=y_color, edgecolor='black', linewidth=0.5, label=outcome_label),
-        mlines.Line2D([0], [0], color=arrow_color, lw=lw_arrow, label='Path (a, b, c′)')
-    ]
-    ax.legend(
-        handles=legend_handles,
-        loc='upper left',
-        bbox_to_anchor=(0.02, 1.0),
-        frameon=False,
-        fontsize=7,
-        handlelength=1.6,
-        borderaxespad=0.3,
-        labelspacing=0.5,
-    )
-
-    totals = [result['c'], cprime, result['indirect']]
-    labels = ['Total (c)', 'Direct (c′)', 'Indirect (a×b)']
-    bar_colors = [y_color, colors_fig1['secondary'], colors_fig1['accent']]
-    xs = np.array([0.0, 0.85, 1.7])
-    bars = ax_bars.bar(xs, totals, width=0.55, color=bar_colors, edgecolor='black', linewidth=0.5)
-    ax_bars.set_xticks(xs, labels)
-    ax_bars.set_ylabel('Effect Size', fontsize=7)
-    ax_bars.tick_params(axis='both', labelsize=7)
-    ax_bars.tick_params(axis='x', pad=7)
-    ax_bars.axhline(0, color='#888888', linewidth=0.6)
-    if outcome_type == 'svf':
-        y_max = np.nanmax(totals) * 1.22
-        ax_bars.set_ylim(0.0, y_max)
-    else:
-        y_abs = max(0.22, np.nanmax(np.abs(totals)) * 1.38)
-        ax_bars.set_ylim(-y_abs, y_abs)
-    ax_bars.set_xlim(-0.45, 2.05)
-    ax_bars.margins(x=0.02)
-    _annotate_bar_values(ax_bars, bars, totals)
-    ax_bars.set_title(
-        f"Indirect: {result['indirect']:.3f} (95% CI: {result['ci_low']:.3f}, {result['ci_high']:.3f})  |  "
-        f"N = {result['N']}  |  Age-adjusted",
-        fontsize=7, color='#000000', pad=10, loc='center',
-    )
-
-    out_path.parent.mkdir(exist_ok=True)
-    fig.subplots_adjust(left=0.08, right=0.98, top=0.88, bottom=0.14, wspace=0.22)
-    fig.savefig(out_path, dpi=300, bbox_inches='tight', facecolor='white', pad_inches=0.12)
-    fig.savefig(out_path.with_suffix('.pdf'), dpi=300, bbox_inches='tight', facecolor='white', pad_inches=0.12)
-    plt.close(fig)
+    """Second export file; identical layout to plot_mediation_nature."""
+    plot_mediation_figure_shared(result, out_path, outcome_type=outcome_type, subtitle='Age-adjusted')
 
 
 def main():

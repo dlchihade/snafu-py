@@ -112,7 +112,7 @@ def create_mediation_figure_disease_stage(result: dict, outcome_type: str, save_
         outcome_label = 'SVF Count'
         y_color = colors_fig1['purple']
     else:
-        outcome_label = 'EE metric'
+        outcome_label = 'Exploitation coherence'
         y_color = colors_fig1['highlight']
     
     # Create figure with 3.46 × 3.0 inch size
@@ -257,14 +257,14 @@ def main():
                                             output_dir / 'mediation_svf_disease_stage_nature.pdf')
         print(f"SVF Count mediation (disease stage adjusted): N = {result_svf['n']}")
     
-    # EE metric mediation
+    # Exploitation coherence mediation
     result_ee = mediation_disease_stage_adjusted(df, 'exploitation_coherence_ratio')
     if result_ee:
         create_mediation_figure_disease_stage(result_ee, 'ee', 
                                             output_dir / 'mediation_ee_disease_stage_nature.png')
         create_mediation_figure_disease_stage(result_ee, 'ee', 
                                             output_dir / 'mediation_ee_disease_stage_nature.pdf')
-        print(f"EE metric mediation (disease stage adjusted): N = {result_ee['n']}")
+        print(f"Exploitation coherence mediation (disease stage adjusted): N = {result_ee['n']}")
     
     print("\nCreated disease stage-adjusted mediation figures:")
     print(" - output/mediation_svf_disease_stage_nature.(png|pdf)")

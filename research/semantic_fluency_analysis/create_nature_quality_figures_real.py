@@ -1141,12 +1141,44 @@ def fig4_schematic_only():
 
 
 def fig4_panels_only(df: pd.DataFrame, colors):
-    """Create four data panels only as SVG"""
+    """Create three data panels only as SVG (Panel A removed, outliers filtered)"""
     setup_nature_style()
     x = df['exploitation_intra_mean'].values
     y = df['exploration_intra_mean'].values
     switches = df['num_switches'].values
     novelty = df['novelty_score'].values
+    
+    # Remove outliers using IQR method for each variable
+    def remove_outliers_iqr(data):
+        """Remove outliers using IQR method"""
+        q1 = np.nanpercentile(data, 25)
+        q3 = np.nanpercentile(data, 75)
+        iqr = q3 - q1
+        if iqr == 0:  # Handle case where all values are the same
+            return ~np.isnan(data)
+        lower_bound = q1 - 1.5 * iqr
+        upper_bound = q3 + 1.5 * iqr
+        return (data >= lower_bound) & (data <= upper_bound) & ~np.isnan(data)
+    
+    # Apply outlier removal per-panel (only remove outliers relevant to each relationship)
+    # Panel A: Exploitation vs Exploration - remove outliers in x and y
+    mask_a = remove_outliers_iqr(x) & remove_outliers_iqr(y)
+    x_clean_a = x[mask_a]
+    y_clean_a = y[mask_a]
+    
+    # Panel B: Exploitation vs Switches - remove outliers in x and switches
+    mask_b = remove_outliers_iqr(x) & remove_outliers_iqr(switches)
+    x_clean_b = x[mask_b]
+    switches_clean = switches[mask_b]
+    
+    # Panel C: Exploration vs Novelty - remove outliers in y and novelty
+    mask_c = remove_outliers_iqr(y) & remove_outliers_iqr(novelty)
+    y_clean_c = y[mask_c]
+    novelty_clean = novelty[mask_c]
+    
+    print(f'📊 Panel A: {len(x_clean_a)}/{len(x)} points after outlier removal')
+    print(f'📊 Panel B: {len(x_clean_b)}/{len(x)} points after outlier removal')
+    print(f'📊 Panel C: {len(y_clean_c)}/{len(y)} points after outlier removal')
     
     def add_line_with_ci(ax, x_vals: np.ndarray, y_vals: np.ndarray, color: str):
         mask_xy = ~np.isnan(x_vals) & ~np.isnan(y_vals)
@@ -1157,7 +1189,8 @@ def fig4_panels_only(df: pd.DataFrame, colors):
         z = np.polyfit(x_clean, y_clean, 1)
         xr = np.linspace(np.nanmin(x_clean), np.nanmax(x_clean), 200)
         yr = np.poly1d(z)(xr)
-        ax.plot(xr, yr, color=colors['primary'], linewidth=1.6, zorder=2)
+        # Use dark blue for regression line (colorblind-friendly)
+        ax.plot(xr, yr, color='#2E5C8A', linewidth=1.6, zorder=2)
         slope, intercept, r_val, p_val, std_err = linregress(x_clean, y_clean)
         y_pred = slope * x_clean + intercept
         resid = y_clean - y_pred
@@ -1172,12 +1205,14 @@ def fig4_panels_only(df: pd.DataFrame, colors):
         t_crit = t_dist.ppf(0.975, n - 2)
         ci_upper = yr + t_crit * se_pred
         ci_lower = yr - t_crit * se_pred
-        ax.fill_between(xr, ci_lower, ci_upper, color='gray', alpha=0.25, zorder=1)
+        # Use colorblind-friendly blue-gray for CI shading
+        ax.fill_between(xr, ci_lower, ci_upper, color='#4A90E2', alpha=0.15, zorder=1)
         return r_val
     
-    fig = plt.figure(figsize=(9.0, 7.0))
-    gs = fig.add_gridspec(2, 2, left=0.12, right=0.96, top=0.96, bottom=0.14, 
-                          wspace=0.32, hspace=0.38)
+    # 2x2 layout for publication quality
+    fig = plt.figure(figsize=(10, 10))
+    gs = fig.add_gridspec(2, 2, left=0.10, right=0.95, top=0.95, bottom=0.10, 
+                          wspace=0.4, hspace=0.4)
     
     axA = fig.add_subplot(gs[0, 0])
     axB = fig.add_subplot(gs[0, 1])
@@ -1185,93 +1220,108 @@ def fig4_panels_only(df: pd.DataFrame, colors):
     axD = fig.add_subplot(gs[1, 1])
     
     # A: Exploitation vs Exploration
-    mask = ~np.isnan(x) & ~np.isnan(y)
-    axA.scatter(x[mask], y[mask], s=35, alpha=0.75, color=colors['accent'], 
+    mask = ~np.isnan(x_clean_a) & ~np.isnan(y_clean_a)
+    # Use colorblind-friendly blue (consistent with semantic fluency figure)
+    axA.scatter(x_clean_a[mask], y_clean_a[mask], s=35, alpha=0.6, color='#4A90E2', 
                 edgecolor='white', linewidth=0.5, zorder=3)
     if mask.sum() >= 3:
-        r, p = pearsonr(x[mask], y[mask])
-        add_line_with_ci(axA, x[mask], y[mask], colors['primary'])
+        r, p = pearsonr(x_clean_a[mask], y_clean_a[mask])
+        add_line_with_ci(axA, x_clean_a[mask], y_clean_a[mask], colors['primary'])
         p_str = f'{p:.3f}' if p >= 0.001 else f'{p:.2e}'
         axA.text(0.98, 0.98, f'r = {r:.3f}\np = {p_str}', transform=axA.transAxes, 
                 ha='right', va='top', fontsize=11, fontweight='normal',
-                bbox=dict(boxstyle='round,pad=0.4', facecolor='white', alpha=0.9, 
-                         edgecolor='gray', linewidth=0.8))
-    axA.set_xlabel('Exploitation (cosine similarity)', fontsize=14, fontweight='normal')
-    axA.set_ylabel('Exploration (cosine similarity)', fontsize=14, fontweight='normal')
-    axA.set_title('A', loc='left', fontsize=14, fontweight='bold', pad=8)
-    axA.tick_params(axis='both', which='major', labelsize=11, width=0.8, length=4)
+                bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.95, 
+                         edgecolor='gray', linewidth=1.0))
+    axA.set_xlabel('Exploitation\n(cosine similarity)', fontsize=11, fontweight='normal', linespacing=1.2)
+    axA.set_ylabel('Exploration\n(cosine similarity)', fontsize=11, fontweight='normal', linespacing=1.2)
+    axA.set_title('A', loc='left', fontsize=12, fontweight='bold', pad=8)
+    axA.tick_params(axis='both', which='major', labelsize=10, width=1.0, length=5)
     axA.spines['top'].set_visible(False)
     axA.spines['right'].set_visible(False)
     axA.spines['left'].set_linewidth(1.2)
     axA.spines['bottom'].set_linewidth(1.2)
     
-    # B: Overlaid distributions
-    bins = 14
-    axB.hist(x, bins=bins, alpha=0.65, density=True, color=colors['accent'], 
-             edgecolor='white', linewidth=0.8, label='Exploitation', zorder=2)
-    axB.hist(y, bins=bins, alpha=0.65, density=True, color=colors['secondary'], 
-             edgecolor='white', linewidth=0.8, label='Exploration', zorder=1)
-    axB.set_xlabel('Cosine similarity', fontsize=14, fontweight='normal')
-    axB.set_ylabel('Normalized frequency', fontsize=14, fontweight='normal')
-    axB.set_title('B', loc='left', fontsize=14, fontweight='bold', pad=8)
-    axB.legend(frameon=True, fontsize=11, loc='upper right', 
-              framealpha=0.95, edgecolor='gray', fancybox=False)
-    axB.tick_params(axis='both', which='major', labelsize=11, width=0.8, length=4)
+    # B: Exploitation vs Switches (with legend outside)
+    mask = ~np.isnan(x_clean_b) & ~np.isnan(switches_clean)
+    # Use colorblind-friendly green (consistent palette)
+    axB.scatter(x_clean_b[mask], switches_clean[mask], s=35, alpha=0.6, color='#009E73', 
+                edgecolor='white', linewidth=0.5, zorder=3, label='Data')
+    if mask.sum() >= 3:
+        r, p = pearsonr(x_clean_b[mask], switches_clean[mask])
+        add_line_with_ci(axB, x_clean_b[mask], switches_clean[mask], colors['primary'])
+        p_str = f'{p:.3f}' if p >= 0.001 else f'{p:.2e}'
+        # Move legend outside plot area
+        axB.legend(loc='upper left', bbox_to_anchor=(1.05, 1), fontsize=10, frameon=True)
+        axB.text(0.98, 0.98, f'r = {r:.3f}\np = {p_str}', transform=axB.transAxes, 
+                ha='right', va='top', fontsize=11, fontweight='normal',
+                bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.95, 
+                         edgecolor='gray', linewidth=1.0))
+    axB.set_xlabel('Exploitation\n(cosine similarity)', fontsize=11, fontweight='normal', linespacing=1.2)
+    axB.set_ylabel('Cluster switches', fontsize=11, fontweight='normal')
+    axB.set_title('B', loc='left', fontsize=12, fontweight='bold', pad=8)
+    axB.tick_params(axis='both', which='major', labelsize=10, width=1.0, length=5)
     axB.spines['top'].set_visible(False)
     axB.spines['right'].set_visible(False)
     axB.spines['left'].set_linewidth(1.2)
     axB.spines['bottom'].set_linewidth(1.2)
     
-    # C: Exploitation vs Switches
-    mask = ~np.isnan(x) & ~np.isnan(switches)
-    axC.scatter(x[mask], switches[mask], s=35, alpha=0.75, color=colors['highlight'], 
+    # C: Exploration vs Novelty (with inset box)
+    mask = ~np.isnan(y_clean_c) & ~np.isnan(novelty_clean)
+    # Use colorblind-friendly orange (consistent palette)
+    axC.scatter(y_clean_c[mask], novelty_clean[mask], s=35, alpha=0.6, color='#E69F00', 
                 edgecolor='white', linewidth=0.5, zorder=3)
     if mask.sum() >= 3:
-        r, p = pearsonr(x[mask], switches[mask])
-        add_line_with_ci(axC, x[mask], switches[mask], colors['primary'])
+        r, p = pearsonr(y_clean_c[mask], novelty_clean[mask])
+        add_line_with_ci(axC, y_clean_c[mask], novelty_clean[mask], colors['primary'])
         p_str = f'{p:.3f}' if p >= 0.001 else f'{p:.2e}'
+        # Use inset box with light blue background (colorblind-friendly)
         axC.text(0.98, 0.98, f'r = {r:.3f}\np = {p_str}', transform=axC.transAxes, 
                 ha='right', va='top', fontsize=11, fontweight='normal',
-                bbox=dict(boxstyle='round,pad=0.4', facecolor='white', alpha=0.9, 
-                         edgecolor='gray', linewidth=0.8))
-    axC.set_xlabel('Exploitation (cosine similarity)', fontsize=14, fontweight='normal')
-    axC.set_ylabel('Cluster switches (count)', fontsize=14, fontweight='normal')
-    axC.set_title('C', loc='left', fontsize=14, fontweight='bold', pad=8)
-    axC.tick_params(axis='both', which='major', labelsize=11, width=0.8, length=4)
+                bbox=dict(boxstyle='round', facecolor='#E8F4F8', alpha=0.9, 
+                         edgecolor='#4A90E2', linewidth=1.0, pad=0.5))
+    axC.set_xlabel('Exploration\n(cosine similarity)', fontsize=11, fontweight='normal', linespacing=1.2)
+    axC.set_ylabel('Novelty', fontsize=11, fontweight='normal')
+    axC.set_title('C', loc='left', fontsize=12, fontweight='bold', pad=8)
+    axC.tick_params(axis='both', which='major', labelsize=10, width=1.0, length=5)
     axC.spines['top'].set_visible(False)
     axC.spines['right'].set_visible(False)
     axC.spines['left'].set_linewidth(1.2)
     axC.spines['bottom'].set_linewidth(1.2)
     
-    # D: Exploration vs Novelty
-    mask = ~np.isnan(y) & ~np.isnan(novelty)
-    axD.scatter(y[mask], novelty[mask], s=35, alpha=0.75, color=colors['red'], 
-                edgecolor='white', linewidth=0.5, zorder=3)
-    if mask.sum() >= 3:
-        r, p = pearsonr(y[mask], novelty[mask])
-        add_line_with_ci(axD, y[mask], novelty[mask], colors['primary'])
-        p_str = f'{p:.3f}' if p >= 0.001 else f'{p:.2e}'
-        axD.text(0.98, 0.98, f'r = {r:.3f}\np = {p_str}', transform=axD.transAxes, 
-                ha='right', va='top', fontsize=11, fontweight='normal',
-                bbox=dict(boxstyle='round,pad=0.4', facecolor='white', alpha=0.9, 
-                         edgecolor='gray', linewidth=0.8))
-    axD.set_xlabel('Exploration (cosine similarity)', fontsize=14, fontweight='normal')
-    axD.set_ylabel('Novelty (a.u.)', fontsize=14, fontweight='normal')
-    axD.set_title('D', loc='left', fontsize=14, fontweight='bold', pad=8)
-    axD.tick_params(axis='both', which='major', labelsize=11, width=0.8, length=4)
-    axD.spines['top'].set_visible(False)
-    axD.spines['right'].set_visible(False)
-    axD.spines['left'].set_linewidth(1.2)
-    axD.spines['bottom'].set_linewidth(1.2)
+    # Panel D: Summary statistics or additional relationship
+    # For now, create a summary panel with key statistics
+    axD.axis('off')
+    mask_a_final = ~np.isnan(x_clean_a) & ~np.isnan(y_clean_a)
+    mask_b_final = ~np.isnan(x_clean_b) & ~np.isnan(switches_clean)
+    mask_c_final = ~np.isnan(y_clean_c) & ~np.isnan(novelty_clean)
+    summary_text = f"Summary Statistics\n\n"
+    summary_text += f"Panel A: n = {len(x_clean_a[mask_a_final])}\n"
+    summary_text += f"Panel B: n = {len(x_clean_b[mask_b_final])}\n"
+    summary_text += f"Panel C: n = {len(y_clean_c[mask_c_final])}\n"
+    summary_text += f"\nOutlier removal: IQR method (1.5×IQR)"
+    # Use consistent color scheme for summary panel
+    axD.text(0.5, 0.5, summary_text, transform=axD.transAxes, 
+             ha='center', va='center', fontsize=11,
+             bbox=dict(boxstyle='round', facecolor='#E8F4F8', alpha=0.9, 
+                      edgecolor='#4A90E2', linewidth=1.0, pad=0.5))
+    axD.set_title('D', loc='left', fontsize=12, fontweight='bold', pad=8)
     
-    for ax in [axA, axB, axC, axD]:
+    for ax in [axA, axB, axC]:
         ax.grid(False, alpha=0.3)
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.spines['left'].set_linewidth(1.2)
+        ax.spines['bottom'].set_linewidth(1.2)
 
     output = Path('output/figures/NATURE_REAL_figure4_panels.svg')
+    output_png = Path('output/figures/NATURE_REAL_figure4_panels.png')
     output.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output, format='svg', bbox_inches='tight', pad_inches=0.1, facecolor='white')
+    fig.tight_layout(pad=1.5)
+    fig.savefig(output, format='svg', bbox_inches='tight', pad_inches=0.15, facecolor='white', dpi=300)
+    fig.savefig(output_png, format='png', bbox_inches='tight', pad_inches=0.15, facecolor='white', dpi=300)
     plt.close(fig)
     print(f"✅ Saved: {output}")
+    print(f"✅ Saved: {output_png}")
 
 
 def fig_behavior_performance(df: pd.DataFrame, colors):
@@ -1295,7 +1345,45 @@ def fig_behavior_performance(df: pd.DataFrame, colors):
     else:
         prop_exploit = np.nan
     # Optional correlations (best-effort)
-    svf = df_demo['SVF_count'].to_numpy(float) if 'SVF_count' in df_demo.columns else np.array([])
+    # Try to find SVF_count - first in original df, then in df_demo
+    # But match by ID to ensure we get ALL subjects from original df
+    svf_col = None
+    svf = np.array([])
+    
+    # First check original df
+    for col_name in ['SVF_count', 'SVF_count_x', 'SVF_count_y', 'total_words']:
+        if col_name in df.columns:
+            svf_col = col_name
+            svf = df[svf_col].to_numpy(float)
+            break
+    
+    # If not in original df, try df_demo and match by ID
+    # Prioritize SVF_count_y (has more data) or combine both columns
+    if svf_col is None and 'ID' in df.columns and 'ID' in df_demo.columns:
+        # Try to combine SVF_count_x and SVF_count_y to maximize coverage
+        svf_dict = {}
+        if 'SVF_count_y' in df_demo.columns:
+            svf_dict_y = dict(zip(df_demo['ID'], df_demo['SVF_count_y']))
+            svf_dict.update(svf_dict_y)
+            svf_col = 'SVF_count_y'
+        if 'SVF_count_x' in df_demo.columns:
+            svf_dict_x = dict(zip(df_demo['ID'], df_demo['SVF_count_x']))
+            # Fill in missing values from x if y is missing
+            for id_val, val_x in svf_dict_x.items():
+                if id_val not in svf_dict or (np.isnan(svf_dict[id_val]) or not np.isfinite(svf_dict[id_val])):
+                    if np.isfinite(val_x):
+                        svf_dict[id_val] = val_x
+        # If we have a dictionary, use it; otherwise try other columns
+        if svf_dict:
+            svf = np.array([svf_dict.get(id_val, np.nan) for id_val in df['ID']], dtype=float)
+        else:
+            # Fallback to other column names
+            for col_name in ['SVF_count', 'total_words']:
+                if col_name in df_demo.columns:
+                    svf_dict = dict(zip(df_demo['ID'], df_demo[col_name]))
+                    svf = np.array([svf_dict.get(id_val, np.nan) for id_val in df['ID']], dtype=float)
+                    svf_col = col_name
+                    break
     moca_col = next((c for c in ['MoCA', 'moca_score', 'MoCA_score', 'MoCA_total'] if c in df_demo.columns), None)
     updrs_col = next((c for c in ['UPDRS_III', 'UPDRS_part_III', 'UPDRS_part3', 'UPDRS3', 'UPDRS_PartIII'] if c in df_demo.columns), None)
     # Compute correlations
@@ -1306,74 +1394,119 @@ def fig_behavior_performance(df: pd.DataFrame, colors):
             return r, p, int(mask.sum())
         return np.nan, np.nan, 0
     r_moca, p_moca, n_moca = (np.nan, np.nan, 0)
-    if moca_col is not None and 'SVF_count' in df_demo.columns:
-        r_moca, p_moca, n_moca = pearson_safe(df_demo['SVF_count'].to_numpy(float), df_demo[moca_col].to_numpy(float))
+    if moca_col is not None and svf_col is not None:
+        r_moca, p_moca, n_moca = pearson_safe(df_demo[svf_col].to_numpy(float), df_demo[moca_col].to_numpy(float))
     r_updrs, p_updrs, n_updrs = (np.nan, np.nan, 0)
     if updrs_col is not None:
         r_updrs, p_updrs, n_updrs = pearson_safe(ee_index, df_demo[updrs_col].to_numpy(float)[:len(ee_index)])
 
-    # Build figure
+    # Build figure - increased spacing for better readability
     fig = plt.figure(figsize=(8.4, 6.2))
-    gs = fig.add_gridspec(2, 2, left=0.10, right=0.95, top=0.92, bottom=0.15, wspace=0.35, hspace=0.40)
+    gs = fig.add_gridspec(2, 2, left=0.12, right=0.95, top=0.92, bottom=0.18, wspace=0.55, hspace=0.55)
     axA = fig.add_subplot(gs[0, 0])
     axB = fig.add_subplot(gs[0, 1])
     axC = fig.add_subplot(gs[1, 0])
     axD = fig.add_subplot(gs[1, 1])
 
-    # A: Distribution of exploration intra-phase mean (cosine similarity)
+    # A: SVF Count distribution
+    svf_vals = svf[np.isfinite(svf)] if len(svf) > 0 else np.array([])
+    if len(svf_vals) > 0:
+        # Use colorblind-friendly blue
+        axA.hist(svf_vals, bins=12, color='#4A90E2', edgecolor='black', linewidth=0.5, alpha=0.85, density=False)
+        mean_svf = float(np.mean(svf_vals))
+        median_svf = float(np.median(svf_vals))
+        sd_svf = float(np.std(svf_vals, ddof=1))
+        axA.axvline(mean_svf, color='black', linestyle='--', linewidth=1.5, label=f'Mean: {mean_svf:.1f}')
+        axA.axvline(median_svf, color='purple', linestyle=':', linewidth=1.5, label=f'Median: {median_svf:.1f}')
+        # Add SD as a text entry in the legend (using empty line with custom label)
+        from matplotlib.lines import Line2D
+        legend_elements = [
+            Line2D([0], [0], color='black', linestyle='--', linewidth=1.5, label=f'Mean: {mean_svf:.1f}'),
+            Line2D([0], [0], color='purple', linestyle=':', linewidth=1.5, label=f'Median: {median_svf:.1f}'),
+            Line2D([0], [0], color='none', label=f'SD: {sd_svf:.2f}')
+        ]
+        axA.legend(handles=legend_elements, loc='upper right', fontsize=10, frameon=True, fancybox=False, shadow=False, framealpha=0.9)
+        # Set reasonable axis limits based on data
+        axA.set_xlim(left=0, right=max(30, svf_vals.max() * 1.1))
+    else:
+        axA.text(0.5, 0.5, 'SVF data unavailable', ha='center', va='center', transform=axA.transAxes, fontsize=14)
+        # Set reasonable axis limits even when data is unavailable
+        axA.set_xlim(0, 30)
+        axA.set_ylim(0, 20)
+    axA.set_xlabel('SVF Count (Number of Words)', fontsize=11, fontweight='normal')
+    axA.set_ylabel('Number of Participants', fontsize=11, fontweight='normal')
+    axA.set_title('A', loc='left', fontsize=12, fontweight='bold', pad=8)
+    axA.tick_params(labelsize=9)
+
+    # B: Overlaid histograms for Exploitation vs Exploration cosine similarity
+    explo_vals = explo_intra[np.isfinite(explo_intra)]
+    expl_vals = expl_intra[np.isfinite(expl_intra)]
+    if len(explo_vals) > 0 and len(expl_vals) > 0:
+        # Remove outliers using IQR method
+        def remove_outliers_iqr(data):
+            """Remove outliers using IQR method"""
+            q1 = np.nanpercentile(data, 25)
+            q3 = np.nanpercentile(data, 75)
+            iqr = q3 - q1
+            if iqr == 0:  # Handle case where all values are the same
+                return ~np.isnan(data)
+            lower_bound = q1 - 1.5 * iqr
+            upper_bound = q3 + 1.5 * iqr
+            return (data >= lower_bound) & (data <= upper_bound) & ~np.isnan(data)
+        
+        mask_explo = remove_outliers_iqr(explo_vals)
+        mask_expl = remove_outliers_iqr(expl_vals)
+        explo_vals_clean = explo_vals[mask_explo]
+        expl_vals_clean = expl_vals[mask_expl]
+        
+        # Normalize for comparison
+        # Use lower alpha and more bins to reduce overlap and improve visibility
+        # Use colorblind-friendly blue and orange for histograms
+        axB.hist(explo_vals_clean, bins=25, color='#4A90E2', alpha=0.5, edgecolor='#2E5C8A', linewidth=0.8, 
+                label='Exploitation', density=True)
+        axB.hist(expl_vals_clean, bins=25, color='#E69F00', alpha=0.5, edgecolor='#CC6600', linewidth=0.8, 
+                label='Exploration', density=True)
+        axB.legend(loc='upper right', fontsize=10, frameon=True, fancybox=False, shadow=False, framealpha=0.9)
+    else:
+        axB.text(0.5, 0.5, 'Data unavailable', ha='center', va='center', transform=axB.transAxes, fontsize=14)
+    axB.set_xlabel('Intra-Phase Mean\n(Cosine Similarity)', fontsize=11, fontweight='normal', linespacing=1.2)
+    axB.set_ylabel('Probability Density', fontsize=11, fontweight='normal')
+    axB.set_title('B', loc='left', fontsize=12, fontweight='bold', pad=8)
+    axB.tick_params(labelsize=9)
+
+    # C: Distribution of exploration intra-phase mean (cosine similarity)
     vals = expl_intra[np.isfinite(expl_intra)]
-    axA.hist(vals, bins=12, color=colors['accent'], edgecolor='black', linewidth=0.5, alpha=0.85, density=False)
-    muA, sdA = float(np.mean(vals)), float(np.std(vals, ddof=1))
-    axA.axvline(muA, color=colors['primary'], linestyle='--', linewidth=1.2)
-    axA.set_xlabel('Exploration intra-phase mean (cosine)')
-    axA.set_ylabel('Participants')
-    axA.set_title('A', loc='left')
-    axA.text(0.98, 0.95, f'μ={muA:.2f}, σ={sdA:.2f}', transform=axA.transAxes, ha='right', va='top', fontsize=8,
-             bbox=dict(boxstyle='round,pad=0.3', facecolor='white', alpha=0.9, edgecolor='gray'))
+    # Use colorblind-friendly blue
+    axC.hist(vals, bins=12, color='#4A90E2', edgecolor='black', linewidth=0.5, alpha=0.85, density=False)
+    muC, sdC = float(np.mean(vals)), float(np.std(vals, ddof=1))
+    axC.axvline(muC, color=colors['primary'], linestyle='--', linewidth=1.5)
+    axC.set_xlabel('Exploration Intra-Phase Mean\n(Cosine Similarity)', fontsize=11, fontweight='normal', linespacing=1.2)
+    axC.set_ylabel('Participants', fontsize=11, fontweight='normal')
+    axC.set_title('C', loc='left', fontsize=12, fontweight='bold', pad=8)
+    axC.text(0.98, 0.95, f'Mean = {muC:.2f}\nSD = {sdC:.2f}', transform=axC.transAxes, ha='right', va='top', 
+             fontsize=9, fontweight='normal',
+             bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.95, edgecolor='gray', linewidth=0.8))
+    axC.tick_params(labelsize=9)
 
-    # B: Distribution of E–E index (proxy: exploitation / exploration coherence ratios)
-    axB.hist(ee_index, bins=12, color=colors['secondary'], edgecolor='black', linewidth=0.5, alpha=0.85)
-    muB = float(np.mean(ee_index)) if len(ee_index) else np.nan
-    sdB = float(np.std(ee_index, ddof=1)) if len(ee_index) > 1 else np.nan
-    rngB = (float(np.nanmin(ee_index)) if len(ee_index) else np.nan,
+    # D: Distribution of E–E index (proxy: exploitation / exploration coherence ratios)
+    # Use colorblind-friendly purple
+    axD.hist(ee_index, bins=12, color='#7B4F9E', edgecolor='black', linewidth=0.5, alpha=0.85)
+    muD = float(np.mean(ee_index)) if len(ee_index) else np.nan
+    sdD = float(np.std(ee_index, ddof=1)) if len(ee_index) > 1 else np.nan
+    rngD = (float(np.nanmin(ee_index)) if len(ee_index) else np.nan,
             float(np.nanmax(ee_index)) if len(ee_index) else np.nan)
-    axB.axvline(muB, color=colors['primary'], linestyle='--', linewidth=1.2)
-    axB.set_xlabel('E–E index proxy (exploitation/exploration coherence)')
-    axB.set_ylabel('Participants')
-    axB.set_title('B', loc='left')
-    axB.text(0.98, 0.95, f'μ={muB:.2f}, σ={sdB:.2f}\nrange={rngB[0]:.2f}–{rngB[1]:.2f}',
-             transform=axB.transAxes, ha='right', va='top', fontsize=8,
-             bbox=dict(boxstyle='round,pad=0.3', facecolor='white', alpha=0.9, edgecolor='gray'))
-
-    # C: Proportion exploitation-dominant (EE > 1)
-    axC.axis('off')
-    if np.isfinite(prop_exploit):
-        axC.text(0.0, 0.8, 'Exploitation-dominant proportion', fontsize=10, fontweight='bold', transform=axC.transAxes)
-        axC.text(0.0, 0.6, f'{prop_exploit*100:.1f}% (EE>1)', fontsize=10, transform=axC.transAxes)
-        axC.text(0.0, 0.45, f'n={len(ee_index)}', fontsize=9, transform=axC.transAxes)
-    else:
-        axC.text(0.0, 0.8, 'Exploitation-dominant proportion', fontsize=10, fontweight='bold', transform=axC.transAxes)
-        axC.text(0.0, 0.6, 'EE index not available', fontsize=10, transform=axC.transAxes)
-
-    # D: Correlations (best-effort annotations)
-    axD.axis('off')
-    lines = []
-    lines.append(f'Exploration intra mean: μ={muA:.2f}, σ={sdA:.2f}')
-    lines.append(f'E–E index (proxy): μ={muB:.2f}, σ={sdB:.2f}, range={rngB[0]:.2f}–{rngB[1]:.2f}')
-    if n_moca > 0 and np.isfinite(r_moca):
-        lines.append(f'SVF vs MoCA: r={r_moca:.2f}, p={p_moca:.02f}, n={n_moca}')
-    else:
-        lines.append('SVF vs MoCA: data unavailable')
-    if n_updrs > 0 and np.isfinite(r_updrs):
-        lines.append(f'E–E vs UPDRS-III: r={r_updrs:.2f}, p={p_updrs:.02f}, n={n_updrs}')
-    else:
-        lines.append('E–E vs UPDRS-III: data unavailable')
-    axD.text(0.0, 1.0, '\n'.join(lines), ha='left', va='top', fontsize=9,
-             bbox=dict(boxstyle='round,pad=0.4', facecolor='white', alpha=0.95, edgecolor='gray'))
+    axD.axvline(muD, color=colors['primary'], linestyle='--', linewidth=1.5)
+    axD.set_xlabel('E–E Index\n(Exploitation/Exploration\nCoherence Ratio)', fontsize=11, fontweight='normal', linespacing=1.2)
+    axD.set_ylabel('Participants', fontsize=11, fontweight='normal')
+    axD.set_title('D', loc='left', fontsize=12, fontweight='bold', pad=8)
+    axD.text(0.98, 0.95, f'Mean = {muD:.2f}\nSD = {sdD:.2f}\nRange: {rngD[0]:.2f}–{rngD[1]:.2f}',
+             transform=axD.transAxes, ha='right', va='top', fontsize=9, fontweight='normal',
+             bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.95, edgecolor='gray', linewidth=0.8))
+    axD.tick_params(labelsize=9)
     # Save
     output = Path('output/NATURE_REAL_behavior_performance.png')
-    fig.tight_layout(pad=1.6)
-    fig.savefig(output, dpi=600, bbox_inches='tight', pad_inches=0.5, facecolor='white')
+    fig.tight_layout(pad=2.0)
+    fig.savefig(output, dpi=300, bbox_inches='tight', pad_inches=0.3, facecolor='white')
     fig.savefig(output.with_suffix('.pdf'), dpi=600, bbox_inches='tight', pad_inches=0.5, facecolor='white')
     plt.close(fig)
     print(f"✅ Saved: {output}")

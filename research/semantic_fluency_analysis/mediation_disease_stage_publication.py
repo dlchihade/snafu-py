@@ -3,65 +3,28 @@
 
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-import matplotlib.patches as mpatches
-import matplotlib.lines as mlines
-from matplotlib.patches import Rectangle
 from pathlib import Path
 from scipy.stats import t as t_dist
+
+from mediation_figures_nature import plot_mediation_figure_shared
 
 # Display label for outcome when using exploitation_coherence_ratio (same computation as before).
 OUTCOME_LABEL_COHERENCE = 'Exploitation coherence'
 
 
-def setup_publication_style():
-    """Setup publication-quality style parameters"""
-    # Set seaborn style
-    sns.set_style("whitegrid", {'axes.grid': False})
-    sns.set_context("paper", font_scale=1.0)
-    
-    # Publication-quality parameters
-    plt.rcParams.update({
-        # Font settings
-        'font.family': 'Arial',
-        'font.size': 8,
-        'axes.titlesize': 9,
-        'axes.labelsize': 8,
-        'xtick.labelsize': 7,
-        'ytick.labelsize': 7,
-        'legend.fontsize': 7,
-        
-        # Figure settings
-        'figure.dpi': 300,
-        'savefig.dpi': 300,
-        'savefig.bbox': 'tight',
-        'savefig.pad_inches': 0.1,
-        
-        # Line and marker settings
-        'lines.linewidth': 1.0,
-        'lines.markersize': 4,
-        
-        # Axes settings
-        'axes.linewidth': 0.8,
-        'axes.spines.top': False,
-        'axes.spines.right': False,
-        'axes.spines.left': True,
-        'axes.spines.bottom': True,
-        
-        # Tick settings
-        'xtick.direction': 'out',
-        'ytick.direction': 'out',
-        'xtick.major.size': 3,
-        'ytick.major.size': 3,
-        'xtick.major.width': 0.8,
-        'ytick.major.width': 0.8,
-        'xtick.minor.size': 0,
-        'ytick.minor.size': 0,
-        
-        # Patch settings
-        'patch.linewidth': 0.8,
-    })
+def _disease_result_to_shared(result: dict) -> dict:
+    """Map mediation_disease_stage_adjusted keys to plot_mediation_figure_shared keys."""
+    return {
+        'a': result['a'],
+        'b': result['b'],
+        'c': result['c'],
+        "c'": result["c'"],
+        'indirect': result['ab'],
+        'ci_low': result['ci_lower'],
+        'ci_high': result['ci_upper'],
+        'N': result['n'],
+    }
+
 
 def ols(X: np.ndarray, y: np.ndarray):
     """Ordinary least squares regression"""
@@ -154,183 +117,15 @@ def mediation_disease_stage_adjusted(df: pd.DataFrame, outcome_col: str, B: int 
         return None
 
 def create_mediation_figure_publication(result: dict, outcome_type: str, save_path: str):
-    """Create publication-quality mediation figure"""
-    setup_publication_style()
-    
-    # Color palette
-    colors = {
-        'primary': '#2E86AB',      # Blue
-        'secondary': '#A23B72',    # Purple
-        'accent': '#F18F01',       # Orange
-        'text': '#2C2C2C',         # Dark gray
-        'light_gray': '#E5E5E5',   # Light gray
-        'white': '#FFFFFF'         # White
-    }
-    
-    # Set outcome-specific colors
-    if outcome_type == 'svf':
-        outcome_label = 'SVF Count'
-        outcome_color = colors['accent']
-    else:
-        outcome_label = OUTCOME_LABEL_COHERENCE
-        # Distinct from mediator (secondary) so legend is not two identical swatches
-        outcome_color = '#2E7D47'
-
-    def annotate_bar_vals(axb, bars, vals):
-        for bar, val in zip(bars, vals):
-            x = bar.get_x() + bar.get_width() / 2.0
-            h = bar.get_height()
-            off = 10 if val >= 0 else -10
-            va = 'bottom' if val >= 0 else 'top'
-            axb.annotate(
-                f'{val:.3f}',
-                xy=(x, h),
-                xytext=(0, off),
-                textcoords='offset points',
-                ha='center', va=va, fontsize=7, color=colors['text'],
-                bbox=dict(boxstyle='round,pad=0.2', facecolor='white', alpha=0.9,
-                           edgecolor=colors['light_gray'], linewidth=0.3),
-            )
-    
-    # Create figure with proper dimensions (slightly wider diagram column reduces right-edge clipping)
-    fig, (ax_diagram, ax_bars) = plt.subplots(1, 2, figsize=(7.4, 3.35), 
-                                             gridspec_kw={'width_ratios': [0.62, 0.38], 'wspace': 0.30})
-    
-    # Panel A: no fixed aspect — equal aspect distorts text vs patch alignment in PDF viewers
-    ax_diagram.set_xlim(0.0, 1.0)
-    ax_diagram.set_ylim(0.0, 1.0)
-    
-    # Node centers (stable triangle; labels use same x as box centers)
-    x_coords = [0.20, 0.50, 0.80]
-    y_coords = [0.35, 0.65, 0.35]
-    
-    # Draw nodes with better styling
-    node_colors = [colors['primary'], colors['secondary'], outcome_color]
-    node_labels = ['LC integrity', 'α-power', outcome_label]
-    box_half_h = 0.03
-    gap_below_box = 0.018
-    for i, (x, y, color, label) in enumerate(zip(x_coords, y_coords, node_colors, node_labels)):
-        rect = Rectangle((x-0.06, y-0.03), 0.12, 0.06, 
-                        facecolor=color, edgecolor=colors['text'], 
-                        linewidth=1.0, alpha=0.9, zorder=3)
-        ax_diagram.add_patch(rect)
-        # Box bottom is y - 0.03; anchor text top slightly below that edge
-        text_y = (y - 0.03) - gap_below_box
-        if outcome_type == 'svf':
-            fs = 8
-        else:
-            fs = 6.5 if i == 2 else 7
-        ax_diagram.text(x, text_y, label, ha='center', va='top', 
-                       fontsize=fs, fontweight='normal', color=colors['text'])
-    
-    # Draw arrows with better styling
-    def draw_arrow(ax, x1, y1, x2, y2, offset=0.06, color=colors['text']):
-        """Draw arrow with proper styling"""
-        dx, dy = x2 - x1, y2 - y1
-        length = np.sqrt(dx**2 + dy**2)
-        if length > 0:
-            dx, dy = dx/length, dy/length
-        start_x, start_y = x1 + offset*dx, y1 + offset*dy
-        end_x, end_y = x2 - offset*dx, y2 - offset*dy
-        
-        ax.annotate('', xy=(end_x, end_y), xytext=(start_x, start_y),
-                   arrowprops=dict(arrowstyle='->', lw=1.5, color=color, 
-                                 connectionstyle='arc3,rad=0', alpha=0.8))
-    
-    def add_path_label(ax, x1, y1, x2, y2, text, offset=0.052):
-        """β labels offset perpendicular to paths. Bottom horizontal c′: label *below* line (not in triangle)."""
-        mx, my = (x1 + x2) / 2, (y1 + y2) / 2
-        dx, dy = x2 - x1, y2 - y1
-        length = np.sqrt(dx**2 + dy**2)
-        if length < 1e-9:
-            return
-        if abs(dy) < 1e-5 and my < 0.42:
-            ux, uy = 0.0, -1.0
-        else:
-            ux, uy = -dy / length, dx / length
-        ax.text(mx + offset * ux, my + offset * uy, text, 
-               ha='center', va='center', fontsize=7, color=colors['text'],
-               bbox=dict(boxstyle='round,pad=0.25', facecolor=colors['white'], 
-                       alpha=0.95, edgecolor=colors['light_gray'], linewidth=0.5),
-               fontweight='normal')
-    
-    # Draw arrows and labels
-    # X -> M (path a)
-    draw_arrow(ax_diagram, x_coords[0], y_coords[0], x_coords[1], y_coords[1])
-    add_path_label(ax_diagram, x_coords[0], y_coords[0], x_coords[1], y_coords[1], 
-                  f"a: β = {result['a']:.3f}")
-    
-    # M -> Y (path b)
-    draw_arrow(ax_diagram, x_coords[1], y_coords[1], x_coords[2], y_coords[2])
-    add_path_label(ax_diagram, x_coords[1], y_coords[1], x_coords[2], y_coords[2], 
-                  f"b: β = {result['b']:.3f}")
-    
-    # X -> Y (path c′) — direct effect (distinct from total c on the bar chart)
-    c_prime = result["c'"]
-    draw_arrow(ax_diagram, x_coords[0], y_coords[0], x_coords[2], y_coords[2])
-    add_path_label(ax_diagram, x_coords[0], y_coords[0], x_coords[2], y_coords[2], 
-                  f"c′: β = {c_prime:.3f}")
-    
-    # Add legend with better styling
-    handles = [
-        mpatches.Patch(color=colors['primary'], label='LC integrity'),
-        mpatches.Patch(color=colors['secondary'], label='α-power'),
-        mpatches.Patch(color=outcome_color, label=outcome_label),
-        mlines.Line2D([], [], color=colors['text'], linewidth=1.5, label='Path')
-    ]
-    labels = ['LC integrity', 'α-power', outcome_label, 'Path']
-    ax_diagram.legend(handles, labels, loc='upper left', bbox_to_anchor=(0.02, 0.98), 
-                     fontsize=6.5, frameon=True, fancybox=True, shadow=False,
-                     facecolor=colors['white'], edgecolor=colors['light_gray'])
-    
-    # Clean up diagram
-    ax_diagram.set_xticks([])
-    ax_diagram.set_yticks([])
-    for spine in ax_diagram.spines.values():
-        spine.set_visible(False)
-    
-    # Panel B: Bar plot with better styling
-    bar_labels = ['Total (c)', 'Direct (c′)', 'Indirect (a×b)']
-    bar_values = [result['c'], result["c'"], result['ab']]
-    bar_colors = [outcome_color, colors['primary'], colors['secondary']]
-    
-    # Create bars with better spacing
-    x_pos = np.arange(len(bar_labels))
-    bars = ax_bars.bar(x_pos, bar_values, color=bar_colors, alpha=0.8, 
-                      edgecolor=colors['text'], linewidth=0.5, width=0.6)
-    
-    if np.nanmin(bar_values) >= 0:
-        ax_bars.set_ylim(0.0, np.nanmax(bar_values) * 1.22)
-    else:
-        y_max_abs = max(0.12, np.nanmax(np.abs(bar_values)) * 1.42)
-        ax_bars.set_ylim(-y_max_abs, y_max_abs)
-    annotate_bar_vals(ax_bars, bars, bar_values)
-    
-    ax_bars.set_title(
-        f"Indirect effect: {result['ab']:.3f} (95% CI: [{result['ci_lower']:.3f}, {result['ci_upper']:.3f}])\n"
-        f"N = {result['n']} | Disease stage-adjusted",
-        fontsize=7, color=colors['text'], pad=12, loc='center',
+    """Same layout, colors, and margins as age-adjusted figures (mediation_figures_nature)."""
+    ot = 'coherence' if outcome_type == 'ee' else 'svf'
+    plot_mediation_figure_shared(
+        _disease_result_to_shared(result),
+        Path(save_path),
+        outcome_type=ot,
+        subtitle='Disease stage-adjusted',
+        color_scheme='disease_stage',
     )
-    
-    # Style the bar plot
-    ax_bars.set_xticks(x_pos)
-    ax_bars.set_xticklabels(bar_labels, fontsize=7, rotation=0)
-    ax_bars.tick_params(axis='x', pad=8)
-    ax_bars.set_ylabel('Effect Size', fontsize=8, fontweight='normal')
-    ax_bars.axhline(y=0, color=colors['text'], linewidth=0.8, alpha=0.6, linestyle='-')
-    
-    # Remove top and right spines
-    for spine in ['top', 'right']:
-        ax_bars.spines[spine].set_visible(False)
-    
-    # Set spine colors and widths
-    for spine in ['left', 'bottom']:
-        ax_bars.spines[spine].set_color(colors['text'])
-        ax_bars.spines[spine].set_linewidth(0.8)
-    
-    fig.subplots_adjust(left=0.08, right=0.98, top=0.86, bottom=0.15, wspace=0.24)
-    plt.savefig(save_path, dpi=300, bbox_inches='tight', facecolor='white', pad_inches=0.12)
-    plt.close()
 
 def main():
     """Generate publication-quality mediation figures with disease stage adjustment"""
@@ -346,19 +141,17 @@ def main():
     # SVF Count mediation
     result_svf = mediation_disease_stage_adjusted(df, 'SVF_count')
     if result_svf:
-        create_mediation_figure_publication(result_svf, 'svf', 
-                                          output_dir / 'mediation_svf_disease_stage_publication.png')
-        create_mediation_figure_publication(result_svf, 'svf', 
-                                          output_dir / 'mediation_svf_disease_stage_publication.pdf')
+        create_mediation_figure_publication(
+            result_svf, 'svf', output_dir / 'mediation_svf_disease_stage_publication.png',
+        )
         print(f"SVF Count mediation (disease stage adjusted): N = {result_svf['n']}")
     
     # Exploitation coherence (exploitation_coherence_ratio) mediation
     result_ee = mediation_disease_stage_adjusted(df, 'exploitation_coherence_ratio')
     if result_ee:
-        create_mediation_figure_publication(result_ee, 'ee', 
-                                          output_dir / 'mediation_ee_disease_stage_publication.png')
-        create_mediation_figure_publication(result_ee, 'ee', 
-                                          output_dir / 'mediation_ee_disease_stage_publication.pdf')
+        create_mediation_figure_publication(
+            result_ee, 'ee', output_dir / 'mediation_ee_disease_stage_publication.png',
+        )
         print(f"{OUTCOME_LABEL_COHERENCE} mediation (disease stage adjusted): N = {result_ee['n']}")
     
     print("\nCreated publication-quality disease stage-adjusted mediation figures:")

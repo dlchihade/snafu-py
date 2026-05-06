@@ -5,7 +5,7 @@ from PIL import Image, ImageDraw, ImageFont
 import os
 
 def merge_publication_mediation_figures():
-    """Merge SVF and EE mediation figures with publication-quality formatting"""
+    """Merge SVF and exploitation-coherence mediation figures with publication-quality formatting"""
     print("Merging publication-quality disease stage-adjusted mediation figures...")
     
     # Load the individual figures
@@ -30,7 +30,7 @@ def merge_publication_mediation_figures():
     
     # Paste images with spacing
     combined_img.paste(svf_img, (0, 0))  # SVF on top
-    combined_img.paste(ee_img, (0, height + spacing))  # EE on bottom
+    combined_img.paste(ee_img, (0, height + spacing))  # Exploitation coherence on bottom
     
     # Add professional panel labels
     draw = ImageDraw.Draw(combined_img)

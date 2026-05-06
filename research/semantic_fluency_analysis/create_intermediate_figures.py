@@ -5,7 +5,7 @@ prior to the mediation analyses. The outputs include:
 
 1. Violin + swarm distribution of alpha power (alpha_NET_mean) with optional highlighted IDs.
 2. Box + swarm plots for SVF counts and exploitation coherence ratio.
-3. Scatter examples of LC integrity vs alpha power, and SVF count vs EE tradeoff.
+3. Scatter examples of LC integrity vs alpha power, and SVF count vs exploitation coherence.
 4. Demographic summary (age histogram + Hoehn & Yahr distribution + disease duration).
 
 All figures are saved under output/figures/intermediate/.
@@ -150,7 +150,7 @@ def box_swarm_metrics(df: pd.DataFrame, columns: Sequence[Tuple[str, str]], colo
     )
     for idx, (label, col) in enumerate(columns):
         highlight_points(ax, df, idx, col, colors["highlight"])
-    ax.set_title("Behavioral summary: SVF and EE tradeoff")
+    ax.set_title("Behavioral summary: SVF and exploitation coherence")
     ax.set_xlabel("")
     ax.legend([], [], frameon=False)
     fig.tight_layout()
@@ -385,7 +385,7 @@ def main():
         df,
         [
             ("SVF Count", "SVF_count"),
-            ("EE tradeoff", "exploitation_coherence_ratio"),
+            ("Exploitation coherence", "exploitation_coherence_ratio"),
         ],
         colors,
     )
@@ -403,7 +403,7 @@ def main():
         "exploitation_coherence_ratio",
         colors,
         out_name="svf_vs_ee.png",
-        title="SVF performance vs EE metric",
+        title="SVF performance vs exploitation coherence",
     )
     # Use merged demographics data to match other figures
     df_demo = try_load_and_merge_demographics(df)

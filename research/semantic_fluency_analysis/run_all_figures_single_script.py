@@ -2,7 +2,7 @@
 """
 One-stop script to:
  1) Load final comprehensive mediation dataset (with covariates)
- 2) Run mediation analyses (SVF count and EE metric) with Age and optional disease stage
+ 2) Run mediation analyses (SVF count and exploitation coherence) with Age and optional disease stage
  3) Generate publication-style Figures 1–4 using real data
  4) Compose combined outputs (multi-page PDF and 2x2 grid)
 
@@ -124,12 +124,12 @@ def run_mediations(df: pd.DataFrame):
     cov_age_disease = ['Age'] + ([c for c in ['hoehn_yahr_score'] if c in df.columns])
 
     svf_age = wrap('norm_LC_avg', 'alpha_NET_mean', 'SVF_count', cov_age, 'SVF (Age)')
-    ee_age = wrap('norm_LC_avg', 'alpha_NET_mean', 'exploitation_coherence_ratio', cov_age, 'EE metric (Age)')
+    ee_age = wrap('norm_LC_avg', 'alpha_NET_mean', 'exploitation_coherence_ratio', cov_age, 'Exploitation coherence (Age)')
 
     # Optional disease-stage adjusted
     if len(cov_age_disease) > 1:
         svf_dis = wrap('norm_LC_avg', 'alpha_NET_mean', 'SVF_count', cov_age_disease, 'SVF (Age + disease)')
-        ee_dis = wrap('norm_LC_avg', 'alpha_NET_mean', 'exploitation_coherence_ratio', cov_age_disease, 'EE metric (Age + disease)')
+        ee_dis = wrap('norm_LC_avg', 'alpha_NET_mean', 'exploitation_coherence_ratio', cov_age_disease, 'Exploitation coherence (Age + disease)')
         return {'svf_age': svf_age, 'ee_age': ee_age, 'svf_dis': svf_dis, 'ee_dis': ee_dis}
     else:
         return {'svf_age': svf_age, 'ee_age': ee_age}

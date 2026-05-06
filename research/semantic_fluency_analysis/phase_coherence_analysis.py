@@ -241,9 +241,15 @@ def compute_inter_phase_metrics(phases: List[Dict], vectors: List[np.ndarray], v
     
     print(f"\n🔗 INTER-PHASE SIMILARITIES:")
     
+    # Separate lists for exploitation and exploration inter-phase similarities
+    # Inter-phase for exploitation: similarities between exploitation phases and ALL other phases
+    # Inter-phase for exploration: similarities between exploration phases and ALL other phases
+    exploitation_inter_similarities = []
+    exploration_inter_similarities = []
+    
     for i, centroid1 in enumerate(phase_centroids):
         for j, centroid2 in enumerate(phase_centroids):
-            if i < j:  # Avoid duplicate pairs and self-similarity
+            if i != j:  # Include all pairs (not just i < j), but track by phase type
                 
                 # Cosine similarity between centroids
                 # cos(θ) = (a · b) / (||a|| * ||b||)
@@ -252,10 +258,19 @@ def compute_inter_phase_metrics(phases: List[Dict], vectors: List[np.ndarray], v
                 
                 inter_phase_similarities.append(similarity)
                 
-                print(f"   {centroid1['type']} Phase {centroid1['phase_index']+1} ↔ {centroid2['type']} Phase {centroid2['phase_index']+1}: {similarity:.4f}")
+                # If the first phase is exploitation, add to exploitation inter-phase
+                if centroid1['type'] == 'Exploitation':
+                    exploitation_inter_similarities.append(similarity)
+                
+                # If the first phase is exploration, add to exploration inter-phase
+                if centroid1['type'] == 'Exploration':
+                    exploration_inter_similarities.append(similarity)
+                
+                if i < j:  # Only print once per pair
+                    print(f"   {centroid1['type']} Phase {centroid1['phase_index']+1} ↔ {centroid2['type']} Phase {centroid2['phase_index']+1}: {similarity:.4f}")
     
     # ============================================================================
-    # COMPUTE INTER-PHASE STATISTICS
+    # COMPUTE INTER-PHASE STATISTICS (AGGREGATE)
     # ============================================================================
     
     if inter_phase_similarities:
@@ -270,25 +285,72 @@ def compute_inter_phase_metrics(phases: List[Dict], vectors: List[np.ndarray], v
         # Standard deviation: σ = √σ²
         inter_std = np.std(inter_phase_similarities)
         
-        print(f"\n📊 INTER-PHASE STATISTICS:")
+        print(f"\n📊 INTER-PHASE STATISTICS (AGGREGATE):")
         print(f"   Number of inter-phase similarities: {len(inter_phase_similarities)}")
         print(f"   Mean: {inter_mean:.4f}")
         print(f"   Variance: {inter_variance:.4f}")
         print(f"   Standard Deviation: {inter_std:.4f}")
-        
-        return {
-            'inter_phase_mean': inter_mean,
-            'inter_phase_variance': inter_variance,
-            'inter_phase_std': inter_std,
-            'inter_phase_similarities': inter_phase_similarities.tolist()
-        }
     else:
-        return {
-            'inter_phase_mean': 0,
-            'inter_phase_variance': 0,
-            'inter_phase_std': 0,
-            'inter_phase_similarities': []
-        }
+        inter_mean = 0
+        inter_variance = 0
+        inter_std = 0
+    
+    # ============================================================================
+    # COMPUTE INTER-PHASE STATISTICS BY PHASE TYPE
+    # ============================================================================
+    
+    # Exploitation inter-phase statistics
+    if exploitation_inter_similarities:
+        exploitation_inter_similarities = np.array(exploitation_inter_similarities)
+        exploitation_inter_mean = np.mean(exploitation_inter_similarities)
+        exploitation_inter_variance = np.var(exploitation_inter_similarities)
+        exploitation_inter_std = np.std(exploitation_inter_similarities)
+        
+        print(f"\n📊 EXPLOITATION INTER-PHASE STATISTICS:")
+        print(f"   Number of similarities: {len(exploitation_inter_similarities)}")
+        print(f"   Mean: {exploitation_inter_mean:.4f}")
+        print(f"   Variance: {exploitation_inter_variance:.4f}")
+        print(f"   Standard Deviation: {exploitation_inter_std:.4f}")
+    else:
+        exploitation_inter_mean = 0
+        exploitation_inter_variance = 0
+        exploitation_inter_std = 0
+        exploitation_inter_similarities = []
+    
+    # Exploration inter-phase statistics
+    if exploration_inter_similarities:
+        exploration_inter_similarities = np.array(exploration_inter_similarities)
+        exploration_inter_mean = np.mean(exploration_inter_similarities)
+        exploration_inter_variance = np.var(exploration_inter_similarities)
+        exploration_inter_std = np.std(exploration_inter_similarities)
+        
+        print(f"\n📊 EXPLORATION INTER-PHASE STATISTICS:")
+        print(f"   Number of similarities: {len(exploration_inter_similarities)}")
+        print(f"   Mean: {exploration_inter_mean:.4f}")
+        print(f"   Variance: {exploration_inter_variance:.4f}")
+        print(f"   Standard Deviation: {exploration_inter_std:.4f}")
+    else:
+        exploration_inter_mean = 0
+        exploration_inter_variance = 0
+        exploration_inter_std = 0
+        exploration_inter_similarities = []
+    
+    return {
+        # Aggregate metrics (for backward compatibility)
+        'inter_phase_mean': inter_mean,
+        'inter_phase_variance': inter_variance,
+        'inter_phase_std': inter_std,
+        'inter_phase_similarities': inter_phase_similarities.tolist() if isinstance(inter_phase_similarities, np.ndarray) else [],
+        # Phase-type-specific metrics
+        'inter_phase_mean_exploitation': exploitation_inter_mean,
+        'inter_phase_variance_exploitation': exploitation_inter_variance,
+        'inter_phase_std_exploitation': exploitation_inter_std,
+        'inter_phase_similarities_exploitation': exploitation_inter_similarities.tolist() if isinstance(exploitation_inter_similarities, np.ndarray) else [],
+        'inter_phase_mean_exploration': exploration_inter_mean,
+        'inter_phase_variance_exploration': exploration_inter_variance,
+        'inter_phase_std_exploration': exploration_inter_std,
+        'inter_phase_similarities_exploration': exploration_inter_similarities.tolist() if isinstance(exploration_inter_similarities, np.ndarray) else [],
+    }
 
 def compute_phase_coherence_metrics_detailed(phases: List[Dict], vectors: List[np.ndarray], 
                                            items: List[str], verbose: bool = True) -> Dict:

@@ -30,8 +30,8 @@ def get_figure_files():
         ('Intermediate: Age Distribution', 'figures/intermediate/age_distribution.png'),
         ('Intermediate: Alpha Power Violin', 'figures/intermediate/alpha_power_violin.png'),
         ('Intermediate: LC vs Alpha', 'figures/intermediate/lc_vs_alpha.png'),
-        ('Intermediate: SVF vs EE', 'figures/intermediate/svf_vs_ee.png'),
-        ('Intermediate: SVF EE Box-Swarm', 'figures/intermediate/svf_ee_boxswarm.png'),
+        ('Intermediate: SVF vs exploitation coherence', 'figures/intermediate/svf_vs_ee.png'),
+        ('Intermediate: SVF & exploitation coherence Box-Swarm', 'figures/intermediate/svf_ee_boxswarm.png'),
         
         # Additional analysis figures
         ('Alpha vs LC Residuals', 'alpha_vs_LC_residuals.png'),
@@ -43,10 +43,10 @@ def get_figure_files():
         
         # Mediation figures
         ('Mediation: SVF (Age-adjusted)', 'mediation_svf_age_nature.png'),
-        ('Mediation: EE Metric (Age-adjusted)', 'mediation_exploit_age_nature.png'),
-        ('Mediation: EE Coherence Metric (Age-adjusted)', 'mediation_exploit_coherence_metric_nature.png'),
+        ('Mediation: Exploitation coherence (Age-adjusted)', 'mediation_exploit_age_nature.png'),
+        ('Mediation: Exploitation coherence (Age-adjusted, alt file)', 'mediation_exploit_coherence_metric_nature.png'),
         ('Mediation: SVF (Disease Stage)', 'mediation_svf_disease_stage_working.png'),
-        ('Mediation: EE (Disease Stage)', 'mediation_ee_disease_stage_working.png'),
+        ('Mediation: Exploitation coherence (Disease Stage)', 'mediation_ee_disease_stage_working.png'),
         ('Mediation: Age vs Disease', 'mediation_age_vs_disease.png'),
     ]
     

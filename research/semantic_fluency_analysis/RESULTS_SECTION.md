@@ -126,6 +126,22 @@ We first examined whether MEG alpha power, a marker of cortical inhibition and a
 
 We next investigated whether LC neuromelanin integrity, a structural marker of noradrenergic system function, was associated with coherence ratios. The relationship between LC integrity and exploitation coherence ratio (Figure 3C) showed a weak, non-significant negative correlation (r = -0.085, p = 0.546, n = 48). In contrast, the association between LC integrity and exploration coherence ratio (Figure 3D) revealed a moderate negative correlation that approached statistical significance (r = -0.262, p = 0.073, n = 48). This trend suggests that lower LC integrity may be associated with reduced exploration coherence, though the effect did not reach conventional significance thresholds. The pattern of results indicates that LC integrity may be more relevant to exploration than exploitation coherence, consistent with the role of the noradrenergic system in cognitive flexibility and attentional control.
 
+## Relationships Between Coherence Metrics and Behavioral Measures
+
+To understand how exploitation and exploration coherence relate to other aspects of semantic fluency performance, we examined correlations between coherence metrics and key behavioral measures: cluster switches and novelty scores.
+
+### Exploitation and Exploration Coherence
+
+We first examined whether exploitation and exploration coherence were related to each other (Figure 4A). Pearson correlation analysis revealed a weak, non-significant positive correlation (r = 0.193, p = 0.198), indicating that these two coherence measures are largely independent. This suggests that participants can show high coherence in exploitation phases without necessarily showing high coherence in exploration phases, and vice versa. The independence of these measures supports their use as distinct indicators of different cognitive strategies during semantic fluency.
+
+### Exploitation Coherence and Cluster Switches
+
+We next investigated whether exploitation coherence was associated with the number of cluster switches (Figure 4B). This analysis revealed a moderate, statistically significant positive correlation (r = 0.507, p < 0.001). This finding indicates that participants with higher exploitation coherence tend to make more transitions between semantic clusters. This may seem counterintuitive at first, but it suggests that individuals who are more effective at maintaining semantic coherence within exploitation phases are also more likely to actively switch between different semantic domains, potentially reflecting a more strategic approach to semantic search that balances focused clustering with domain exploration.
+
+### Exploration Coherence and Novelty
+
+Finally, we examined the relationship between exploration coherence and novelty scores (Figure 4C). Novelty was calculated as the proportion of unique words produced (i.e., words that had not appeared earlier in the sequence). The analysis revealed a weak, non-significant negative correlation (r = -0.112, p = 0.459). This suggests that exploration coherence is not strongly related to the production of novel words. This finding is consistent with the notion that exploration phases represent transitions between semantic domains rather than necessarily producing more unique words, as exploration may involve switching between known semantic categories rather than generating entirely novel concepts.
+
 ### Summary
 
 Taken together, these analyses revealed limited associations between the neurophysiological markers examined and coherence ratios. While the relationship between LC integrity and exploration coherence showed a trend toward significance, none of the correlations reached statistical significance. This pattern suggests that the coherence ratios may reflect cognitive processes that are not strongly captured by these particular neurophysiological measures, or that the relationships may be more complex and require larger sample sizes or alternative analytical approaches to detect.

@@ -1,0 +1,14 @@
+**Figure X. Distribution of behavioral and semantic coherence metrics in semantic fluency.**
+
+Four-panel figure showing the distribution of key metrics across participants. Each panel displays a histogram with statistical annotations.
+
+**Panel A:** Distribution of semantic verbal fluency (SVF) word count. The histogram shows the number of words produced by each participant during the semantic fluency task. Vertical dashed lines indicate the mean (black) and median (purple) values. The x-axis represents the total number of words produced, and the y-axis shows the number of participants.
+
+**Panel B:** Comparison of intra-phase mean cosine similarity distributions for exploitation and exploration phases. Two overlaid probability density histograms compare the distribution of semantic coherence within exploitation phases (blue) and exploration phases (purple). Both distributions are normalized (area under each curve equals 1) to facilitate direct comparison regardless of sample size differences. Outliers were removed using the interquartile range (IQR) method (1.5 × IQR) separately for each distribution. The x-axis represents intra-phase mean cosine similarity, and the y-axis represents probability density.
+
+**Panel C:** Distribution of exploration intra-phase mean cosine similarity. The histogram shows the frequency distribution of exploration phase coherence across participants. A vertical dashed line indicates the mean value. Statistical summary (mean and standard deviation) is displayed in the upper right corner. The x-axis represents exploration intra-phase mean (cosine similarity), and the y-axis shows the number of participants.
+
+**Panel D:** Distribution of the Exploitation–Exploration (E–E) Index. The histogram shows the frequency distribution of the E–E Index, calculated as the ratio of exploitation coherence ratio to exploration coherence ratio. Values greater than 1 indicate greater exploitation-dominant behavior, while values less than 1 indicate exploration-dominant behavior. A vertical dashed line indicates the mean value. Statistical summary (mean, standard deviation, and range) is displayed in the upper right corner. The x-axis represents the E–E Index (exploitation/exploration coherence ratio), and the y-axis shows the number of participants.
+
+All panels use consistent formatting with publication-quality font sizes (11pt axis labels, 9pt tick labels) and adequate spacing between panels for clarity.
+

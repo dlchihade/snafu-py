@@ -1,0 +1,12 @@
+**Figure 4. Relationships between exploitation, exploration, and behavioral metrics in semantic fluency.**
+
+Scatter plots showing correlations between exploitation/exploration coherence measures and behavioral outcomes. Each panel displays individual participant data points (colored circles), a linear regression line (solid black line), and 95% confidence intervals (gray shaded region). Pearson correlation coefficients (r) and p-values are displayed in the upper right corner of each panel. Outliers were identified and removed using the interquartile range (IQR) method (1.5 × IQR) separately for each panel based on the variables being compared.
+
+**Panel A:** Relationship between exploitation and exploration intra-phase coherence. Both axes represent mean cosine similarity within exploitation and exploration phases, respectively. Higher values indicate greater semantic coherence within each phase type.
+
+**Panel B:** Relationship between exploitation coherence and cluster switching behavior. The x-axis represents exploitation intra-phase mean (cosine similarity), and the y-axis represents the number of cluster switches (count). This panel tests whether participants with higher exploitation coherence exhibit more frequent transitions between semantic clusters.
+
+**Panel C:** Relationship between exploration coherence and novelty. The x-axis represents exploration intra-phase mean (cosine similarity), and the y-axis represents novelty score (arbitrary units). This panel examines whether greater exploration coherence is associated with higher novelty in word production.
+
+Data points were filtered per panel to remove outliers using the IQR method (1.5 × IQR) applied separately to each variable pair. Sample sizes after outlier removal: Panel A, n = 54; Panel B, n = 54; Panel C, n = 51 (out of N = 56 total participants).
+

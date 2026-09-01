@@ -77,6 +77,10 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 
+# BrANCH notebooks embed participant records (age, sex, diagnosis, IDs).
+# Do not commit or redistribute — see branch_notebooks/notebooks/README.md
+branch_notebooks/
+
 # IPython
 profile_default/
 ipython_config.py

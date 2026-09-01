@@ -1400,37 +1400,45 @@ def fig_behavior_performance(df: pd.DataFrame, colors):
     if updrs_col is not None:
         r_updrs, p_updrs, n_updrs = pearson_safe(ee_index, df_demo[updrs_col].to_numpy(float)[:len(ee_index)])
 
-    # Build figure - increased spacing for better readability
+    # Original Figure 9 colors
+    COLOR_EXPLOIT = '#C08860'
+    COLOR_EXPLOIT_EDGE = '#B88860'
+    COLOR_EXPLORE = '#489880'
+    COLOR_EXPLORE_EDGE = '#387868'
+    COLOR_SVF = '#4A90E2'
+
+    # A and B on top, C centered below — all three axes the same width and height
     fig = plt.figure(figsize=(8.4, 6.2))
-    gs = fig.add_gridspec(2, 2, left=0.12, right=0.95, top=0.92, bottom=0.18, wspace=0.55, hspace=0.55)
-    axA = fig.add_subplot(gs[0, 0])
-    axB = fig.add_subplot(gs[0, 1])
-    axC = fig.add_subplot(gs[1, 0])
-    axD = fig.add_subplot(gs[1, 1])
+    panel_w, panel_h = 0.36, 0.36
+    gap_x, gap_y = 0.12, 0.14
+    left_a = 0.10
+    bottom_c = 0.08
+    bottom_top = bottom_c + panel_h + gap_y
+    left_b = left_a + panel_w + gap_x
+    left_c = (left_a + left_b + panel_w - panel_w) / 2.0
+    axA = fig.add_axes([left_a, bottom_top, panel_w, panel_h])
+    axB = fig.add_axes([left_b, bottom_top, panel_w, panel_h])
+    axC = fig.add_axes([left_c, bottom_c, panel_w, panel_h])
 
     # A: SVF Count distribution
     svf_vals = svf[np.isfinite(svf)] if len(svf) > 0 else np.array([])
     if len(svf_vals) > 0:
-        # Use colorblind-friendly blue
-        axA.hist(svf_vals, bins=12, color='#4A90E2', edgecolor='black', linewidth=0.5, alpha=0.85, density=False)
+        axA.hist(svf_vals, bins=12, color=COLOR_SVF, edgecolor='black', linewidth=0.5, alpha=0.85, density=False)
         mean_svf = float(np.mean(svf_vals))
         median_svf = float(np.median(svf_vals))
         sd_svf = float(np.std(svf_vals, ddof=1))
-        axA.axvline(mean_svf, color='black', linestyle='--', linewidth=1.5, label=f'Mean: {mean_svf:.1f}')
-        axA.axvline(median_svf, color='purple', linestyle=':', linewidth=1.5, label=f'Median: {median_svf:.1f}')
-        # Add SD as a text entry in the legend (using empty line with custom label)
+        axA.axvline(mean_svf, color='black', linestyle='--', linewidth=1.5)
+        axA.axvline(median_svf, color='purple', linestyle=':', linewidth=1.5)
         from matplotlib.lines import Line2D
         legend_elements = [
             Line2D([0], [0], color='black', linestyle='--', linewidth=1.5, label=f'Mean: {mean_svf:.1f}'),
             Line2D([0], [0], color='purple', linestyle=':', linewidth=1.5, label=f'Median: {median_svf:.1f}'),
-            Line2D([0], [0], color='none', label=f'SD: {sd_svf:.2f}')
+            Line2D([0], [0], color='none', label=f'SD: {sd_svf:.2f}'),
         ]
         axA.legend(handles=legend_elements, loc='upper right', fontsize=10, frameon=True, fancybox=False, shadow=False, framealpha=0.9)
-        # Set reasonable axis limits based on data
         axA.set_xlim(left=0, right=max(30, svf_vals.max() * 1.1))
     else:
         axA.text(0.5, 0.5, 'SVF data unavailable', ha='center', va='center', transform=axA.transAxes, fontsize=14)
-        # Set reasonable axis limits even when data is unavailable
         axA.set_xlim(0, 30)
         axA.set_ylim(0, 20)
     axA.set_xlabel('SVF Count (Number of Words)', fontsize=11, fontweight='normal')
@@ -1442,29 +1450,22 @@ def fig_behavior_performance(df: pd.DataFrame, colors):
     explo_vals = explo_intra[np.isfinite(explo_intra)]
     expl_vals = expl_intra[np.isfinite(expl_intra)]
     if len(explo_vals) > 0 and len(expl_vals) > 0:
-        # Remove outliers using IQR method
         def remove_outliers_iqr(data):
-            """Remove outliers using IQR method"""
             q1 = np.nanpercentile(data, 25)
             q3 = np.nanpercentile(data, 75)
             iqr = q3 - q1
-            if iqr == 0:  # Handle case where all values are the same
+            if iqr == 0:
                 return ~np.isnan(data)
             lower_bound = q1 - 1.5 * iqr
             upper_bound = q3 + 1.5 * iqr
             return (data >= lower_bound) & (data <= upper_bound) & ~np.isnan(data)
-        
-        mask_explo = remove_outliers_iqr(explo_vals)
-        mask_expl = remove_outliers_iqr(expl_vals)
-        explo_vals_clean = explo_vals[mask_explo]
-        expl_vals_clean = expl_vals[mask_expl]
-        
-        # Normalize for comparison
-        # Use lower alpha and more bins to reduce overlap and improve visibility
-        # Use colorblind-friendly blue and orange for histograms
-        axB.hist(explo_vals_clean, bins=25, color='#4A90E2', alpha=0.5, edgecolor='#2E5C8A', linewidth=0.8, 
+
+        explo_vals_clean = explo_vals[remove_outliers_iqr(explo_vals)]
+        expl_vals_clean = expl_vals[remove_outliers_iqr(expl_vals)]
+
+        axB.hist(explo_vals_clean, bins=25, color=COLOR_EXPLOIT, alpha=0.65, edgecolor=COLOR_EXPLOIT_EDGE, linewidth=0.8,
                 label='Exploitation', density=True)
-        axB.hist(expl_vals_clean, bins=25, color='#E69F00', alpha=0.5, edgecolor='#CC6600', linewidth=0.8, 
+        axB.hist(expl_vals_clean, bins=25, color=COLOR_EXPLORE, alpha=0.55, edgecolor=COLOR_EXPLORE_EDGE, linewidth=0.8,
                 label='Exploration', density=True)
         axB.legend(loc='upper right', fontsize=10, frameon=True, fancybox=False, shadow=False, framealpha=0.9)
     else:
@@ -1476,38 +1477,20 @@ def fig_behavior_performance(df: pd.DataFrame, colors):
 
     # C: Distribution of exploration intra-phase mean (cosine similarity)
     vals = expl_intra[np.isfinite(expl_intra)]
-    # Use colorblind-friendly blue
-    axC.hist(vals, bins=12, color='#4A90E2', edgecolor='black', linewidth=0.5, alpha=0.85, density=False)
+    axC.hist(vals, bins=12, color=COLOR_EXPLORE, edgecolor=COLOR_EXPLORE_EDGE, linewidth=0.5, alpha=0.9, density=False)
     muC, sdC = float(np.mean(vals)), float(np.std(vals, ddof=1))
     axC.axvline(muC, color=colors['primary'], linestyle='--', linewidth=1.5)
     axC.set_xlabel('Exploration Intra-Phase Mean\n(Cosine Similarity)', fontsize=11, fontweight='normal', linespacing=1.2)
     axC.set_ylabel('Participants', fontsize=11, fontweight='normal')
     axC.set_title('C', loc='left', fontsize=12, fontweight='bold', pad=8)
-    axC.text(0.98, 0.95, f'Mean = {muC:.2f}\nSD = {sdC:.2f}', transform=axC.transAxes, ha='right', va='top', 
+    axC.text(0.98, 0.95, f'Mean = {muC:.2f}\nSD = {sdC:.2f}', transform=axC.transAxes, ha='right', va='top',
              fontsize=9, fontweight='normal',
              bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.95, edgecolor='gray', linewidth=0.8))
     axC.tick_params(labelsize=9)
 
-    # D: Distribution of E–E index (proxy: exploitation / exploration coherence ratios)
-    # Use colorblind-friendly purple
-    axD.hist(ee_index, bins=12, color='#7B4F9E', edgecolor='black', linewidth=0.5, alpha=0.85)
-    muD = float(np.mean(ee_index)) if len(ee_index) else np.nan
-    sdD = float(np.std(ee_index, ddof=1)) if len(ee_index) > 1 else np.nan
-    rngD = (float(np.nanmin(ee_index)) if len(ee_index) else np.nan,
-            float(np.nanmax(ee_index)) if len(ee_index) else np.nan)
-    axD.axvline(muD, color=colors['primary'], linestyle='--', linewidth=1.5)
-    axD.set_xlabel('E–E Index\n(Exploitation/Exploration\nCoherence Ratio)', fontsize=11, fontweight='normal', linespacing=1.2)
-    axD.set_ylabel('Participants', fontsize=11, fontweight='normal')
-    axD.set_title('D', loc='left', fontsize=12, fontweight='bold', pad=8)
-    axD.text(0.98, 0.95, f'Mean = {muD:.2f}\nSD = {sdD:.2f}\nRange: {rngD[0]:.2f}–{rngD[1]:.2f}',
-             transform=axD.transAxes, ha='right', va='top', fontsize=9, fontweight='normal',
-             bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.95, edgecolor='gray', linewidth=0.8))
-    axD.tick_params(labelsize=9)
-    # Save
     output = Path('output/NATURE_REAL_behavior_performance.png')
-    fig.tight_layout(pad=2.0)
-    fig.savefig(output, dpi=300, bbox_inches='tight', pad_inches=0.3, facecolor='white')
-    fig.savefig(output.with_suffix('.pdf'), dpi=600, bbox_inches='tight', pad_inches=0.5, facecolor='white')
+    fig.savefig(output, dpi=300, facecolor='white')
+    fig.savefig(output.with_suffix('.pdf'), dpi=600, facecolor='white')
     plt.close(fig)
     print(f"✅ Saved: {output}")
 

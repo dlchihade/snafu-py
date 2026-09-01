@@ -6,17 +6,16 @@ Coherence ratios quantify the degree to which words within each phase type (expl
 
 ### Word Embedding and Phase Classification
 
-**Word Embeddings**: Each word in the semantic fluency sequence was represented as a 300-dimensional vector using the spaCy `en_core_web_md` model, which provides pre-trained word embeddings based on GloVe vectors trained on Common Crawl data. This model achieved 100% coverage of words in our dataset, ensuring that all words could be represented in the semantic space.
+**Word Embeddings**: Each word in the semantic fluency sequence was represented as a 300-dimensional vector taken from the spaCy `en_core_web_md` model (`doc.vector`). Prior to embedding, each item was normalized by stripping surrounding whitespace and lower-casing it (`word.strip().lower()`); no punctuation stripping or stop-word removal was applied. Words that the model could not represent — i.e., items with no vector or a zero-norm (all-zero) vector — were dropped from the sequence, and all subsequent similarity computations were performed on the remaining valid words in their original order. Word coverage (the proportion of a participant's items that yielded a valid vector) was recorded per participant and was not assumed to be 100%; participants with fewer than two valid vectors were excluded from analysis.
 
-**Phase Classification**: Phases were classified as either "Exploitation" or "Exploration" based on consecutive word-pair similarities using a threshold-based algorithm. Specifically:
-1. For each consecutive word pair (i, i+1) in the sequence, we computed the cosine similarity between their embedding vectors
-2. A similarity threshold of τ = 0.6 was used to classify transitions:
-   - If similarity > τ: the transition is classified as "Exploitation" (staying within a semantic cluster)
-   - If similarity ≤ τ: the transition is classified as "Exploration" (switching between semantic domains)
-3. Phases were required to have a minimum length of 2 words to be included in the analysis
-4. Phase transitions occurred when the similarity crossed the threshold and the current phase met the minimum length requirement
+**Phase Classification**: Phases were classified as either "Exploitation" or "Exploration" based on the cosine similarities between consecutive *valid* word vectors, using a threshold τ = 0.6. Specifically:
+1. For each adjacent pair of valid words (i, i+1), we computed the cosine similarity between their 300-dimensional vectors, yielding one similarity per adjacent pair.
+2. The first phase was seeded from the first similarity: the sequence started in "Exploitation" if similarity[0] > τ, and in "Exploration" otherwise (so a value exactly equal to τ seeds Exploration).
+3. Thereafter, a phase switch was triggered when the current similarity crossed the threshold in the appropriate direction: an Exploitation phase ended when a similarity was ≤ τ, and an Exploration phase ended when a similarity was > τ. Thus Exploitation corresponds to the *strict* inequality similarity > τ and Exploration to similarity ≤ τ; ties at exactly τ = 0.6 are assigned to Exploration.
+4. A phase switch was only committed if the current run spanned at least `min_phase_length` = 2 similarity indices. Because a phase is delimited by similarity indices but reported in words, this gate means every *emitted* phase contains at least three words; runs of only two valid words (a single similarity) do not satisfy the gate and yield no emitted phases.
+5. On a switch at index i, the closing phase is defined over items[start : i+1] and the next phase begins at index i, so the pivot word at index i belongs to *both* adjacent phases (boundary-word overlap). One consequence is that summed phase sizes can exceed the number of valid words and phase-time percentages can exceed 100%.
 
-This classification procedure segments the fluency sequence into alternating exploitation and exploration phases, where exploitation phases represent periods of semantic clustering and exploration phases represent periods of semantic switching.
+This procedure segments the fluency sequence into alternating exploitation and exploration phases, where exploitation phases represent runs of high consecutive similarity and exploration phases represent runs of low consecutive similarity.
 
 ### Intra-Phase Similarity Computation
 
@@ -72,7 +71,7 @@ Each centroid was normalized to unit length to enable cosine similarity computat
 This normalization ensures that the centroid represents the direction (semantic theme) of the phase rather than its magnitude, which is appropriate for cosine similarity calculations.
 
 **Step 3: Inter-Phase Similarity Calculation**
-We computed cosine similarity between all unique pairs of phase centroids (i.e., between all phases, including both exploitation-exploitation, exploration-exploration, and exploitation-exploration pairs):
+We computed the cosine similarity between phase centroids for every *ordered* pair of distinct phases (i, j) with i ≠ j — i.e., between all phases, pooling exploitation-exploitation, exploration-exploration, and exploitation-exploration pairs together into a single set:
 
 \[
 S_{\text{inter}}(p, q) = \hat{\mathbf{c}}_p \cdot \hat{\mathbf{c}}_q = \sum_{k=1}^{300} \hat{c}_{pk} \cdot \hat{c}_{qk}
@@ -81,13 +80,13 @@ S_{\text{inter}}(p, q) = \hat{\mathbf{c}}_p \cdot \hat{\mathbf{c}}_q = \sum_{k=1
 Since the centroids are normalized, this dot product directly yields the cosine similarity.
 
 **Step 4: Inter-Phase Mean**
-We calculated the mean of all inter-phase similarities:
+We calculated the mean over all ordered pairs of distinct phases:
 
 \[
-\mu^{\text{inter}} = \frac{1}{N_{\text{pairs}}} \sum_{p<q} S_{\text{inter}}(p, q)
+\mu^{\text{inter}} = \frac{1}{P(P-1)} \sum_{\substack{p,q \\ p \neq q}} S_{\text{inter}}(p, q)
 \]
 
-where N_pairs is the total number of unique phase pairs (equal to P(P-1)/2 for P total phases).
+where P is the total number of phases. Because cosine similarity is symmetric, each unordered pair is counted twice; the resulting mean is therefore numerically identical to averaging over the P(P−1)/2 unordered pairs, but the code enumerates all ordered pairs.
 
 This yields:
 - **Inter-phase mean** (μ^inter): The average semantic similarity between different phases, providing a baseline measure of how distinct phases are from each other
